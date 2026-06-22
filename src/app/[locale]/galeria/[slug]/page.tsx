@@ -12,10 +12,14 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const artworks = await getPublishedArtworks();
-  return locales.flatMap((locale) =>
-    artworks.map((a) => ({ locale, slug: a.slug }))
-  );
+  try {
+    const artworks = await getPublishedArtworks();
+    return locales.flatMap((locale) =>
+      artworks.map((a) => ({ locale, slug: a.slug }))
+    );
+  } catch {
+    return [];
+  }
 }
 
 export default async function ArtworkPage({ params }: PageProps) {

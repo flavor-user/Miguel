@@ -1,18 +1,17 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 
 export async function updateSession(request: NextRequest) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !key || url.includes("tu-proyecto")) {
+  const env = getSupabaseEnv();
+  if (!env) {
     return NextResponse.next({ request });
   }
 
   let supabaseResponse = NextResponse.next({ request });
 
   try {
-    const supabase = createServerClient(url, key, {
+    const supabase = createServerClient(env.url, env.key, {
       cookies: {
         getAll() {
           return request.cookies.getAll();
@@ -28,7 +27,6 @@ export async function updateSession(request: NextRequest) {
 
     await supabase.auth.getUser();
   } catch {
-    // No bloquear la web si Supabase falla en el edge (p. ej. claves o red)
     return NextResponse.next({ request });
   }
 

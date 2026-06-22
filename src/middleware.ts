@@ -1,18 +1,11 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 import { defaultLocale, isValidLocale, locales } from "@/lib/i18n/config";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 function pathnameHasLocale(pathname: string): boolean {
   return locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
-}
-
-function isSupabaseConfigured(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
-      !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("tu-proyecto")
   );
 }
 

@@ -1,14 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { getSupabaseEnv, isSupabaseConfigured } from "@/lib/supabase/env";
 
-function getSupabaseEnv() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key || url.includes("tu-proyecto")) {
-    return null;
-  }
-  return { url, key };
-}
+export { isSupabaseConfigured as isSupabaseServerConfigured };
 
 export async function createClient() {
   const env = getSupabaseEnv();
@@ -34,8 +28,4 @@ export async function createClient() {
       },
     },
   });
-}
-
-export function isSupabaseServerConfigured(): boolean {
-  return getSupabaseEnv() !== null;
 }

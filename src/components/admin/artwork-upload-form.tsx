@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Loader2, Upload, CheckCircle, ExternalLink } from "lucide-react";
+import { localizedPath, type Locale } from "@/lib/i18n/config";
 
-export function ArtworkUploadForm() {
+export function ArtworkUploadForm({ locale }: { locale: Locale }) {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const [imageWidth, setImageWidth] = useState("");
@@ -184,7 +185,10 @@ export function ArtworkUploadForm() {
             <CheckCircle className="mt-0.5 h-4 w-4 shrink-0" />
             <div>
               <p>«{result.title}» guardada correctamente.</p>
-              <Link href={result.url} className="mt-1 inline-flex items-center gap-1 text-amber-400 hover:underline">
+              <Link
+                href={localizedPath(locale, result.url)}
+                className="mt-1 inline-flex items-center gap-1 text-neutral-900 hover:underline"
+              >
                 Ver en la galería <ExternalLink className="h-3 w-3" />
               </Link>
             </div>

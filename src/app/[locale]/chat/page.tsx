@@ -5,6 +5,8 @@ import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { getDictionary } from "@/lib/i18n/dictionary";
 import { isValidLocale, localizedPath, type Locale } from "@/lib/i18n/config";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ obra?: string; concepto?: string }>;

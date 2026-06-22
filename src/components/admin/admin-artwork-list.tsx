@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Trash2, Loader2 } from "lucide-react";
+import { localizedPath, type Locale } from "@/lib/i18n/config";
 
 interface ArtworkRow {
   id: string;
@@ -14,7 +15,7 @@ interface ArtworkRow {
   created_at: string;
 }
 
-export function AdminArtworkList() {
+export function AdminArtworkList({ locale }: { locale: Locale }) {
   const [artworks, setArtworks] = useState<ArtworkRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionId, setActionId] = useState<string | null>(null);
@@ -67,7 +68,7 @@ export function AdminArtworkList() {
     return (
       <p className="py-10 text-stone-500">
         Aún no hay obras en la base de datos.{" "}
-        <Link href="/admin/obras/nueva" className="text-amber-400 hover:underline">
+        <Link href={localizedPath(locale, "/admin/obras/nueva")} className="text-neutral-900 hover:underline">
           Añade la primera
         </Link>
       </p>
@@ -118,7 +119,7 @@ export function AdminArtworkList() {
                 <div className="flex items-center justify-end gap-2">
                   {artwork.is_published && (
                     <Link
-                      href={`/galeria/${artwork.slug}`}
+                      href={localizedPath(locale, `/galeria/${artwork.slug}`)}
                       className="rounded-lg p-2 text-stone-500 hover:bg-stone-800 hover:text-stone-300"
                       title="Ver en galería"
                     >

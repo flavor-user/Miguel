@@ -8,6 +8,14 @@ function pathnameHasLocale(pathname: string): boolean {
   );
 }
 
+function isSupabaseConfigured(): boolean {
+  return Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
+      !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("tu-proyecto")
+  );
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -22,11 +30,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("tu-proyecto")
-  ) {
-    return await updateSession(request);
+  if (isSupabaseConfigured()) {
+    try {
+      return await updateSession(request);
+    } catch {
+      return NextResponse.next();
+    }
   }
 
   return NextResponse.next();

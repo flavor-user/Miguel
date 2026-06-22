@@ -1,0 +1,31 @@
+import { ArtworkCard } from "@/components/gallery/artwork-card";
+import { getPublishedArtworks } from "@/lib/data/artworks";
+import { getDictionary } from "@/lib/i18n/dictionary";
+import { isValidLocale, type Locale } from "@/lib/i18n/config";
+
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function GalleryPage({ params }: PageProps) {
+  const { locale: raw } = await params;
+  const locale = (isValidLocale(raw) ? raw : "en") as Locale;
+  const dict = getDictionary(locale);
+  const artworks = await getPublishedArtworks();
+
+  return (
+    <div>
+      <header className="mb-12 max-w-2xl">
+        <p className="text-xs uppercase tracking-[0.2em] text-neutral-400">{dict.gallery.badge}</p>
+        <h1 className="mt-3 font-serif text-4xl text-neutral-900 md:text-5xl">{dict.gallery.title}</h1>
+        <p className="mt-4 text-lg leading-relaxed text-neutral-500">{dict.gallery.subtitle}</p>
+      </header>
+
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {artworks.map((artwork, i) => (
+          <ArtworkCard key={artwork.id} artwork={artwork} locale={locale} priority={i < 3} />
+        ))}
+      </div>
+    </div>
+  );
+}

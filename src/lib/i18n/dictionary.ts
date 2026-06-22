@@ -1,0 +1,408 @@
+import type { Locale } from "./config";
+
+export type Dictionary = {
+  meta: { title: string; description: string };
+  nav: { gallery: string; concepts: string; chat: string; account: string; chatShort: string };
+  footer: { tagline: string; gallery: string; concepts: string; chat: string };
+  home: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    ctaGallery: string;
+    ctaChat: string;
+    featuredTitle: string;
+    featuredSubtitle: string;
+    seeAll: string;
+    cards: { gallery: { title: string; desc: string }; concepts: { title: string; desc: string }; chat: { title: string; desc: string } };
+  };
+  gallery: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    back: string;
+    essayTitle: string;
+    related: string;
+    askAi: string;
+    source: string;
+  };
+  concepts: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    back: string;
+    related: string;
+    artworks: string;
+    exploreAi: string;
+    noArtworks: string;
+    worksCount: string;
+  };
+  chat: {
+    badge: string;
+    title: string;
+    subtitleLoggedIn: string;
+    subtitleGuest: string;
+    loginLink: string;
+    placeholderLoggedIn: string;
+    placeholderGuest: string;
+    welcome: string;
+    thinking: string;
+    send: string;
+    error: string;
+  };
+  auth: {
+    loginTitle: string;
+    loginSubtitle: string;
+    registerTitle: string;
+    registerSubtitle: string;
+    name: string;
+    email: string;
+    password: string;
+    passwordHint: string;
+    createAccount: string;
+    signIn: string;
+    waiting: string;
+    noAccount: string;
+    hasAccount: string;
+    continueGallery: string;
+    signOut: string;
+    accountCreated: string;
+    entering: string;
+    checkEmail: string;
+    invalidCredentials: string;
+    alreadyRegistered: string;
+  };
+  account: {
+    title: string;
+    adminLink: string;
+    flavorProfile: string;
+    recentChats: string;
+    newChat: string;
+    noChats: string;
+    startChat: string;
+    notConfigured: string;
+    goGallery: string;
+  };
+  notFound: { title: string; subtitle: string; back: string };
+  common: { artist: string; medium: string };
+};
+
+const en: Dictionary = {
+  meta: {
+    title: "Flavor User — Gallery & AI",
+    description: "Art gallery with readable texts and an AI that remembers your taste.",
+  },
+  nav: { gallery: "Gallery", concepts: "Concepts", chat: "Chat", account: "Account", chatShort: "Chat" },
+  footer: {
+    tagline: "Flavor User — your artistic taste, with memory.",
+    gallery: "Gallery",
+    concepts: "Concepts",
+    chat: "Talk to the AI",
+  },
+  home: {
+    badge: "Gallery · Texts · Memory",
+    title: "Discover art with an AI that remembers your taste",
+    subtitle:
+      "Flavor User combines a gallery of images and texts to read, an artwork archive, and an assistant that connects concepts and remembers what it learns about you.",
+    ctaGallery: "Explore gallery",
+    ctaChat: "Talk to Flavor User",
+    featuredTitle: "Featured",
+    featuredSubtitle: "Images and texts ready to enjoy, like in a museum room.",
+    seeAll: "See all →",
+    cards: {
+      gallery: { title: "Gallery", desc: "Works with image, details, and an essay to read." },
+      concepts: { title: "Concepts", desc: "A network of ideas linking movements, techniques, and emotions." },
+      chat: { title: "Chat with memory", desc: "Conversations that remember your preferences across sessions." },
+    },
+  },
+  gallery: {
+    badge: "Collection",
+    title: "Gallery",
+    subtitle: "Each work includes an image, details, and a wall text to read at your own pace.",
+    back: "Back to gallery",
+    essayTitle: "Wall text",
+    related: "Related works",
+    askAi: "Ask Flavor User about this work",
+    source: "View source",
+  },
+  concepts: {
+    badge: "Semantic network",
+    title: "Concepts",
+    subtitle: "Ideas that connect works, movements, and techniques. Flavor User uses this network to personalize conversations.",
+    back: "← All concepts",
+    related: "Related concepts",
+    artworks: "Works in the gallery",
+    exploreAi: "Explore with Flavor User",
+    noArtworks: "No works tagged with this concept yet.",
+    worksCount: "work(s) in gallery",
+  },
+  chat: {
+    badge: "Assistant",
+    title: "Flavor User",
+    subtitleLoggedIn: "Your conversations and preferences are saved automatically.",
+    subtitleGuest: "",
+    loginLink: "Sign in",
+    placeholderLoggedIn: "Ask about art, concepts, or your gallery…",
+    placeholderGuest: "Sign in to save history, or ask anyway…",
+    welcome:
+      "Hello, I'm Flavor User. I can help you explore the gallery, connect concepts, and remember your tastes. What would you like to discover today?",
+    thinking: "Flavor User is thinking…",
+    send: "Send",
+    error:
+      "Could not connect to the server. If OpenAI and Supabase are not configured yet, check the README. Meanwhile, explore the gallery — artworks and texts are already available.",
+  },
+  auth: {
+    loginTitle: "Sign in",
+    loginSubtitle: "Access your saved conversations and personal memory.",
+    registerTitle: "Create account",
+    registerSubtitle: "Register to enable history, memory, and personal notes.",
+    name: "Name",
+    email: "Email",
+    password: "Password",
+    passwordHint: "Minimum 6 characters",
+    createAccount: "Create account",
+    signIn: "Sign in",
+    waiting: "Please wait…",
+    noAccount: "First time?",
+    hasAccount: "Already have an account?",
+    continueGallery: "Continue without account → Gallery",
+    signOut: "Sign out",
+    accountCreated: "Account created. Check your email (and spam) to confirm, then sign in.",
+    entering: "Account created! Signing in…",
+    checkEmail: "Account created. Check your email to confirm.",
+    invalidCredentials: "Wrong email or password. If you just registered, confirm your email first.",
+    alreadyRegistered: "This email already has an account. Use Sign in.",
+  },
+  account: {
+    title: "My account",
+    adminLink: "→ Admin panel (manage gallery)",
+    flavorProfile: "Your taste profile",
+    recentChats: "Recent conversations",
+    newChat: "New conversation",
+    noChats: "No conversations yet.",
+    startChat: "Start one",
+    notConfigured: "Configure Supabase in .env.local to enable accounts. The gallery works without an account.",
+    goGallery: "Go to gallery",
+  },
+  notFound: {
+    title: "Not found",
+    subtitle: "This page or work does not exist.",
+    back: "Back to gallery",
+  },
+  common: { artist: "Artist", medium: "Medium" },
+};
+
+const es: Dictionary = {
+  meta: {
+    title: "Flavor User — Galería & IA",
+    description: "Galería de arte con textos para leer y una IA que recuerda tu gusto.",
+  },
+  nav: { gallery: "Galería", concepts: "Conceptos", chat: "Chat", account: "Cuenta", chatShort: "Chat" },
+  footer: {
+    tagline: "Flavor User — tu gusto artístico, con memoria.",
+    gallery: "Galería",
+    concepts: "Conceptos",
+    chat: "Hablar con la IA",
+  },
+  home: {
+    badge: "Galería · Textos · Memoria",
+    title: "Descubre arte con una IA que recuerda tu gusto",
+    subtitle:
+      "Flavor User combina una galería con imágenes y textos para leer, un archivo de obras y un asistente que conecta conceptos y guarda lo que aprende de ti.",
+    ctaGallery: "Explorar galería",
+    ctaChat: "Hablar con Flavor User",
+    featuredTitle: "Destacadas",
+    featuredSubtitle: "Imágenes y textos listos para consumir, como en una sala de museo.",
+    seeAll: "Ver todas →",
+    cards: {
+      gallery: { title: "Galería", desc: "Obras con ficha, imagen a tamaño completo y ensayo para leer." },
+      concepts: { title: "Conceptos", desc: "Red de ideas que conecta movimientos, técnicas y emociones." },
+      chat: { title: "Chat con memoria", desc: "Conversaciones que recuerdan tus preferencias entre sesiones." },
+    },
+  },
+  gallery: {
+    badge: "Colección",
+    title: "Galería",
+    subtitle: "Cada obra incluye imagen, ficha informativa y un texto de sala para leer con calma.",
+    back: "Volver a la galería",
+    essayTitle: "Texto de sala",
+    related: "Obras relacionadas",
+    askAi: "Preguntar a Flavor User sobre esta obra",
+    source: "Ver fuente",
+  },
+  concepts: {
+    badge: "Red semántica",
+    title: "Conceptos",
+    subtitle: "Ideas que conectan obras, movimientos y técnicas. Flavor User usa esta red para personalizar conversaciones.",
+    back: "← Todos los conceptos",
+    related: "Conceptos relacionados",
+    artworks: "Obras en la galería",
+    exploreAi: "Explorar con Flavor User",
+    noArtworks: "Aún no hay obras etiquetadas con este concepto.",
+    worksCount: "obra(s) en galería",
+  },
+  chat: {
+    badge: "Asistente",
+    title: "Flavor User",
+    subtitleLoggedIn: "Tus conversaciones y preferencias se guardan automáticamente.",
+    subtitleGuest: "",
+    loginLink: "Inicia sesión",
+    placeholderLoggedIn: "Pregunta sobre arte, conceptos o tu galería…",
+    placeholderGuest: "Inicia sesión para guardar el historial, o pregunta igualmente…",
+    welcome:
+      "Hola, soy Flavor User. Puedo ayudarte a explorar la galería, conectar conceptos y recordar tus gustos. ¿Qué te gustaría descubrir hoy?",
+    thinking: "Flavor User está pensando…",
+    send: "Enviar",
+    error:
+      "No pude conectar con el servidor. Si aún no configuraste OpenAI y Supabase, revisa el README. Mientras tanto, explora la galería — las obras y textos ya están disponibles.",
+  },
+  auth: {
+    loginTitle: "Iniciar sesión",
+    loginSubtitle: "Accede para guardar conversaciones y memoria personal.",
+    registerTitle: "Crear cuenta",
+    registerSubtitle: "Regístrate para activar historial, memoria y notas personales.",
+    name: "Nombre",
+    email: "Email",
+    password: "Contraseña",
+    passwordHint: "Mínimo 6 caracteres",
+    createAccount: "Crear cuenta",
+    signIn: "Iniciar sesión",
+    waiting: "Espera…",
+    noAccount: "¿Primera vez?",
+    hasAccount: "¿Ya tienes cuenta?",
+    continueGallery: "Continuar sin cuenta → Galería",
+    signOut: "Cerrar sesión",
+    accountCreated: "Cuenta creada. Revisa tu email (y spam) para confirmar, luego inicia sesión.",
+    entering: "¡Cuenta creada! Entrando…",
+    checkEmail: "Cuenta creada. Revisa tu email para confirmar.",
+    invalidCredentials: "Email o contraseña incorrectos. Si acabas de registrarte, confirma el email primero.",
+    alreadyRegistered: "Este email ya tiene cuenta. Usa Iniciar sesión.",
+  },
+  account: {
+    title: "Mi cuenta",
+    adminLink: "→ Panel admin (gestionar galería)",
+    flavorProfile: "Tu perfil de gusto",
+    recentChats: "Conversaciones recientes",
+    newChat: "Nueva conversación",
+    noChats: "Aún no tienes conversaciones.",
+    startChat: "Empieza una",
+    notConfigured: "Configura Supabase en .env.local para activar cuentas. La galería funciona sin cuenta.",
+    goGallery: "Ir a la galería",
+  },
+  notFound: {
+    title: "No encontrado",
+    subtitle: "Esta página u obra no existe.",
+    back: "Volver a la galería",
+  },
+  common: { artist: "Artista", medium: "Técnica" },
+};
+
+const ja: Dictionary = {
+  meta: {
+    title: "Flavor User — ギャラリー & AI",
+    description: "読めるテキスト付きのアートギャラリーと、あなたの好みを覚えるAI。",
+  },
+  nav: { gallery: "ギャラリー", concepts: "コンセプト", chat: "チャット", account: "アカウント", chatShort: "チャット" },
+  footer: {
+    tagline: "Flavor User — 記憶する、あなたの美の嗜好。",
+    gallery: "ギャラリー",
+    concepts: "コンセプト",
+    chat: "AIと話す",
+  },
+  home: {
+    badge: "ギャラリー · テキスト · 記憶",
+    title: "あなたの好みを覚えるAIと芸術を発見する",
+    subtitle:
+      "Flavor Userは、読める画像とテキストのギャラリー、作品アーカイブ、コンセプトを結びつけて学んだことを覚えるアシスタントを組み合わせています。",
+    ctaGallery: "ギャラリーを見る",
+    ctaChat: "Flavor Userと話す",
+    featuredTitle: "注目作品",
+    featuredSubtitle: "美術館の展示室のように、読める画像とテキスト。",
+    seeAll: "すべて見る →",
+    cards: {
+      gallery: { title: "ギャラリー", desc: "画像、詳細、読めるエッセイ付きの作品。" },
+      concepts: { title: "コンセプト", desc: "運動、技法、感情をつなぐアイデアのネットワーク。" },
+      chat: { title: "記憶付きチャット", desc: "セッションを超えて好みを覚える会話。" },
+    },
+  },
+  gallery: {
+    badge: "コレクション",
+    title: "ギャラリー",
+    subtitle: "各作品には画像、詳細情報、ゆっくり読めるウォールテキストがあります。",
+    back: "ギャラリーに戻る",
+    essayTitle: "ウォールテキスト",
+    related: "関連作品",
+    askAi: "この作品についてFlavor Userに聞く",
+    source: "ソースを見る",
+  },
+  concepts: {
+    badge: "意味ネットワーク",
+    title: "コンセプト",
+    subtitle: "作品、運動、技法をつなぐアイデア。Flavor Userはこのネットワークで会話をパーソナライズします。",
+    back: "← すべてのコンセプト",
+    related: "関連コンセプト",
+    artworks: "ギャラリーの作品",
+    exploreAi: "Flavor Userで探索する",
+    noArtworks: "このコンセプトの作品はまだありません。",
+    worksCount: "件の作品",
+  },
+  chat: {
+    badge: "アシスタント",
+    title: "Flavor User",
+    subtitleLoggedIn: "会話と好みは自動的に保存されます。",
+    subtitleGuest: "",
+    loginLink: "ログイン",
+    placeholderLoggedIn: "アート、コンセプト、ギャラリーについて質問…",
+    placeholderGuest: "履歴を保存するにはログイン、またはそのまま質問もできます…",
+    welcome:
+      "こんにちは、Flavor Userです。ギャラリーの探索、コンセプトの接続、あなたの好みの記憶をお手伝いします。今日は何を発見したいですか？",
+    thinking: "Flavor Userが考えています…",
+    send: "送信",
+    error:
+      "サーバーに接続できませんでした。OpenAIとSupabaseが未設定の場合はREADMEを確認してください。それまでの間、ギャラリーの作品とテキストはご利用いただけます。",
+  },
+  auth: {
+    loginTitle: "ログイン",
+    loginSubtitle: "保存された会話と個人の記憶にアクセス。",
+    registerTitle: "アカウント作成",
+    registerSubtitle: "履歴、記憶、個人メモを有効にするには登録してください。",
+    name: "名前",
+    email: "メール",
+    password: "パスワード",
+    passwordHint: "6文字以上",
+    createAccount: "アカウント作成",
+    signIn: "ログイン",
+    waiting: "お待ちください…",
+    noAccount: "初めてですか？",
+    hasAccount: "すでにアカウントをお持ちですか？",
+    continueGallery: "アカウントなしで続ける → ギャラリー",
+    signOut: "ログアウト",
+    accountCreated: "アカウントを作成しました。確認メール（迷惑メールも）を確認してからログインしてください。",
+    entering: "アカウント作成完了！ログイン中…",
+    checkEmail: "アカウントを作成しました。確認メールをご確認ください。",
+    invalidCredentials: "メールまたはパスワードが正しくありません。登録直後の場合は、先にメールを確認してください。",
+    alreadyRegistered: "このメールは既に登録されています。ログインしてください。",
+  },
+  account: {
+    title: "マイアカウント",
+    adminLink: "→ 管理パネル（ギャラリー管理）",
+    flavorProfile: "あなたの嗜好プロフィール",
+    recentChats: "最近の会話",
+    newChat: "新しい会話",
+    noChats: "まだ会話がありません。",
+    startChat: "始める",
+    notConfigured: ".env.localでSupabaseを設定するとアカウントが有効になります。ギャラリーはアカウントなしでも利用できます。",
+    goGallery: "ギャラリーへ",
+  },
+  notFound: {
+    title: "見つかりません",
+    subtitle: "このページまたは作品は存在しません。",
+    back: "ギャラリーに戻る",
+  },
+  common: { artist: "アーティスト", medium: "技法" },
+};
+
+export const dictionaries: Record<Locale, Dictionary> = { en, es, ja };
+
+export function getDictionary(locale: Locale): Dictionary {
+  return dictionaries[locale] ?? dictionaries.en;
+}

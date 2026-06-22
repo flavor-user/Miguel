@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import Link from "next/link";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import { localizedPath, type Locale } from "@/lib/i18n/config";
@@ -34,6 +34,16 @@ export function AuthForm({
     setMessageType("ok");
 
     try {
+      if (!isSupabaseConfigured()) {
+        throw new Error(
+          locale === "es"
+            ? "Supabase no está configurado en el servidor. Revisa las variables en Vercel y vuelve a desplegar."
+            : locale === "ja"
+              ? "Supabaseがサーバーで設定されていません。Vercelの環境変数を確認して再デプロイしてください。"
+              : "Supabase is not configured on the server. Check Vercel environment variables and redeploy."
+        );
+      }
+
       const supabase = createClient();
 
       if (mode === "register") {

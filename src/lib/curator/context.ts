@@ -59,8 +59,20 @@ export function buildCuratorContext(params: {
 
   if (params.catalog.length) {
     const concepts = uniqueConcepts(params.catalog);
+    const undocumented = params.catalog
+      .filter((a) => !a.description && !a.essay)
+      .map((a) => a.title);
+
     sections.push("=== ARCHIVO COMPLETO (única fuente de verdad) ===");
     sections.push(`Obras publicadas: ${params.catalog.length}`);
+    sections.push(
+      "Modo de lectura: obra abstracta/contemporánea — priorizar material, proceso, forma, ritmo, escala. Sin texto de sala, no interpretar."
+    );
+    if (undocumented.length) {
+      sections.push(
+        `Obras sin ficha ni texto de sala (ser transparente): ${undocumented.join(", ")}`
+      );
+    }
     if (concepts.length) {
       sections.push(
         `Conceptos del archivo: ${concepts.map((c) => c.name).join(", ")}`

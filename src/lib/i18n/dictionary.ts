@@ -48,6 +48,8 @@ export type Dictionary = {
     thinking: string;
     send: string;
     error: string;
+    principles: string;
+    suggestedLabel: string;
   };
   auth: {
     loginTitle: string;
@@ -104,7 +106,7 @@ const en: Dictionary = {
     subtitle:
       "Flavor User combines a gallery of images and texts to read, an artwork archive, and an assistant that connects concepts and remembers what it learns about you.",
     ctaGallery: "Explore gallery",
-    ctaChat: "Talk to Flavor User",
+    ctaChat: "Talk to your curator",
     featuredTitle: "Featured",
     featuredSubtitle: "Images and texts ready to enjoy, like in a museum room.",
     seeAll: "See all →",
@@ -149,6 +151,9 @@ const en: Dictionary = {
     send: "Send",
     error:
       "Could not connect to the server. If OpenAI and Supabase are not configured yet, check the README. Meanwhile, explore the gallery — artworks and texts are already available.",
+    principles:
+      "The curator speaks only from archive texts. It does not replace the artist or invent meaning.",
+    suggestedLabel: "Suggested questions",
   },
   auth: {
     loginTitle: "Sign in",
@@ -196,12 +201,12 @@ const es: Dictionary = {
     title: "Flavor User — Galería & IA",
     description: "Galería de arte con textos para leer y una IA que recuerda tu gusto.",
   },
-  nav: { gallery: "Galería", concepts: "Conceptos", chat: "Chat", account: "Cuenta", chatShort: "Chat" },
+  nav: { gallery: "Galería", concepts: "Conceptos", chat: "Curador", account: "Cuenta", chatShort: "Curador" },
   footer: {
-    tagline: "Flavor User — tu gusto artístico, con memoria.",
+    tagline: "Flavor User — tu archivo, con curador.",
     gallery: "Galería",
     concepts: "Conceptos",
-    chat: "Hablar con la IA",
+    chat: "Hablar con el curador",
   },
   home: {
     badge: "Galería · Textos · Memoria",
@@ -209,7 +214,7 @@ const es: Dictionary = {
     subtitle:
       "Flavor User combina una galería con imágenes y textos para leer, un archivo de obras y un asistente que conecta conceptos y guarda lo que aprende de ti.",
     ctaGallery: "Explorar galería",
-    ctaChat: "Hablar con Flavor User",
+    ctaChat: "Hablar con tu curador",
     featuredTitle: "Destacadas",
     featuredSubtitle: "Imágenes y textos listos para consumir, como en una sala de museo.",
     seeAll: "Ver todas →",
@@ -254,6 +259,9 @@ const es: Dictionary = {
     send: "Enviar",
     error:
       "No pude conectar con el servidor. Si aún no configuraste OpenAI y Supabase, revisa el README. Mientras tanto, explora la galería — las obras y textos ya están disponibles.",
+    principles:
+      "El curador habla solo desde los textos del archivo. No sustituye al artista ni inventa significados.",
+    suggestedLabel: "Preguntas sugeridas",
   },
   auth: {
     loginTitle: "Iniciar sesión",
@@ -314,7 +322,7 @@ const ja: Dictionary = {
     subtitle:
       "Flavor Userは、読める画像とテキストのギャラリー、作品アーカイブ、コンセプトを結びつけて学んだことを覚えるアシスタントを組み合わせています。",
     ctaGallery: "ギャラリーを見る",
-    ctaChat: "Flavor Userと話す",
+    ctaChat: "キュレーターと話す",
     featuredTitle: "注目作品",
     featuredSubtitle: "美術館の展示室のように、読める画像とテキスト。",
     seeAll: "すべて見る →",
@@ -359,6 +367,9 @@ const ja: Dictionary = {
     send: "送信",
     error:
       "サーバーに接続できませんでした。OpenAIとSupabaseが未設定の場合はREADMEを確認してください。それまでの間、ギャラリーの作品とテキストはご利用いただけます。",
+    principles:
+      "キュレーターはアーカイブのテキストだけから語ります。作家の代わりにはならず、意味を捏造しません。",
+    suggestedLabel: "おすすめの質問",
   },
   auth: {
     loginTitle: "ログイン",

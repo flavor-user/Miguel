@@ -1,14 +1,17 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin/auth";
-import { createServiceClient } from "@/lib/supabase/admin";
-import { embedText } from "@/lib/openai/client";
-import { slugify } from "@/lib/utils";
+import {
+  MAX_ARTWORK_IMAGE_SIZE,
+  mimeFromExtension,
+  parseCommaList,
+  uniqueArtworkSlug,
+} from "@/lib/admin/artwork-helpers";
 import { linkArtworkConcepts } from "@/lib/concepts";
+import { embedText } from "@/lib/openai/client";
 import { readImageDimensions } from "@/lib/image-dimensions";
+import { createServiceClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
-
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 export async function POST(request: Request) {
   const auth = await requireAdmin();
@@ -46,19 +49,20 @@ export async function POST(request: Request) {
       );
     }
 
-    if (image.size > MAX_FILE_SIZE) {
+    if (image.size > MAX_ARTWORK_IMAGE_SIZE) {
       return NextResponse.json(
-        { error: "Imagen demasiado grande (máx. 10 MB)" },
+        { error: "Imagen demasiado grande (máx. 4 MB)" },
         { status: 400 },
       );
     }
 
     const supabase = createServiceClient();
-    const slug = slugify(title);
+    const slug = await uniqueArtworkSlug(supabase, title);
     const ext = image.name.split(".").pop()?.toLowerCase() ?? "jpg";
     const filePath = `${slug}-${Date.now()}.${ext}`;
 
     const buffer = Buffer.from(await image.arrayBuffer());
+    const contentType = image.type || mimeFromExtension(ext);
 
     const clientWidth = parseInt(String(form.get("imageWidth") ?? ""), 10);
     const clientHeight = parseInt(String(form.get("imageHeight") ?? ""), 10);
@@ -68,12 +72,12 @@ export async function POST(request: Request) {
       Number.isFinite(clientHeight) &&
       clientHeight > 0
         ? { width: clientWidth, height: clientHeight }
-        : readImageDimensions(buffer, image.type);
+        : readImageDimensions(buffer, contentType);
 
     const { error: uploadError } = await supabase.storage
       .from("artworks")
       .upload(filePath, buffer, {
-        contentType: image.type,
+        contentType,
         upsert: false,
       });
 
@@ -88,19 +92,8 @@ export async function POST(request: Request) {
       .from("artworks")
       .getPublicUrl(filePath);
 
-    const tags = tagsRaw
-      ? tagsRaw
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean)
-      : [];
-
-    const conceptNames = conceptsRaw
-      ? conceptsRaw
-          .split(",")
-          .map((c) => c.trim())
-          .filter(Boolean)
-      : [];
+    const tags = parseCommaList(tagsRaw);
+    const conceptNames = parseCommaList(conceptsRaw);
 
     let embedding: number[] | null = null;
     try {
@@ -139,6 +132,7 @@ export async function POST(request: Request) {
       .single();
 
     if (insertError) {
+      await supabase.storage.from("artworks").remove([filePath]);
       return NextResponse.json({ error: insertError.message }, { status: 500 });
     }
 

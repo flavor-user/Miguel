@@ -42,16 +42,23 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
     try {
       const response = await fetch("/api/admin/artworks", {
         method: "POST",
+        credentials: "include",
         body: formData,
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      let data: { error?: string; url?: string; artwork?: { title: string } };
+      try {
+        data = JSON.parse(text) as typeof data;
+      } catch {
+        throw new Error(text.trim() || `Error ${response.status}`);
+      }
 
       if (!response.ok) {
         throw new Error(data.error ?? "Error al guardar");
       }
 
-      setResult({ url: data.url, title: data.artwork.title });
+      setResult({ url: data.url!, title: data.artwork!.title });
       form.reset();
       setPreview(null);
       setImageWidth("");
@@ -74,7 +81,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           <label className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-stone-700 bg-stone-950/50 px-6 py-10 transition hover:border-amber-700/50">
             <Upload className="h-8 w-8 text-stone-500" />
             <span className=" text-stone-400">
-              Haz clic para elegir imagen (JPG, PNG, WebP — máx. 10 MB)
+              Haz clic para elegir imagen (JPG, PNG, WebP — máx. 4 MB)
             </span>
             <input
               type="file"

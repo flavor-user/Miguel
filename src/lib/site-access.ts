@@ -41,3 +41,8 @@ export function isAccessPath(pathname: string): boolean {
 export function isAccessApi(pathname: string): boolean {
   return pathname === "/api/site-access";
 }
+
+/** Las rutas admin tienen su propio login; no bloquear subidas con la puerta de visitantes. */
+export function isAdminApi(pathname: string): boolean {
+  return pathname.startsWith("/api/admin");
+}

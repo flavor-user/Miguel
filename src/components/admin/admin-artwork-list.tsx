@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Eye, EyeOff, Trash2, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Pencil, Trash2, Loader2 } from "lucide-react";
 import { localizedPath, type Locale } from "@/lib/i18n/config";
 
 interface ArtworkRow {
@@ -23,7 +23,7 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
   async function load() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/artworks");
+      const res = await fetch("/api/admin/artworks", { credentials: "include" });
       if (res.ok) {
         setArtworks(await res.json());
       }
@@ -40,6 +40,7 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
     setActionId(id);
     await fetch(`/api/admin/artworks/${id}`, {
       method: "PATCH",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ is_published: publish }),
     });
@@ -51,7 +52,10 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
     if (!confirm(`¿Borrar «${title}»? Esta acción no se puede deshacer.`))
       return;
     setActionId(id);
-    await fetch(`/api/admin/artworks/${id}`, { method: "DELETE" });
+    await fetch(`/api/admin/artworks/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
     await load();
     setActionId(null);
   }
@@ -123,6 +127,16 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
               </td>
               <td className="px-4 py-3">
                 <div className="flex items-center justify-end gap-2">
+                  <Link
+                    href={localizedPath(
+                      locale,
+                      `/admin/obras/${artwork.id}/editar`,
+                    )}
+                    className="rounded-lg p-2 text-stone-500 hover:bg-stone-800 hover:text-amber-300"
+                    title="Editar ficha y textos"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Link>
                   {artwork.is_published && (
                     <Link
                       href={localizedPath(locale, `/galeria/${artwork.slug}`)}

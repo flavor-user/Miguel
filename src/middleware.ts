@@ -6,6 +6,7 @@ import {
   hasValidSiteAccess,
   isAccessApi,
   isAccessPath,
+  isAdminApi,
   isSiteAccessEnabled,
 } from "@/lib/site-access";
 
@@ -26,7 +27,8 @@ export async function middleware(request: NextRequest) {
   if (
     isSiteAccessEnabled() &&
     !isAccessPath(pathname) &&
-    !isAccessApi(pathname)
+    !isAccessApi(pathname) &&
+    !isAdminApi(pathname)
   ) {
     const allowed = await hasValidSiteAccess(request);
     if (!allowed) {

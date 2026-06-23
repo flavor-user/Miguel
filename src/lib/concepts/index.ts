@@ -74,6 +74,17 @@ export async function linkArtworkConcepts(
   }
 }
 
+export async function syncArtworkConcepts(
+  artworkId: string,
+  conceptNames: string[],
+): Promise<void> {
+  const supabase = createServiceClient();
+  await supabase.from("artwork_concepts").delete().eq("artwork_id", artworkId);
+  if (conceptNames.length) {
+    await linkArtworkConcepts(artworkId, conceptNames);
+  }
+}
+
 export async function boostUserConceptInterest(
   userId: string,
   conceptSlug: string,

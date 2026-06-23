@@ -1,34 +1,31 @@
 @import "tailwindcss";
-@import url("https://fonts.cdnfonts.com/css/jmh-typewriter");
 
 @theme {
-  --font-typewriter:
-    "JMH Typewriter", "Courier New", "Hiragino Kaku Gothic ProN", monospace;
-  --font-sans: var(--font-typewriter);
-  --font-serif: var(--font-typewriter);
-  --font-mono: var(--font-typewriter);
+  --font-sans: var(--font-gallery), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: var(--font-sans);
+  --font-mono: ui-monospace, monospace;
   --color-ink: #404040;
   --color-ink-strong: #0a0a0a;
 }
 
-/* 13px. Cuerpo gris oscuro; títulos negros en negrita. */
+/* 13px. Sans recta tipo galería. Cuerpo gris; títulos negros en negrita. */
 html {
   scroll-behavior: smooth;
   font-size: 13px;
 }
 
 body {
-  font-family: var(--font-typewriter);
+  font-family: var(--font-sans);
   font-size: 1rem;
   font-weight: 400;
-  line-height: 1.7;
-  letter-spacing: 0.04em;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
   background: #ffffff;
   color: var(--color-ink);
 }
 
 .font-serif {
-  font-family: var(--font-typewriter);
+  font-family: var(--font-sans);
 }
 
 input,

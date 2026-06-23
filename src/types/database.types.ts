@@ -40,7 +40,9 @@ export interface Database {
           user_id: string;
           title?: string;
         };
-        Update: Partial<Database["public"]["Tables"]["conversations"]["Insert"]>;
+        Update: Partial<
+          Database["public"]["Tables"]["conversations"]["Insert"]
+        >;
         Relationships: [];
       };
       messages: {

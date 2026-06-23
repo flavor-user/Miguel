@@ -1,9 +1,6 @@
 import { notFound } from "next/navigation";
 import { ArtworkDetail } from "@/components/gallery/artwork-detail";
-import {
-  getArtworkBySlug,
-  getPublishedArtworks,
-} from "@/lib/data/artworks";
+import { getArtworkBySlug, getPublishedArtworks } from "@/lib/data/artworks";
 import { getDictionary } from "@/lib/i18n/dictionary";
 import { isValidLocale, type Locale } from "@/lib/i18n/config";
 
@@ -25,7 +22,7 @@ export default async function ArtworkPage({ params }: PageProps) {
   const relatedArtworks = allArtworks
     .filter((a) => a.slug !== slug)
     .filter((a) =>
-      a.concepts.some((c) => artwork.concepts.some((ac) => ac.slug === c.slug))
+      a.concepts.some((c) => artwork.concepts.some((ac) => ac.slug === c.slug)),
     )
     .slice(0, 3);
 

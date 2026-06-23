@@ -10,7 +10,9 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
   const [preview, setPreview] = useState<string | null>(null);
   const [imageWidth, setImageWidth] = useState("");
   const [imageHeight, setImageHeight] = useState("");
-  const [result, setResult] = useState<{ url: string; title: string } | null>(null);
+  const [result, setResult] = useState<{ url: string; title: string } | null>(
+    null,
+  );
   const [error, setError] = useState("");
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -92,27 +94,49 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
 
           <div>
             <label className="mb-1 block  text-stone-400">Título *</label>
-            <input name="title" required className={inputClass} placeholder="Ej. Esferas Gomu" />
+            <input
+              name="title"
+              required
+              className={inputClass}
+              placeholder="Ej. Esferas Gomu"
+            />
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1 block  text-stone-400">Artista</label>
-              <input name="artist" className={inputClass} placeholder="Ej. flavor user" />
+              <input
+                name="artist"
+                className={inputClass}
+                placeholder="Ej. flavor user"
+              />
             </div>
             <div>
               <label className="mb-1 block  text-stone-400">Año</label>
-              <input name="year" type="number" className={inputClass} placeholder="1889" />
+              <input
+                name="year"
+                type="number"
+                className={inputClass}
+                placeholder="1889"
+              />
             </div>
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">Técnica / soporte</label>
-            <input name="medium" className={inputClass} placeholder="Ej. Óleo sobre lienzo" />
+            <label className="mb-1 block  text-stone-400">
+              Técnica / soporte
+            </label>
+            <input
+              name="medium"
+              className={inputClass}
+              placeholder="Ej. Óleo sobre lienzo"
+            />
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">Descripción corta (ficha)</label>
+            <label className="mb-1 block  text-stone-400">
+              Descripción corta (ficha)
+            </label>
             <textarea
               name="description"
               rows={3}
@@ -122,7 +146,9 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">Texto de sala (ensayo largo)</label>
+            <label className="mb-1 block  text-stone-400">
+              Texto de sala (ensayo largo)
+            </label>
             <textarea
               name="essay"
               rows={8}
@@ -136,30 +162,52 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           <h2 className="text-stone-100">Clasificación</h2>
 
           <div>
-            <label className="mb-1 block  text-stone-400">Etiquetas (separadas por comas)</label>
-            <input name="tags" className={inputClass} placeholder="fragilidad, objeto, mesa, serie 2024" />
+            <label className="mb-1 block  text-stone-400">
+              Etiquetas (separadas por comas)
+            </label>
+            <input
+              name="tags"
+              className={inputClass}
+              placeholder="fragilidad, objeto, mesa, serie 2024"
+            />
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">Conceptos (separados por comas)</label>
+            <label className="mb-1 block  text-stone-400">
+              Conceptos (separados por comas)
+            </label>
             <input
               name="concepts"
               className={inputClass}
               placeholder="Fragilidad, Objeto, Material"
             />
             <p className="mt-1 text-xs text-stone-600">
-              Se crean automáticamente si no existen. Conectan la obra con la red de conceptos.
+              Se crean automáticamente si no existen. Conectan la obra con la
+              red de conceptos.
             </p>
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">Texto alternativo de imagen (accesibilidad)</label>
-            <input name="imageAlt" className={inputClass} placeholder="Describe la imagen brevemente" />
+            <label className="mb-1 block  text-stone-400">
+              Texto alternativo de imagen (accesibilidad)
+            </label>
+            <input
+              name="imageAlt"
+              className={inputClass}
+              placeholder="Describe la imagen brevemente"
+            />
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">Enlace externo (opcional)</label>
-            <input name="sourceUrl" type="url" className={inputClass} placeholder="https://…" />
+            <label className="mb-1 block  text-stone-400">
+              Enlace externo (opcional)
+            </label>
+            <input
+              name="sourceUrl"
+              type="url"
+              className={inputClass}
+              placeholder="https://…"
+            />
           </div>
 
           <label className="flex items-center gap-3  text-stone-300">
@@ -187,7 +235,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
               <p>«{result.title}» guardada correctamente.</p>
               <Link
                 href={localizedPath(locale, result.url)}
-                className="mt-1 inline-flex items-center gap-1 text-black hover:underline"
+                className="mt-1 inline-flex items-center gap-1  hover:underline"
               >
                 Ver en la galería <ExternalLink className="h-3 w-3" />
               </Link>
@@ -216,7 +264,11 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           <p className="mb-3 text-stone-500">Vista previa</p>
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={preview} alt="Vista previa" className="block h-auto w-full" />
+            <img
+              src={preview}
+              alt="Vista previa"
+              className="block h-auto w-full"
+            />
           ) : (
             <div className="flex min-h-40 items-center justify-center rounded-xl bg-stone-900  text-stone-600">
               Sin imagen
@@ -227,8 +279,13 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
         <div className="rounded-2xl border border-stone-800 p-4  text-stone-500">
           <p className=" text-stone-400">Consejos</p>
           <ul className="mt-2 list-inside list-disc space-y-1">
-            <li>El <strong>texto de sala</strong> es lo que el curador usa para hablar de la obra.</li>
-            <li>Sin texto, el curador dirá que falta documentación — no inventará.</li>
+            <li>
+              El <strong>texto de sala</strong> es lo que el curador usa para
+              hablar de la obra.
+            </li>
+            <li>
+              Sin texto, el curador dirá que falta documentación — no inventará.
+            </li>
             <li>Los conceptos conectan obras entre sí en conversaciones.</li>
           </ul>
         </div>

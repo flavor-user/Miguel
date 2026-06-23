@@ -18,14 +18,19 @@ export default async function GalleryPage({ params }: PageProps) {
   return (
     <div>
       <header className="mb-12 max-w-2xl">
-        <p className="text-black">{dict.gallery.badge}</p>
-        <h1 className="mt-3 text-black">{dict.gallery.title}</h1>
-        <p className="mt-4 leading-relaxed text-black">{dict.gallery.subtitle}</p>
+        <p>{dict.gallery.badge}</p>
+        <h1 className="mt-3 ">{dict.gallery.title}</h1>
+        <p className="mt-4 leading-relaxed">{dict.gallery.subtitle}</p>
       </header>
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {artworks.map((artwork, i) => (
-          <ArtworkCard key={artwork.id} artwork={artwork} locale={locale} priority={i < 3} />
+          <ArtworkCard
+            key={artwork.id}
+            artwork={artwork}
+            locale={locale}
+            priority={i < 3}
+          />
         ))}
       </div>
     </div>

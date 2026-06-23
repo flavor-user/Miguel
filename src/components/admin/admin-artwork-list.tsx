@@ -48,7 +48,8 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
   }
 
   async function remove(id: string, title: string) {
-    if (!confirm(`¿Borrar «${title}»? Esta acción no se puede deshacer.`)) return;
+    if (!confirm(`¿Borrar «${title}»? Esta acción no se puede deshacer.`))
+      return;
     setActionId(id);
     await fetch(`/api/admin/artworks/${id}`, { method: "DELETE" });
     await load();
@@ -68,7 +69,10 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
     return (
       <p className="py-10 text-stone-500">
         Aún no hay obras en la base de datos.{" "}
-        <Link href={localizedPath(locale, "/admin/obras/nueva")} className="text-black hover:underline">
+        <Link
+          href={localizedPath(locale, "/admin/obras/nueva")}
+          className=" hover:underline"
+        >
           Añade la primera
         </Link>
       </p>
@@ -100,7 +104,9 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
                   </div>
                   <div>
                     <p className=" text-stone-200">{artwork.title}</p>
-                    <p className="text-xs text-stone-500">{artwork.artist ?? "—"}</p>
+                    <p className="text-xs text-stone-500">
+                      {artwork.artist ?? "—"}
+                    </p>
                   </div>
                 </div>
               </td>
@@ -127,7 +133,9 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
                     </Link>
                   )}
                   <button
-                    onClick={() => togglePublish(artwork.id, !artwork.is_published)}
+                    onClick={() =>
+                      togglePublish(artwork.id, !artwork.is_published)
+                    }
                     disabled={actionId === artwork.id}
                     className="rounded-lg p-2 text-stone-500 hover:bg-stone-800 hover:text-amber-300"
                     title={artwork.is_published ? "Ocultar" : "Publicar"}

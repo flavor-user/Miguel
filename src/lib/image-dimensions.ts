@@ -1,7 +1,7 @@
 /** Lee ancho y alto de JPEG o PNG desde el buffer, sin dependencias externas. */
 export function readImageDimensions(
   buffer: Buffer,
-  mimeType: string
+  mimeType: string,
 ): { width: number; height: number } | null {
   if (mimeType === "image/png" && buffer.length >= 24) {
     const width = buffer.readUInt32BE(16);

@@ -40,7 +40,7 @@ export function AuthForm({
             ? "Supabase no está configurado en el servidor. Revisa las variables en Vercel y vuelve a desplegar."
             : locale === "ja"
               ? "Supabaseがサーバーで設定されていません。Vercelの環境変数を確認して再デプロイしてください。"
-              : "Supabase is not configured on the server. Check Vercel environment variables and redeploy."
+              : "Supabase is not configured on the server. Check Vercel environment variables and redeploy.",
         );
       }
 
@@ -91,46 +91,42 @@ export function AuthForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       {mode === "register" && (
         <div>
-          <label className="mb-1 block  text-black">{t.name}</label>
+          <label className="mb-1 block  ">{t.name}</label>
           <input
             type="text"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full border-b border-neutral-300 bg-transparent px-1 py-2 text-black focus:border-neutral-900 focus:outline-none"
+            className="w-full border-b border-neutral-300 bg-transparent px-1 py-2  focus:border-neutral-900 focus:outline-none"
           />
         </div>
       )}
 
       <div>
-        <label className="mb-1 block  text-black">{t.email}</label>
+        <label className="mb-1 block  ">{t.email}</label>
         <input
           type="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full border-b border-neutral-300 bg-transparent px-1 py-2 text-black focus:border-neutral-900 focus:outline-none"
+          className="w-full border-b border-neutral-300 bg-transparent px-1 py-2  focus:border-neutral-900 focus:outline-none"
         />
       </div>
 
       <div>
-        <label className="mb-1 block  text-black">{t.password}</label>
+        <label className="mb-1 block  ">{t.password}</label>
         <input
           type="password"
           required
           minLength={6}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border-b border-neutral-300 bg-transparent px-1 py-2 text-black focus:border-neutral-900 focus:outline-none"
+          className="w-full border-b border-neutral-300 bg-transparent px-1 py-2  focus:border-neutral-900 focus:outline-none"
           placeholder={t.passwordHint}
         />
       </div>
 
       {message && (
-        <p
-          className={` ${
-            messageType === "error" ? "text-red-600" : "text-black"
-          }`}
-        >
+        <p className={` ${messageType === "error" ? "text-red-600" : ""}`}>
           {message}
         </p>
       )}
@@ -138,23 +134,29 @@ export function AuthForm({
       <button
         type="submit"
         disabled={loading}
-        className="w-full border border-neutral-900 py-3  text-black transition hover:bg-neutral-900 hover:text-white disabled:opacity-40"
+        className="w-full border border-neutral-900 py-3  transition hover:bg-neutral-900 hover:text-white disabled:opacity-40"
       >
         {loading ? t.waiting : mode === "register" ? t.createAccount : t.signIn}
       </button>
 
-      <p className="text-center  text-black">
+      <p className="text-center  ">
         {mode === "register" ? (
           <>
             {t.hasAccount}{" "}
-            <Link href={localizedPath(locale, "/login")} className="text-black hover:underline">
+            <Link
+              href={localizedPath(locale, "/login")}
+              className=" hover:underline"
+            >
               {t.signIn}
             </Link>
           </>
         ) : (
           <>
             {t.noAccount}{" "}
-            <Link href={localizedPath(locale, "/registro")} className="text-black hover:underline">
+            <Link
+              href={localizedPath(locale, "/registro")}
+              className=" hover:underline"
+            >
               {t.createAccount}
             </Link>
           </>
@@ -164,7 +166,13 @@ export function AuthForm({
   );
 }
 
-export function SignOutButton({ label, locale }: { label: string; locale: Locale }) {
+export function SignOutButton({
+  label,
+  locale,
+}: {
+  label: string;
+  locale: Locale;
+}) {
   async function handleSignOut() {
     const supabase = createClient();
     await supabase.auth.signOut();
@@ -172,10 +180,7 @@ export function SignOutButton({ label, locale }: { label: string; locale: Locale
   }
 
   return (
-    <button
-      onClick={handleSignOut}
-      className=" text-black transition hover:text-black"
-    >
+    <button onClick={handleSignOut} className="transition">
       {label}
     </button>
   );

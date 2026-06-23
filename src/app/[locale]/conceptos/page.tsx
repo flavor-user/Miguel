@@ -8,7 +8,8 @@ interface PageProps {
 }
 
 function formatWorksCount(count: number, locale: Locale): string {
-  if (locale === "es") return `${count} obra${count !== 1 ? "s" : ""} en galería`;
+  if (locale === "es")
+    return `${count} obra${count !== 1 ? "s" : ""} en galería`;
   if (locale === "ja") return `ギャラリーに${count}件`;
   return `${count} work${count !== 1 ? "s" : ""} in gallery`;
 }
@@ -24,15 +25,15 @@ export default async function ConceptsPage({ params }: PageProps) {
     concepts.map(async (concept) => {
       const artworks = await getArtworksByConcept(concept.slug);
       return { ...concept, artworkCount: artworks.length };
-    })
+    }),
   );
 
   return (
     <div>
       <header className="mb-12 max-w-2xl">
-        <p className="text-black">{c.badge}</p>
-        <h1 className="mt-3 text-black">{c.title}</h1>
-        <p className="mt-4 text-black">{c.subtitle}</p>
+        <p>{c.badge}</p>
+        <h1 className="mt-3 ">{c.title}</h1>
+        <p className="mt-4 ">{c.subtitle}</p>
       </header>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -42,13 +43,11 @@ export default async function ConceptsPage({ params }: PageProps) {
             href={localizedPath(locale, `/conceptos/${concept.slug}`)}
             className="border-b border-neutral-200 pb-6 transition hover:border-neutral-400"
           >
-            <h2 className="text-black">{concept.name}</h2>
+            <h2>{concept.name}</h2>
             {concept.description && (
-              <p className="mt-2  leading-relaxed text-black">
-                {concept.description}
-              </p>
+              <p className="mt-2  leading-relaxed">{concept.description}</p>
             )}
-            <p className="mt-4 text-xs text-black">
+            <p className="mt-4 text-xs ">
               {formatWorksCount(concept.artworkCount, locale)}
             </p>
           </Link>

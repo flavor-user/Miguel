@@ -17,7 +17,7 @@ No incluyas generalidades vacías sobre arte. Si no hay nada útil, devuelve { "
 export async function retrieveMemories(
   userId: string,
   query: string,
-  limit = 8
+  limit = 8,
 ): Promise<{ content: string; memory_type: string }[]> {
   try {
     const embedding = await embedText(query);
@@ -35,7 +35,7 @@ export async function retrieveMemories(
 
 export async function extractMemories(
   userMessage: string,
-  assistantMessage: string
+  assistantMessage: string,
 ): Promise<ExtractedMemory[]> {
   const { createOpenAIClient } = await import("@/lib/openai/client");
   const openai = createOpenAIClient();
@@ -64,7 +64,7 @@ export async function extractMemories(
 export async function saveMemories(
   userId: string,
   memories: ExtractedMemory[],
-  sourceMessageId?: string
+  sourceMessageId?: string,
 ): Promise<void> {
   if (!memories.length) return;
 

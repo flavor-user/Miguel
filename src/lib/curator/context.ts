@@ -22,14 +22,14 @@ export function formatArtworkEntry(artwork: ArtworkWithConcepts): string {
   if (artwork.tags?.length) lines.push(`Etiquetas: ${artwork.tags.join(", ")}`);
   if (artwork.concepts?.length) {
     lines.push(
-      `Conceptos: ${artwork.concepts.map((c) => `${c.name}${c.description ? ` — ${c.description}` : ""}`).join("; ")}`
+      `Conceptos: ${artwork.concepts.map((c) => `${c.name}${c.description ? ` — ${c.description}` : ""}`).join("; ")}`,
     );
   }
 
   const hasContent = artwork.description || artwork.essay;
   if (!hasContent) {
     lines.push(
-      "(Nota para el curador: esta obra no tiene texto de sala ni ficha. No interpretes la pieza; di que falta documentación.)"
+      "(Nota para el curador: esta obra no tiene texto de sala ni ficha. No interpretes la pieza; di que falta documentación.)",
     );
   }
 
@@ -50,10 +50,14 @@ export function buildCuratorContext(params: {
     sections.push("=== PRÁCTICA DEL ARTISTA ===");
     if (params.artistName) sections.push(`Nombre: ${params.artistName}`);
     if (params.artistBio) {
-      sections.push(`Línea de trabajo / manifesto del artista:\n${params.artistBio}`);
+      sections.push(
+        `Línea de trabajo / manifesto del artista:\n${params.artistBio}`,
+      );
     }
     if (params.flavorSummary) {
-      sections.push(`Perfil acumulado (conversaciones previas):\n${params.flavorSummary}`);
+      sections.push(
+        `Perfil acumulado (conversaciones previas):\n${params.flavorSummary}`,
+      );
     }
   }
 
@@ -66,23 +70,23 @@ export function buildCuratorContext(params: {
     sections.push("=== ARCHIVO COMPLETO (única fuente de verdad) ===");
     sections.push(`Obras publicadas: ${params.catalog.length}`);
     sections.push(
-      "Modo de lectura: obra abstracta/contemporánea — priorizar material, proceso, forma, ritmo, escala. Sin texto de sala, no interpretar."
+      "Modo de lectura: obra abstracta/contemporánea — priorizar material, proceso, forma, ritmo, escala. Sin texto de sala, no interpretar.",
     );
     if (undocumented.length) {
       sections.push(
-        `Obras sin ficha ni texto de sala (ser transparente): ${undocumented.join(", ")}`
+        `Obras sin ficha ni texto de sala (ser transparente): ${undocumented.join(", ")}`,
       );
     }
     if (concepts.length) {
       sections.push(
-        `Conceptos del archivo: ${concepts.map((c) => c.name).join(", ")}`
+        `Conceptos del archivo: ${concepts.map((c) => c.name).join(", ")}`,
       );
     }
     sections.push("");
     sections.push(params.catalog.map(formatArtworkEntry).join("\n\n"));
   } else {
     sections.push(
-      "=== ARCHIVO ===\nLa galería aún no tiene obras publicadas. No cites obras concretas."
+      "=== ARCHIVO ===\nLa galería aún no tiene obras publicadas. No cites obras concretas.",
     );
   }
 
@@ -94,7 +98,9 @@ export function buildCuratorContext(params: {
   if (params.memories?.length) {
     sections.push("=== NOTAS DE VISITAS ANTERIORES ===");
     sections.push(
-      params.memories.map((m) => `- [${m.memory_type}] ${m.content}`).join("\n")
+      params.memories
+        .map((m) => `- [${m.memory_type}] ${m.content}`)
+        .join("\n"),
     );
   }
 

@@ -29,11 +29,11 @@ export default async function AccountPage({ params }: PageProps) {
   if (!isSupabaseConfigured()) {
     return (
       <div className="mx-auto max-w-lg text-center">
-        <h1 className="text-black">{a.title}</h1>
-        <p className="mt-4 text-black">{a.notConfigured}</p>
+        <h1>{a.title}</h1>
+        <p className="mt-4 ">{a.notConfigured}</p>
         <Link
           href={localizedPath(locale, "/galeria")}
-          className="mt-6 inline-block text-black underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
+          className="mt-6 inline-block  underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
         >
           {a.goGallery}
         </Link>
@@ -42,24 +42,28 @@ export default async function AccountPage({ params }: PageProps) {
   }
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect(localizedPath(locale, "/login"));
   }
 
-  const { data: profile } = await supabase
+  const { data: profile } = (await supabase
     .from("profiles")
     .select("*")
     .eq("id", user.id)
-    .single() as { data: Profile | null };
+    .single()) as { data: Profile | null };
 
-  const { data: conversations } = await supabase
+  const { data: conversations } = (await supabase
     .from("conversations")
     .select("id, title, updated_at")
     .eq("user_id", user.id)
     .order("updated_at", { ascending: false })
-    .limit(10) as { data: Pick<Conversation, "id" | "title" | "updated_at">[] | null };
+    .limit(10)) as {
+    data: Pick<Conversation, "id" | "title" | "updated_at">[] | null;
+  };
 
   const adminAuth = await requireAdmin();
   const isAdmin = adminAuth.authorized;
@@ -68,15 +72,15 @@ export default async function AccountPage({ params }: PageProps) {
     <div className="max-w-2xl">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-black">{a.title}</h1>
-          <p className="mt-2 text-black">{user.email}</p>
+          <h1>{a.title}</h1>
+          <p className="mt-2 ">{user.email}</p>
           {profile?.display_name && (
-            <p className="mt-1 text-black">{profile.display_name}</p>
+            <p className="mt-1 ">{profile.display_name}</p>
           )}
           {isAdmin && (
             <Link
               href={localizedPath(locale, "/admin")}
-              className="mt-3 inline-block  text-black hover:text-black"
+              className="mt-3 inline-block  "
             >
               {a.adminLink}
             </Link>
@@ -87,22 +91,15 @@ export default async function AccountPage({ params }: PageProps) {
 
       {profile?.flavor_summary && (
         <section className="mt-10 border-t border-neutral-200 pt-8">
-          <h2 className="text-black">
-            {a.flavorProfile}
-          </h2>
-          <p className="mt-3 leading-relaxed text-black">
-            {profile.flavor_summary}
-          </p>
+          <h2>{a.flavorProfile}</h2>
+          <p className="mt-3 leading-relaxed">{profile.flavor_summary}</p>
         </section>
       )}
 
       <section className="mt-10">
         <div className="mb-4 flex items-center justify-between border-b border-neutral-200 pb-3">
-          <h2 className="text-black">{a.recentChats}</h2>
-          <Link
-            href={localizedPath(locale, "/chat")}
-            className=" text-black hover:text-black"
-          >
+          <h2>{a.recentChats}</h2>
+          <Link href={localizedPath(locale, "/chat")} className=" ">
             {a.newChat}
           </Link>
         </div>
@@ -113,22 +110,24 @@ export default async function AccountPage({ params }: PageProps) {
               <li key={conv.id}>
                 <Link
                   href={localizedPath(locale, `/chat?conversacion=${conv.id}`)}
-                  className="flex items-center justify-between py-3 transition hover:text-black"
+                  className="flex items-center justify-between py-3 transition"
                 >
-                  <span className="text-black">{conv.title}</span>
-                  <span className="text-xs text-black">
-                    {new Date(conv.updated_at).toLocaleDateString(dateLocale(locale))}
+                  <span>{conv.title}</span>
+                  <span className="text-xs ">
+                    {new Date(conv.updated_at).toLocaleDateString(
+                      dateLocale(locale),
+                    )}
                   </span>
                 </Link>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-black">
+          <p>
             {a.noChats}{" "}
             <Link
               href={localizedPath(locale, "/chat")}
-              className="text-black hover:underline"
+              className=" hover:underline"
             >
               {a.startChat}
             </Link>

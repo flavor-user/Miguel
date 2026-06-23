@@ -33,15 +33,24 @@ export async function POST(request: Request) {
     const image = form.get("image");
 
     if (!title) {
-      return NextResponse.json({ error: "El título es obligatorio" }, { status: 400 });
+      return NextResponse.json(
+        { error: "El título es obligatorio" },
+        { status: 400 },
+      );
     }
 
     if (!(image instanceof File) || image.size === 0) {
-      return NextResponse.json({ error: "La imagen es obligatoria" }, { status: 400 });
+      return NextResponse.json(
+        { error: "La imagen es obligatoria" },
+        { status: 400 },
+      );
     }
 
     if (image.size > MAX_FILE_SIZE) {
-      return NextResponse.json({ error: "Imagen demasiado grande (máx. 10 MB)" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Imagen demasiado grande (máx. 10 MB)" },
+        { status: 400 },
+      );
     }
 
     const supabase = createServiceClient();
@@ -54,8 +63,10 @@ export async function POST(request: Request) {
     const clientWidth = parseInt(String(form.get("imageWidth") ?? ""), 10);
     const clientHeight = parseInt(String(form.get("imageHeight") ?? ""), 10);
     const parsed =
-      Number.isFinite(clientWidth) && clientWidth > 0 &&
-      Number.isFinite(clientHeight) && clientHeight > 0
+      Number.isFinite(clientWidth) &&
+      clientWidth > 0 &&
+      Number.isFinite(clientHeight) &&
+      clientHeight > 0
         ? { width: clientWidth, height: clientHeight }
         : readImageDimensions(buffer, image.type);
 
@@ -69,7 +80,7 @@ export async function POST(request: Request) {
     if (uploadError) {
       return NextResponse.json(
         { error: `Error al subir imagen: ${uploadError.message}` },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -78,16 +89,24 @@ export async function POST(request: Request) {
       .getPublicUrl(filePath);
 
     const tags = tagsRaw
-      ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean)
+      ? tagsRaw
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean)
       : [];
 
     const conceptNames = conceptsRaw
-      ? conceptsRaw.split(",").map((c) => c.trim()).filter(Boolean)
+      ? conceptsRaw
+          .split(",")
+          .map((c) => c.trim())
+          .filter(Boolean)
       : [];
 
     let embedding: number[] | null = null;
     try {
-      const embedTextContent = [title, artist, description, essay, ...tags].filter(Boolean).join(". ");
+      const embedTextContent = [title, artist, description, essay, ...tags]
+        .filter(Boolean)
+        .join(". ");
       embedding = await embedText(embedTextContent);
     } catch {
       // OpenAI opcional para embeddings al crear
@@ -134,7 +153,10 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Admin artwork create:", error);
-    return NextResponse.json({ error: "Error interno al crear la obra" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Error interno al crear la obra" },
+      { status: 500 },
+    );
   }
 }
 
@@ -147,7 +169,9 @@ export async function GET() {
   const supabase = createServiceClient();
   const { data, error } = await supabase
     .from("artworks")
-    .select("id, slug, title, artist, is_published, published_at, created_at, image_url")
+    .select(
+      "id, slug, title, artist, is_published, published_at, created_at, image_url",
+    )
     .order("created_at", { ascending: false });
 
   if (error) {

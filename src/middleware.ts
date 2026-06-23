@@ -11,7 +11,7 @@ import {
 
 function pathnameHasLocale(pathname: string): boolean {
   return locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   );
 }
 
@@ -23,19 +23,25 @@ function localeFromPath(pathname: string): string {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (isSiteAccessEnabled() && !isAccessPath(pathname) && !isAccessApi(pathname)) {
+  if (
+    isSiteAccessEnabled() &&
+    !isAccessPath(pathname) &&
+    !isAccessApi(pathname)
+  ) {
     const allowed = await hasValidSiteAccess(request);
     if (!allowed) {
       if (pathname.startsWith("/api")) {
         return NextResponse.json({ error: "Acceso privado" }, { status: 401 });
       }
 
-      const locale = pathnameHasLocale(pathname) ? localeFromPath(pathname) : defaultLocale;
+      const locale = pathnameHasLocale(pathname)
+        ? localeFromPath(pathname)
+        : defaultLocale;
       const redirectUrl = request.nextUrl.clone();
       redirectUrl.pathname = `/${locale}/acceso`;
       redirectUrl.searchParams.set(
         "next",
-        `${pathname}${request.nextUrl.search}`
+        `${pathname}${request.nextUrl.search}`,
       );
       return NextResponse.redirect(redirectUrl);
     }

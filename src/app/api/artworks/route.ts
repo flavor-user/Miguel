@@ -8,7 +8,10 @@ export async function GET(request: Request) {
   if (slug) {
     const artwork = await getArtworkBySlug(slug);
     if (!artwork) {
-      return NextResponse.json({ error: "Obra no encontrada" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Obra no encontrada" },
+        { status: 404 },
+      );
     }
     return NextResponse.json(artwork);
   }

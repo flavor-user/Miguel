@@ -25,9 +25,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Mensaje vacío" }, { status: 400 });
     }
 
-    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === "sk-...") {
+    if (
+      !process.env.OPENAI_API_KEY ||
+      process.env.OPENAI_API_KEY === "sk-..."
+    ) {
       return streamFallback(
-        "OpenAI aún no está configurado. Añade OPENAI_API_KEY en Vercel y haz Redeploy."
+        "OpenAI aún no está configurado. Añade OPENAI_API_KEY en Vercel y haz Redeploy.",
       );
     }
 
@@ -78,7 +81,9 @@ export async function POST(request: Request) {
       artistName = catalog.find((a) => a.artist)?.artist ?? null;
     }
 
-    const focusArtwork = artworkSlug ? await getArtworkBySlug(artworkSlug) : null;
+    const focusArtwork = artworkSlug
+      ? await getArtworkBySlug(artworkSlug)
+      : null;
 
     const curatorContext = buildCuratorContext({
       catalog,
@@ -132,8 +137,8 @@ export async function POST(request: Request) {
         if (activeConversationId) {
           controller.enqueue(
             encoder.encode(
-              `data: ${JSON.stringify({ conversationId: activeConversationId })}\n\n`
-            )
+              `data: ${JSON.stringify({ conversationId: activeConversationId })}\n\n`,
+            ),
           );
         }
 
@@ -142,7 +147,7 @@ export async function POST(request: Request) {
           if (content) {
             fullResponse += content;
             controller.enqueue(
-              encoder.encode(`data: ${JSON.stringify({ content })}\n\n`)
+              encoder.encode(`data: ${JSON.stringify({ content })}\n\n`),
             );
           }
         }
@@ -162,7 +167,7 @@ export async function POST(request: Request) {
             .single();
 
           extractMemories(message, fullResponse).then((extracted) =>
-            saveMemories(user.id, extracted, savedMsg?.id)
+            saveMemories(user.id, extracted, savedMsg?.id),
           );
         }
       },
@@ -178,7 +183,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Chat error:", error);
     return streamFallback(
-      "Hubo un error al procesar tu mensaje. Verifica la configuración de OpenAI y Supabase."
+      "Hubo un error al procesar tu mensaje. Verifica la configuración de OpenAI y Supabase.",
     );
   }
 }
@@ -188,7 +193,7 @@ function streamFallback(text: string) {
   const stream = new ReadableStream({
     start(controller) {
       controller.enqueue(
-        encoder.encode(`data: ${JSON.stringify({ content: text })}\n\n`)
+        encoder.encode(`data: ${JSON.stringify({ content: text })}\n\n`),
       );
       controller.enqueue(encoder.encode("data: [DONE]\n\n"));
       controller.close();

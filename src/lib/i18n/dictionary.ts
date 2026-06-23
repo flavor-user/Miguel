@@ -2,7 +2,13 @@ import type { Locale } from "./config";
 
 export type Dictionary = {
   meta: { title: string; description: string };
-  nav: { gallery: string; concepts: string; chat: string; account: string; chatShort: string };
+  nav: {
+    gallery: string;
+    concepts: string;
+    chat: string;
+    account: string;
+    chatShort: string;
+  };
   footer: { tagline: string; gallery: string; concepts: string; chat: string };
   home: {
     badge: string;
@@ -13,7 +19,11 @@ export type Dictionary = {
     featuredTitle: string;
     featuredSubtitle: string;
     seeAll: string;
-    cards: { gallery: { title: string; desc: string }; concepts: { title: string; desc: string }; chat: { title: string; desc: string } };
+    cards: {
+      gallery: { title: string; desc: string };
+      concepts: { title: string; desc: string };
+      chat: { title: string; desc: string };
+    };
   };
   gallery: {
     badge: string;
@@ -103,9 +113,16 @@ export type Dictionary = {
 const en: Dictionary = {
   meta: {
     title: "Flavor User — Gallery & AI",
-    description: "Art gallery with readable texts and an AI that remembers your taste.",
+    description:
+      "Art gallery with readable texts and an AI that remembers your taste.",
   },
-  nav: { gallery: "Gallery", concepts: "Concepts", chat: "Chat", account: "Account", chatShort: "Chat" },
+  nav: {
+    gallery: "Gallery",
+    concepts: "Concepts",
+    chat: "Chat",
+    account: "Account",
+    chatShort: "Chat",
+  },
   footer: {
     tagline: "Flavor User — your artistic taste, with memory.",
     gallery: "Gallery",
@@ -123,15 +140,25 @@ const en: Dictionary = {
     featuredSubtitle: "Images and texts ready to enjoy, like in a museum room.",
     seeAll: "See all →",
     cards: {
-      gallery: { title: "Gallery", desc: "Works with image, details, and an essay to read." },
-      concepts: { title: "Concepts", desc: "A network of ideas linking movements, techniques, and emotions." },
-      chat: { title: "Curator chat", desc: "A curator who knows your archive and speaks from your own texts." },
+      gallery: {
+        title: "Gallery",
+        desc: "Works with image, details, and an essay to read.",
+      },
+      concepts: {
+        title: "Concepts",
+        desc: "A network of ideas linking movements, techniques, and emotions.",
+      },
+      chat: {
+        title: "Curator chat",
+        desc: "A curator who knows your archive and speaks from your own texts.",
+      },
     },
   },
   gallery: {
     badge: "Collection",
     title: "Gallery",
-    subtitle: "Each work includes an image, details, and a wall text to read at your own pace.",
+    subtitle:
+      "Each work includes an image, details, and a wall text to read at your own pace.",
     back: "Back to gallery",
     essayTitle: "Wall text",
     related: "Related works",
@@ -141,7 +168,8 @@ const en: Dictionary = {
   concepts: {
     badge: "Semantic network",
     title: "Concepts",
-    subtitle: "Ideas that connect works, movements, and techniques. Flavor User uses this network to personalize conversations.",
+    subtitle:
+      "Ideas that connect works, movements, and techniques. Flavor User uses this network to personalize conversations.",
     back: "← All concepts",
     related: "Related concepts",
     artworks: "Works in the gallery",
@@ -152,7 +180,8 @@ const en: Dictionary = {
   chat: {
     badge: "Curator",
     title: "Your curator",
-    subtitleLoggedIn: "Speaks from your archive texts — not generic art history.",
+    subtitleLoggedIn:
+      "Speaks from your archive texts — not generic art history.",
     subtitleGuest: "",
     loginLink: "Sign in",
     placeholderLoggedIn: "Ask about a work, a series, materials, intent…",
@@ -196,10 +225,12 @@ const en: Dictionary = {
     hasAccount: "Already have an account?",
     continueGallery: "Continue without account → Gallery",
     signOut: "Sign out",
-    accountCreated: "Account created. Check your email (and spam) to confirm, then sign in.",
+    accountCreated:
+      "Account created. Check your email (and spam) to confirm, then sign in.",
     entering: "Account created! Signing in…",
     checkEmail: "Account created. Check your email to confirm.",
-    invalidCredentials: "Wrong email or password. If you just registered, confirm your email first.",
+    invalidCredentials:
+      "Wrong email or password. If you just registered, confirm your email first.",
     alreadyRegistered: "This email already has an account. Use Sign in.",
   },
   account: {
@@ -210,7 +241,8 @@ const en: Dictionary = {
     newChat: "New conversation",
     noChats: "No conversations yet.",
     startChat: "Start one",
-    notConfigured: "Configure Supabase in .env.local to enable accounts. The gallery works without an account.",
+    notConfigured:
+      "Configure Supabase in .env.local to enable accounts. The gallery works without an account.",
     goGallery: "Go to gallery",
   },
   notFound: {
@@ -224,9 +256,16 @@ const en: Dictionary = {
 const es: Dictionary = {
   meta: {
     title: "Flavor User — Galería & IA",
-    description: "Galería de arte con textos para leer y una IA que recuerda tu gusto.",
+    description:
+      "Galería de arte con textos para leer y una IA que recuerda tu gusto.",
   },
-  nav: { gallery: "Galería", concepts: "Conceptos", chat: "Curador", account: "Cuenta", chatShort: "Curador" },
+  nav: {
+    gallery: "Galería",
+    concepts: "Conceptos",
+    chat: "Curador",
+    account: "Cuenta",
+    chatShort: "Curador",
+  },
   footer: {
     tagline: "Flavor User — tu archivo, con curador.",
     gallery: "Galería",
@@ -241,18 +280,29 @@ const es: Dictionary = {
     ctaGallery: "Explorar galería",
     ctaChat: "Hablar con tu curador",
     featuredTitle: "Destacadas",
-    featuredSubtitle: "Imágenes y textos listos para consumir, como en una sala de museo.",
+    featuredSubtitle:
+      "Imágenes y textos listos para consumir, como en una sala de museo.",
     seeAll: "Ver todas →",
     cards: {
-      gallery: { title: "Galería", desc: "Obras con ficha, imagen a tamaño completo y ensayo para leer." },
-      concepts: { title: "Conceptos", desc: "Red de ideas que conecta movimientos, técnicas y emociones." },
-      chat: { title: "Chat con el curador", desc: "Un curador que conoce tu archivo y habla desde tus propios textos." },
+      gallery: {
+        title: "Galería",
+        desc: "Obras con ficha, imagen a tamaño completo y ensayo para leer.",
+      },
+      concepts: {
+        title: "Conceptos",
+        desc: "Red de ideas que conecta movimientos, técnicas y emociones.",
+      },
+      chat: {
+        title: "Chat con el curador",
+        desc: "Un curador que conoce tu archivo y habla desde tus propios textos.",
+      },
     },
   },
   gallery: {
     badge: "Colección",
     title: "Galería",
-    subtitle: "Cada obra incluye imagen, ficha informativa y un texto de sala para leer con calma.",
+    subtitle:
+      "Cada obra incluye imagen, ficha informativa y un texto de sala para leer con calma.",
     back: "Volver a la galería",
     essayTitle: "Texto de sala",
     related: "Obras relacionadas",
@@ -262,7 +312,8 @@ const es: Dictionary = {
   concepts: {
     badge: "Red semántica",
     title: "Conceptos",
-    subtitle: "Ideas que conectan obras, movimientos y técnicas. Flavor User usa esta red para personalizar conversaciones.",
+    subtitle:
+      "Ideas que conectan obras, movimientos y técnicas. Flavor User usa esta red para personalizar conversaciones.",
     back: "← Todos los conceptos",
     related: "Conceptos relacionados",
     artworks: "Obras en la galería",
@@ -273,11 +324,14 @@ const es: Dictionary = {
   chat: {
     badge: "Curador",
     title: "Tu curador",
-    subtitleLoggedIn: "Habla desde los textos de tu archivo — no desde generalidades.",
+    subtitleLoggedIn:
+      "Habla desde los textos de tu archivo — no desde generalidades.",
     subtitleGuest: "",
     loginLink: "Inicia sesión",
-    placeholderLoggedIn: "Pregunta sobre una obra, una serie, materiales, intención…",
-    placeholderGuest: "Inicia sesión para guardar el historial, o pregunta igualmente…",
+    placeholderLoggedIn:
+      "Pregunta sobre una obra, una serie, materiales, intención…",
+    placeholderGuest:
+      "Inicia sesión para guardar el historial, o pregunta igualmente…",
     welcome:
       "Soy el curador de esta galería. Conozco las obras del archivo y hablo desde sus textos. Pregúntame sobre una pieza concreta, conexiones entre obras, o la línea de tu trabajo.",
     thinking: "El curador reflexiona…",
@@ -297,7 +351,8 @@ const es: Dictionary = {
     placeholder: "Tu código",
     submit: "Entrar",
     waiting: "Comprobando…",
-    wrongCode: "Código incorrecto. Inténtalo de nuevo o contacta con la artista.",
+    wrongCode:
+      "Código incorrecto. Inténtalo de nuevo o contacta con la artista.",
     error: "No pude verificar el acceso. Inténtalo otra vez.",
     note: "El código es personal. Usa el curador solo si tienes interés real en la obra.",
   },
@@ -305,7 +360,8 @@ const es: Dictionary = {
     loginTitle: "Iniciar sesión",
     loginSubtitle: "Accede para guardar conversaciones y memoria personal.",
     registerTitle: "Crear cuenta",
-    registerSubtitle: "Regístrate para activar historial, memoria y notas personales.",
+    registerSubtitle:
+      "Regístrate para activar historial, memoria y notas personales.",
     name: "Nombre",
     email: "Email",
     password: "Contraseña",
@@ -317,10 +373,12 @@ const es: Dictionary = {
     hasAccount: "¿Ya tienes cuenta?",
     continueGallery: "Continuar sin cuenta → Galería",
     signOut: "Cerrar sesión",
-    accountCreated: "Cuenta creada. Revisa tu email (y spam) para confirmar, luego inicia sesión.",
+    accountCreated:
+      "Cuenta creada. Revisa tu email (y spam) para confirmar, luego inicia sesión.",
     entering: "¡Cuenta creada! Entrando…",
     checkEmail: "Cuenta creada. Revisa tu email para confirmar.",
-    invalidCredentials: "Email o contraseña incorrectos. Si acabas de registrarte, confirma el email primero.",
+    invalidCredentials:
+      "Email o contraseña incorrectos. Si acabas de registrarte, confirma el email primero.",
     alreadyRegistered: "Este email ya tiene cuenta. Usa Iniciar sesión.",
   },
   account: {
@@ -331,7 +389,8 @@ const es: Dictionary = {
     newChat: "Nueva conversación",
     noChats: "Aún no tienes conversaciones.",
     startChat: "Empieza una",
-    notConfigured: "Configura Supabase en .env.local para activar cuentas. La galería funciona sin cuenta.",
+    notConfigured:
+      "Configura Supabase en .env.local para activar cuentas. La galería funciona sin cuenta.",
     goGallery: "Ir a la galería",
   },
   notFound: {
@@ -345,9 +404,16 @@ const es: Dictionary = {
 const ja: Dictionary = {
   meta: {
     title: "Flavor User — ギャラリー & AI",
-    description: "読めるテキスト付きのアートギャラリーと、あなたの好みを覚えるAI。",
+    description:
+      "読めるテキスト付きのアートギャラリーと、あなたの好みを覚えるAI。",
   },
-  nav: { gallery: "ギャラリー", concepts: "コンセプト", chat: "チャット", account: "アカウント", chatShort: "チャット" },
+  nav: {
+    gallery: "ギャラリー",
+    concepts: "コンセプト",
+    chat: "チャット",
+    account: "アカウント",
+    chatShort: "チャット",
+  },
   footer: {
     tagline: "Flavor User — 記憶する、あなたの美の嗜好。",
     gallery: "ギャラリー",
@@ -365,15 +431,25 @@ const ja: Dictionary = {
     featuredSubtitle: "美術館の展示室のように、読める画像とテキスト。",
     seeAll: "すべて見る →",
     cards: {
-      gallery: { title: "ギャラリー", desc: "画像、詳細、読めるエッセイ付きの作品。" },
-      concepts: { title: "コンセプト", desc: "運動、技法、感情をつなぐアイデアのネットワーク。" },
-      chat: { title: "キュレーターとの対話", desc: "アーカイブを知り、あなた自身のテキストから語るキュレーター。" },
+      gallery: {
+        title: "ギャラリー",
+        desc: "画像、詳細、読めるエッセイ付きの作品。",
+      },
+      concepts: {
+        title: "コンセプト",
+        desc: "運動、技法、感情をつなぐアイデアのネットワーク。",
+      },
+      chat: {
+        title: "キュレーターとの対話",
+        desc: "アーカイブを知り、あなた自身のテキストから語るキュレーター。",
+      },
     },
   },
   gallery: {
     badge: "コレクション",
     title: "ギャラリー",
-    subtitle: "各作品には画像、詳細情報、ゆっくり読めるウォールテキストがあります。",
+    subtitle:
+      "各作品には画像、詳細情報、ゆっくり読めるウォールテキストがあります。",
     back: "ギャラリーに戻る",
     essayTitle: "ウォールテキスト",
     related: "関連作品",
@@ -383,7 +459,8 @@ const ja: Dictionary = {
   concepts: {
     badge: "意味ネットワーク",
     title: "コンセプト",
-    subtitle: "作品、運動、技法をつなぐアイデア。Flavor Userはこのネットワークで会話をパーソナライズします。",
+    subtitle:
+      "作品、運動、技法をつなぐアイデア。Flavor Userはこのネットワークで会話をパーソナライズします。",
     back: "← すべてのコンセプト",
     related: "関連コンセプト",
     artworks: "ギャラリーの作品",
@@ -394,11 +471,13 @@ const ja: Dictionary = {
   chat: {
     badge: "キュレーター",
     title: "あなたのキュレーター",
-    subtitleLoggedIn: "アーカイブのテキストに基づいて語ります — 一般論ではなく。",
+    subtitleLoggedIn:
+      "アーカイブのテキストに基づいて語ります — 一般論ではなく。",
     subtitleGuest: "",
     loginLink: "ログイン",
     placeholderLoggedIn: "作品、シリーズ、素材、意図について質問…",
-    placeholderGuest: "履歴を保存するにはログイン、またはそのまま質問もできます…",
+    placeholderGuest:
+      "履歴を保存するにはログイン、またはそのまま質問もできます…",
     welcome:
       "私はこのギャラリーのキュレーターです。アーカイブの作品を知り、そのテキストから語ります。特定の作品、作品間のつながり、作家の実践について聞いてください。",
     thinking: "キュレーターが考えています…",
@@ -438,11 +517,14 @@ const ja: Dictionary = {
     hasAccount: "すでにアカウントをお持ちですか？",
     continueGallery: "アカウントなしで続ける → ギャラリー",
     signOut: "ログアウト",
-    accountCreated: "アカウントを作成しました。確認メール（迷惑メールも）を確認してからログインしてください。",
+    accountCreated:
+      "アカウントを作成しました。確認メール（迷惑メールも）を確認してからログインしてください。",
     entering: "アカウント作成完了！ログイン中…",
     checkEmail: "アカウントを作成しました。確認メールをご確認ください。",
-    invalidCredentials: "メールまたはパスワードが正しくありません。登録直後の場合は、先にメールを確認してください。",
-    alreadyRegistered: "このメールは既に登録されています。ログインしてください。",
+    invalidCredentials:
+      "メールまたはパスワードが正しくありません。登録直後の場合は、先にメールを確認してください。",
+    alreadyRegistered:
+      "このメールは既に登録されています。ログインしてください。",
   },
   account: {
     title: "マイアカウント",
@@ -452,7 +534,8 @@ const ja: Dictionary = {
     newChat: "新しい会話",
     noChats: "まだ会話がありません。",
     startChat: "始める",
-    notConfigured: ".env.localでSupabaseを設定するとアカウントが有効になります。ギャラリーはアカウントなしでも利用できます。",
+    notConfigured:
+      ".env.localでSupabaseを設定するとアカウントが有効になります。ギャラリーはアカウントなしでも利用できます。",
     goGallery: "ギャラリーへ",
   },
   notFound: {

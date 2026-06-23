@@ -26,8 +26,8 @@ export default async function AdminPage({ params }: PageProps) {
     redirect(
       localizedPath(
         locale,
-        `/login?redirect=${encodeURIComponent(localizedPath(locale, "/admin"))}`
-      )
+        `/login?redirect=${encodeURIComponent(localizedPath(locale, "/admin"))}`,
+      ),
     );
   }
 
@@ -35,13 +35,13 @@ export default async function AdminPage({ params }: PageProps) {
     return (
       <AdminShell locale={locale}>
         <div className="mx-auto max-w-lg rounded-2xl border border-neutral-200 bg-neutral-50 p-8">
-          <Settings className="mb-4 h-8 w-8 text-black" />
-          <h1 className="text-black">Configura el admin</h1>
-          <p className="mt-4 text-black">
-            Añade las variables de Supabase y <code className="text-black">ADMIN_EMAILS</code> en
+          <Settings className="mb-4 h-8 w-8 " />
+          <h1>Configura el admin</h1>
+          <p className="mt-4 ">
+            Añade las variables de Supabase y <code>ADMIN_EMAILS</code> en
             Vercel, luego haz Redeploy.
           </p>
-          <pre className="mt-4 overflow-x-auto rounded-xl border border-neutral-200 bg-white p-4  text-black">
+          <pre className="mt-4 overflow-x-auto rounded-xl border border-neutral-200 bg-white p-4  ">
             ADMIN_EMAILS=comidacodac@gmail.com
           </pre>
         </div>
@@ -53,13 +53,14 @@ export default async function AdminPage({ params }: PageProps) {
     return (
       <AdminShell locale={locale}>
         <div className="mx-auto max-w-lg text-center">
-          <h1 className="text-black">Acceso denegado</h1>
-          <p className="mt-4 text-black">
-            Tu cuenta ({auth.user?.email}) no está autorizada como administrador.
+          <h1>Acceso denegado</h1>
+          <p className="mt-4 ">
+            Tu cuenta ({auth.user?.email}) no está autorizada como
+            administrador.
           </p>
           <Link
             href={localizedPath(locale, "/")}
-            className="mt-6 inline-block text-black hover:underline"
+            className="mt-6 inline-block  hover:underline"
           >
             Volver al inicio
           </Link>
@@ -72,13 +73,15 @@ export default async function AdminPage({ params }: PageProps) {
     <AdminShell locale={locale}>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-black">Administración</p>
-          <h1 className="mt-2 text-black">Panel de control</h1>
-          <p className="mt-2 text-black">Gestiona obras y el perfil que alimenta al curador.</p>
+          <p>Administración</p>
+          <h1 className="mt-2 ">Panel de control</h1>
+          <p className="mt-2 ">
+            Gestiona obras y el perfil que alimenta al curador.
+          </p>
         </div>
         <Link
           href={localizedPath(locale, "/admin/obras/nueva")}
-          className="inline-flex items-center gap-2 border border-neutral-900 px-5 py-2.5  text-black transition hover:bg-neutral-900 hover:text-white"
+          className="inline-flex items-center gap-2 border border-neutral-900 px-5 py-2.5  transition hover:bg-neutral-900 hover:text-white"
         >
           <Plus className="h-4 w-4" />
           Nueva obra
@@ -104,19 +107,11 @@ function AdminShell({
   return (
     <div>
       <div className="mb-6 flex gap-4 border-b border-neutral-200 pb-4 ">
-        <Link href={localizedPath(locale, "/admin")} className="text-black">
-          Obras
-        </Link>
-        <Link
-          href={localizedPath(locale, "/admin/obras/nueva")}
-          className="text-black hover:text-black"
-        >
+        <Link href={localizedPath(locale, "/admin")}>Obras</Link>
+        <Link href={localizedPath(locale, "/admin/obras/nueva")}>
           Añadir obra
         </Link>
-        <Link
-          href={localizedPath(locale, "/galeria")}
-          className="ml-auto text-black hover:text-black"
-        >
+        <Link href={localizedPath(locale, "/galeria")} className="ml-auto ">
           Ver galería pública →
         </Link>
       </div>

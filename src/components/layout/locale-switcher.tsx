@@ -29,7 +29,7 @@ export function LocaleSwitcher({
           key={loc}
           href={hrefFor(loc)}
           className={`text-xs tracking-wide transition ${
-            loc === locale ? "text-black" : "text-black/40 hover:text-black"
+            loc === locale ? "" : "text-ink/40"
           }`}
           title={localeNames[loc]}
         >

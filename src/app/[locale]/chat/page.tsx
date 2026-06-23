@@ -28,7 +28,9 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
 
   if (isSupabaseConfigured()) {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     userId = user?.id;
 
     if (user) {
@@ -55,16 +57,16 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
   return (
     <div>
       <header className="mb-8 max-w-2xl">
-        <p className="text-black">{dict.chat.badge}</p>
-        <h1 className="mt-3 text-black">{dict.chat.title}</h1>
-        <p className="mt-4 text-black">
+        <p>{dict.chat.badge}</p>
+        <h1 className="mt-3 ">{dict.chat.title}</h1>
+        <p className="mt-4 ">
           {userId ? (
             dict.chat.subtitleLoggedIn
           ) : (
             <>
               <Link
                 href={localizedPath(locale, "/login")}
-                className="text-black underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
+                className=" underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
               >
                 {dict.chat.loginLink}
               </Link>{" "}
@@ -77,7 +79,7 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
           )}
         </p>
         {focusArtwork ? (
-          <p className="mt-3  text-black">
+          <p className="mt-3  ">
             {locale === "es"
               ? `Contexto: `
               : locale === "ja"
@@ -85,7 +87,7 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
                 : `Context: `}
             <Link
               href={localizedPath(locale, `/galeria/${focusArtwork.slug}`)}
-              className="text-black underline decoration-neutral-300 underline-offset-2 hover:text-black"
+              className=" underline decoration-neutral-300 underline-offset-2"
             >
               {focusArtwork.title}
             </Link>

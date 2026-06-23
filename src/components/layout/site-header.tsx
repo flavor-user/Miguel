@@ -20,20 +20,13 @@ export function SiteHeader({
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-        <Link
-          href={localizedPath(locale, "/")}
-          className="text-black transition hover:text-black"
-        >
+        <Link href={localizedPath(locale, "/")} className="transition">
           Flavor User
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
           {navItems.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className="text-black transition hover:text-black"
-            >
+            <Link key={href} href={href} className="transition">
               {label}
             </Link>
           ))}
@@ -57,18 +50,16 @@ export function SiteFooter({
 }) {
   return (
     <footer className="border-t border-neutral-200 bg-white">
-      <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-12 text-black md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-12  md:flex-row md:items-center md:justify-between">
         <p>{dict.footer.tagline}</p>
         <div className="flex gap-6">
-          <Link href={localizedPath(locale, "/galeria")} className="hover:text-black">
+          <Link href={localizedPath(locale, "/galeria")}>
             {dict.footer.gallery}
           </Link>
-          <Link href={localizedPath(locale, "/conceptos")} className="hover:text-black">
+          <Link href={localizedPath(locale, "/conceptos")}>
             {dict.footer.concepts}
           </Link>
-          <Link href={localizedPath(locale, "/chat")} className="hover:text-black">
-            {dict.footer.chat}
-          </Link>
+          <Link href={localizedPath(locale, "/chat")}>{dict.footer.chat}</Link>
         </div>
       </div>
     </footer>

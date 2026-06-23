@@ -8,7 +8,14 @@ export default function GlobalError({
 }) {
   return (
     <html lang="es">
-      <body style={{ background: "#0c0a09", color: "#e7e5e4", fontFamily: "system-ui", padding: 40 }}>
+      <body
+        style={{
+          background: "#0c0a09",
+          color: "#e7e5e4",
+          fontFamily: "system-ui",
+          padding: 40,
+        }}
+      >
         <h1>Algo salió mal</h1>
         <p>Prueba recargar la página o reiniciar la app.</p>
         <button

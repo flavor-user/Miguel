@@ -5,11 +5,15 @@ export const DEMO_ARTWORKS: ArtworkWithConcepts[] = [];
 
 export const DEMO_CONCEPTS: Concept[] = [];
 
-export function getDemoArtworkBySlug(_slug: string): ArtworkWithConcepts | undefined {
+export function getDemoArtworkBySlug(
+  _slug: string,
+): ArtworkWithConcepts | undefined {
   return undefined;
 }
 
-export function getDemoArtworksByConcept(_conceptSlug: string): ArtworkWithConcepts[] {
+export function getDemoArtworksByConcept(
+  _conceptSlug: string,
+): ArtworkWithConcepts[] {
   return [];
 }
 

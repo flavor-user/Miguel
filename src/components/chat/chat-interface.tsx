@@ -96,7 +96,9 @@ export function ChatInterface({
             if (done) break;
 
             const chunk = decoder.decode(value);
-            const lines = chunk.split("\n").filter((l) => l.startsWith("data: "));
+            const lines = chunk
+              .split("\n")
+              .filter((l) => l.startsWith("data: "));
 
             for (const line of lines) {
               const data = line.slice(6);
@@ -109,8 +111,8 @@ export function ChatInterface({
                     prev.map((m) =>
                       m.id === assistantId
                         ? { ...m, content: assistantContent }
-                        : m
-                    )
+                        : m,
+                    ),
                   );
                 }
                 if (parsed.conversationId) {
@@ -135,7 +137,7 @@ export function ChatInterface({
         setIsLoading(false);
       }
     },
-    [conversationId, initialArtworkSlug, isLoading, t.error]
+    [conversationId, initialArtworkSlug, isLoading, t.error],
   );
 
   async function handleSubmit(e: React.FormEvent) {
@@ -166,20 +168,18 @@ export function ChatInterface({
               className={cn(
                 "max-w-[90%]  leading-relaxed",
                 msg.role === "user"
-                  ? "ml-auto text-right text-black"
-                  : "border-l-2 border-neutral-200 pl-4 text-black"
+                  ? "ml-auto text-right "
+                  : "border-l-2 border-neutral-200 pl-4 ",
               )}
             >
               {msg.role === "assistant" && msg.id !== "welcome" ? (
-                <p className="mb-1 text-black">
-                  {t.badge}
-                </p>
+                <p className="mb-1 ">{t.badge}</p>
               ) : null}
               <p className="whitespace-pre-wrap">{msg.content}</p>
             </div>
           ))}
           {isLoading ? (
-            <div className="flex items-center gap-2 border-l-2 border-neutral-200 pl-4  text-black">
+            <div className="flex items-center gap-2 border-l-2 border-neutral-200 pl-4  ">
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
               {t.thinking}
             </div>
@@ -196,13 +196,13 @@ export function ChatInterface({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={userId ? t.placeholderLoggedIn : t.placeholderGuest}
-            className="flex-1 border-b border-neutral-300 bg-transparent px-1 py-2  text-black placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none"
+            className="flex-1 border-b border-neutral-300 bg-transparent px-1 py-2   placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none"
             disabled={isLoading}
           />
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className="flex h-10 w-10 items-center justify-center text-black transition hover:text-black disabled:opacity-30"
+            className="flex h-10 w-10 items-center justify-center transition disabled:opacity-30"
             aria-label={t.send}
           >
             <Send className="h-4 w-4" />
@@ -210,7 +210,7 @@ export function ChatInterface({
         </form>
       </div>
 
-      <p className="border-t border-neutral-100 px-6 py-3 text-xs leading-relaxed text-black">
+      <p className="border-t border-neutral-100 px-6 py-3 text-xs leading-relaxed">
         {t.principles}
       </p>
     </div>

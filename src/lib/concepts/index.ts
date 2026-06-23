@@ -31,7 +31,9 @@ export async function findRelatedArtworks(query: string, limit = 4) {
   }
 }
 
-export async function upsertConceptFromName(name: string): Promise<string | null> {
+export async function upsertConceptFromName(
+  name: string,
+): Promise<string | null> {
   const slug = slugify(name);
   const supabase = createServiceClient();
 
@@ -55,7 +57,7 @@ export async function upsertConceptFromName(name: string): Promise<string | null
 
 export async function linkArtworkConcepts(
   artworkId: string,
-  conceptNames: string[]
+  conceptNames: string[],
 ): Promise<void> {
   const supabase = createServiceClient();
 
@@ -63,16 +65,18 @@ export async function linkArtworkConcepts(
     const conceptId = await upsertConceptFromName(name);
     if (!conceptId) continue;
 
-    await supabase.from("artwork_concepts").upsert(
-      { artwork_id: artworkId, concept_id: conceptId, relevance: 1.0 },
-      { onConflict: "artwork_id,concept_id" }
-    );
+    await supabase
+      .from("artwork_concepts")
+      .upsert(
+        { artwork_id: artworkId, concept_id: conceptId, relevance: 1.0 },
+        { onConflict: "artwork_id,concept_id" },
+      );
   }
 }
 
 export async function boostUserConceptInterest(
   userId: string,
-  conceptSlug: string
+  conceptSlug: string,
 ): Promise<void> {
   const supabase = createServiceClient();
   const { data: concept } = await supabase
@@ -96,6 +100,6 @@ export async function boostUserConceptInterest(
       concept_id: concept.id,
       strength: (existing?.strength ?? 0) + 0.1,
     },
-    { onConflict: "user_id,concept_id" }
+    { onConflict: "user_id,concept_id" },
   );
 }

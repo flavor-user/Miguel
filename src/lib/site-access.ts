@@ -17,7 +17,9 @@ async function expectedCookieValue(): Promise<string> {
     .join("");
 }
 
-export async function hasValidSiteAccess(request: NextRequest): Promise<boolean> {
+export async function hasValidSiteAccess(
+  request: NextRequest,
+): Promise<boolean> {
   if (!isSiteAccessEnabled()) return true;
   const cookie = request.cookies.get(COOKIE_NAME)?.value;
   if (!cookie) return false;

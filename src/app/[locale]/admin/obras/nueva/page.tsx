@@ -24,8 +24,8 @@ export default async function NewArtworkPage({ params }: PageProps) {
     redirect(
       localizedPath(
         locale,
-        `/login?redirect=${encodeURIComponent(localizedPath(locale, "/admin/obras/nueva"))}`
-      )
+        `/login?redirect=${encodeURIComponent(localizedPath(locale, "/admin/obras/nueva"))}`,
+      ),
     );
   }
 
@@ -36,15 +36,13 @@ export default async function NewArtworkPage({ params }: PageProps) {
   return (
     <div>
       <div className="mb-8">
-        <Link
-          href={localizedPath(locale, "/admin")}
-          className=" text-black hover:text-black"
-        >
+        <Link href={localizedPath(locale, "/admin")} className=" ">
           ← Volver al panel
         </Link>
-        <h1 className="mt-4 text-black">Añadir obra a la galería</h1>
-        <p className="mt-2 text-black">
-          Sube la imagen, escribe los textos y publícala sin tocar la base de datos.
+        <h1 className="mt-4 ">Añadir obra a la galería</h1>
+        <p className="mt-2 ">
+          Sube la imagen, escribe los textos y publícala sin tocar la base de
+          datos.
         </p>
       </div>
 

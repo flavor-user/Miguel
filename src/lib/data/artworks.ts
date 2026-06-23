@@ -1,14 +1,11 @@
-import {
-  DEMO_ARTWORKS,
-  DEMO_CONCEPTS,
-} from "@/lib/demo-data";
+import { DEMO_ARTWORKS, DEMO_CONCEPTS } from "@/lib/demo-data";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { createPublicClient } from "@/lib/supabase/public";
 import type { ArtworkWithConcepts, Concept } from "@/types/database.types";
 import { unstable_noStore as noStore } from "next/cache";
 
 async function attachConcepts(
-  artworks: Omit<ArtworkWithConcepts, "concepts">[]
+  artworks: Omit<ArtworkWithConcepts, "concepts">[],
 ): Promise<ArtworkWithConcepts[]> {
   const supabase = createPublicClient();
 
@@ -28,7 +25,7 @@ async function attachConcepts(
           .filter(Boolean) ?? [];
 
       return { ...artwork, concepts: concepts as Concept[] };
-    })
+    }),
   );
 }
 
@@ -54,7 +51,7 @@ export async function getPublishedArtworks(): Promise<ArtworkWithConcepts[]> {
 }
 
 export async function getArtworkBySlug(
-  slug: string
+  slug: string,
 ): Promise<ArtworkWithConcepts | null> {
   noStore();
 
@@ -112,7 +109,7 @@ export async function getConceptBySlug(slug: string): Promise<Concept | null> {
 }
 
 export async function getArtworksByConcept(
-  conceptSlug: string
+  conceptSlug: string,
 ): Promise<ArtworkWithConcepts[]> {
   if (!isSupabaseConfigured()) {
     return [];
@@ -129,7 +126,10 @@ export async function getArtworksByConcept(
 
   const rawArtworks = data
     ?.map((row) => {
-      const a = row.artworks as unknown as Omit<ArtworkWithConcepts, "concepts"> | null;
+      const a = row.artworks as unknown as Omit<
+        ArtworkWithConcepts,
+        "concepts"
+      > | null;
       return a;
     })
     .filter(Boolean) as Omit<ArtworkWithConcepts, "concepts">[];
@@ -142,7 +142,7 @@ export async function getArtworksByConcept(
 }
 
 export async function getRelatedConcepts(
-  conceptSlug: string
+  conceptSlug: string,
 ): Promise<Concept[]> {
   if (!isSupabaseConfigured()) {
     return [];

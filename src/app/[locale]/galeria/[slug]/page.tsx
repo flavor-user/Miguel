@@ -5,21 +5,12 @@ import {
   getPublishedArtworks,
 } from "@/lib/data/artworks";
 import { getDictionary } from "@/lib/i18n/dictionary";
-import { isValidLocale, locales, type Locale } from "@/lib/i18n/config";
+import { isValidLocale, type Locale } from "@/lib/i18n/config";
+
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
-}
-
-export async function generateStaticParams() {
-  try {
-    const artworks = await getPublishedArtworks();
-    return locales.flatMap((locale) =>
-      artworks.map((a) => ({ locale, slug: a.slug }))
-    );
-  } catch {
-    return [];
-  }
 }
 
 export default async function ArtworkPage({ params }: PageProps) {

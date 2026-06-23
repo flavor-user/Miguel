@@ -3,6 +3,8 @@ import { getPublishedArtworks } from "@/lib/data/artworks";
 import { getDictionary } from "@/lib/i18n/dictionary";
 import { isValidLocale, type Locale } from "@/lib/i18n/config";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ locale: string }>;
 }

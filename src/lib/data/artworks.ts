@@ -5,6 +5,7 @@ import {
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { createPublicClient } from "@/lib/supabase/public";
 import type { ArtworkWithConcepts, Concept } from "@/types/database.types";
+import { unstable_noStore as noStore } from "next/cache";
 
 async function attachConcepts(
   artworks: Omit<ArtworkWithConcepts, "concepts">[]
@@ -32,6 +33,8 @@ async function attachConcepts(
 }
 
 export async function getPublishedArtworks(): Promise<ArtworkWithConcepts[]> {
+  noStore();
+
   if (!isSupabaseConfigured()) {
     return DEMO_ARTWORKS;
   }
@@ -53,6 +56,8 @@ export async function getPublishedArtworks(): Promise<ArtworkWithConcepts[]> {
 export async function getArtworkBySlug(
   slug: string
 ): Promise<ArtworkWithConcepts | null> {
+  noStore();
+
   if (!isSupabaseConfigured()) {
     return null;
   }

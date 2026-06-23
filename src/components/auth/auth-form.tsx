@@ -91,36 +91,36 @@ export function AuthForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       {mode === "register" && (
         <div>
-          <label className="mb-1 block  text-neutral-900">{t.name}</label>
+          <label className="mb-1 block  text-black">{t.name}</label>
           <input
             type="text"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full border-b border-neutral-300 bg-transparent px-1 py-2 text-neutral-900 focus:border-neutral-900 focus:outline-none"
+            className="w-full border-b border-neutral-300 bg-transparent px-1 py-2 text-black focus:border-neutral-900 focus:outline-none"
           />
         </div>
       )}
 
       <div>
-        <label className="mb-1 block  text-neutral-900">{t.email}</label>
+        <label className="mb-1 block  text-black">{t.email}</label>
         <input
           type="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full border-b border-neutral-300 bg-transparent px-1 py-2 text-neutral-900 focus:border-neutral-900 focus:outline-none"
+          className="w-full border-b border-neutral-300 bg-transparent px-1 py-2 text-black focus:border-neutral-900 focus:outline-none"
         />
       </div>
 
       <div>
-        <label className="mb-1 block  text-neutral-900">{t.password}</label>
+        <label className="mb-1 block  text-black">{t.password}</label>
         <input
           type="password"
           required
           minLength={6}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border-b border-neutral-300 bg-transparent px-1 py-2 text-neutral-900 focus:border-neutral-900 focus:outline-none"
+          className="w-full border-b border-neutral-300 bg-transparent px-1 py-2 text-black focus:border-neutral-900 focus:outline-none"
           placeholder={t.passwordHint}
         />
       </div>
@@ -128,7 +128,7 @@ export function AuthForm({
       {message && (
         <p
           className={` ${
-            messageType === "error" ? "text-red-600" : "text-neutral-900"
+            messageType === "error" ? "text-red-600" : "text-black"
           }`}
         >
           {message}
@@ -138,23 +138,23 @@ export function AuthForm({
       <button
         type="submit"
         disabled={loading}
-        className="w-full border border-neutral-900 py-3  text-neutral-900 transition hover:bg-neutral-900 hover:text-white disabled:opacity-40"
+        className="w-full border border-neutral-900 py-3  text-black transition hover:bg-neutral-900 hover:text-white disabled:opacity-40"
       >
         {loading ? t.waiting : mode === "register" ? t.createAccount : t.signIn}
       </button>
 
-      <p className="text-center  text-neutral-900">
+      <p className="text-center  text-black">
         {mode === "register" ? (
           <>
             {t.hasAccount}{" "}
-            <Link href={localizedPath(locale, "/login")} className="text-neutral-900 hover:underline">
+            <Link href={localizedPath(locale, "/login")} className="text-black hover:underline">
               {t.signIn}
             </Link>
           </>
         ) : (
           <>
             {t.noAccount}{" "}
-            <Link href={localizedPath(locale, "/registro")} className="text-neutral-900 hover:underline">
+            <Link href={localizedPath(locale, "/registro")} className="text-black hover:underline">
               {t.createAccount}
             </Link>
           </>
@@ -174,7 +174,7 @@ export function SignOutButton({ label, locale }: { label: string; locale: Locale
   return (
     <button
       onClick={handleSignOut}
-      className=" text-neutral-900 transition hover:text-neutral-900"
+      className=" text-black transition hover:text-black"
     >
       {label}
     </button>

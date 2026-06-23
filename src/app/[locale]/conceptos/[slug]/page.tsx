@@ -32,21 +32,21 @@ export default async function ConceptDetailPage({ params }: PageProps) {
       <header className="mb-12 max-w-2xl">
         <Link
           href={localizedPath(locale, "/conceptos")}
-          className=" text-neutral-900 hover:text-neutral-900"
+          className=" text-black hover:text-black"
         >
           {c.back}
         </Link>
-        <h1 className="mt-4 text-neutral-900">
+        <h1 className="mt-4 text-black">
           {concept.name}
         </h1>
         {concept.description && (
-          <p className="mt-4 leading-relaxed text-neutral-900">
+          <p className="mt-4 leading-relaxed text-black">
             {concept.description}
           </p>
         )}
         <Link
           href={localizedPath(locale, `/chat?concepto=${concept.slug}`)}
-          className="mt-6 inline-flex border-b border-neutral-900 pb-0.5  text-neutral-900 transition hover:text-neutral-900"
+          className="mt-6 inline-flex border-b border-neutral-900 pb-0.5  text-black transition hover:text-black"
         >
           {c.exploreAi}
         </Link>
@@ -54,7 +54,7 @@ export default async function ConceptDetailPage({ params }: PageProps) {
 
       {related.length > 0 && (
         <section className="mb-12">
-          <h2 className="mb-4 text-neutral-900">
+          <h2 className="mb-4 text-black">
             {c.related}
           </h2>
           <div className="flex flex-wrap gap-4">
@@ -62,7 +62,7 @@ export default async function ConceptDetailPage({ params }: PageProps) {
               <Link
                 key={r.slug}
                 href={localizedPath(locale, `/conceptos/${r.slug}`)}
-                className=" text-neutral-900 underline decoration-neutral-300 underline-offset-4 hover:text-neutral-900"
+                className=" text-black underline decoration-neutral-300 underline-offset-4 hover:text-black"
               >
                 {r.name}
               </Link>
@@ -72,7 +72,7 @@ export default async function ConceptDetailPage({ params }: PageProps) {
       )}
 
       <section>
-        <h2 className="mb-8 text-neutral-900">{c.artworks}</h2>
+        <h2 className="mb-8 text-black">{c.artworks}</h2>
         {artworks.length > 0 ? (
           <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
             {artworks.map((artwork) => (
@@ -80,7 +80,7 @@ export default async function ConceptDetailPage({ params }: PageProps) {
             ))}
           </div>
         ) : (
-          <p className="text-neutral-900">{c.noArtworks}</p>
+          <p className="text-black">{c.noArtworks}</p>
         )}
       </section>
     </div>

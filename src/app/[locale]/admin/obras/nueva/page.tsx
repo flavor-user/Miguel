@@ -38,12 +38,12 @@ export default async function NewArtworkPage({ params }: PageProps) {
       <div className="mb-8">
         <Link
           href={localizedPath(locale, "/admin")}
-          className=" text-neutral-900 hover:text-neutral-900"
+          className=" text-black hover:text-black"
         >
           ← Volver al panel
         </Link>
-        <h1 className="mt-4 text-neutral-900">Añadir obra a la galería</h1>
-        <p className="mt-2 text-neutral-900">
+        <h1 className="mt-4 text-black">Añadir obra a la galería</h1>
+        <p className="mt-2 text-black">
           Sube la imagen, escribe los textos y publícala sin tocar la base de datos.
         </p>
       </div>

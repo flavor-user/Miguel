@@ -35,13 +35,13 @@ export default async function AdminPage({ params }: PageProps) {
     return (
       <AdminShell locale={locale}>
         <div className="mx-auto max-w-lg rounded-2xl border border-neutral-200 bg-neutral-50 p-8">
-          <Settings className="mb-4 h-8 w-8 text-neutral-900" />
-          <h1 className="text-neutral-900">Configura el admin</h1>
-          <p className="mt-4 text-neutral-900">
-            Añade las variables de Supabase y <code className="text-neutral-900">ADMIN_EMAILS</code> en
+          <Settings className="mb-4 h-8 w-8 text-black" />
+          <h1 className="text-black">Configura el admin</h1>
+          <p className="mt-4 text-black">
+            Añade las variables de Supabase y <code className="text-black">ADMIN_EMAILS</code> en
             Vercel, luego haz Redeploy.
           </p>
-          <pre className="mt-4 overflow-x-auto rounded-xl border border-neutral-200 bg-white p-4  text-neutral-700">
+          <pre className="mt-4 overflow-x-auto rounded-xl border border-neutral-200 bg-white p-4  text-black">
             ADMIN_EMAILS=comidacodac@gmail.com
           </pre>
         </div>
@@ -53,13 +53,13 @@ export default async function AdminPage({ params }: PageProps) {
     return (
       <AdminShell locale={locale}>
         <div className="mx-auto max-w-lg text-center">
-          <h1 className="text-neutral-900">Acceso denegado</h1>
-          <p className="mt-4 text-neutral-900">
+          <h1 className="text-black">Acceso denegado</h1>
+          <p className="mt-4 text-black">
             Tu cuenta ({auth.user?.email}) no está autorizada como administrador.
           </p>
           <Link
             href={localizedPath(locale, "/")}
-            className="mt-6 inline-block text-neutral-900 hover:underline"
+            className="mt-6 inline-block text-black hover:underline"
           >
             Volver al inicio
           </Link>
@@ -72,13 +72,13 @@ export default async function AdminPage({ params }: PageProps) {
     <AdminShell locale={locale}>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-neutral-900">Administración</p>
-          <h1 className="mt-2 text-neutral-900">Panel de control</h1>
-          <p className="mt-2 text-neutral-900">Gestiona obras y el perfil que alimenta al curador.</p>
+          <p className="text-black">Administración</p>
+          <h1 className="mt-2 text-black">Panel de control</h1>
+          <p className="mt-2 text-black">Gestiona obras y el perfil que alimenta al curador.</p>
         </div>
         <Link
           href={localizedPath(locale, "/admin/obras/nueva")}
-          className="inline-flex items-center gap-2 border border-neutral-900 px-5 py-2.5  text-neutral-900 transition hover:bg-neutral-900 hover:text-white"
+          className="inline-flex items-center gap-2 border border-neutral-900 px-5 py-2.5  text-black transition hover:bg-neutral-900 hover:text-white"
         >
           <Plus className="h-4 w-4" />
           Nueva obra
@@ -104,18 +104,18 @@ function AdminShell({
   return (
     <div>
       <div className="mb-6 flex gap-4 border-b border-neutral-200 pb-4 ">
-        <Link href={localizedPath(locale, "/admin")} className="text-neutral-900">
+        <Link href={localizedPath(locale, "/admin")} className="text-black">
           Obras
         </Link>
         <Link
           href={localizedPath(locale, "/admin/obras/nueva")}
-          className="text-neutral-900 hover:text-neutral-900"
+          className="text-black hover:text-black"
         >
           Añadir obra
         </Link>
         <Link
           href={localizedPath(locale, "/galeria")}
-          className="ml-auto text-neutral-900 hover:text-neutral-900"
+          className="ml-auto text-black hover:text-black"
         >
           Ver galería pública →
         </Link>

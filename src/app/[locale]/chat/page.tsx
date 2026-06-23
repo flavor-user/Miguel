@@ -55,16 +55,16 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
   return (
     <div>
       <header className="mb-8 max-w-2xl">
-        <p className="text-neutral-900">{dict.chat.badge}</p>
-        <h1 className="mt-3 text-neutral-900">{dict.chat.title}</h1>
-        <p className="mt-4 text-neutral-900">
+        <p className="text-black">{dict.chat.badge}</p>
+        <h1 className="mt-3 text-black">{dict.chat.title}</h1>
+        <p className="mt-4 text-black">
           {userId ? (
             dict.chat.subtitleLoggedIn
           ) : (
             <>
               <Link
                 href={localizedPath(locale, "/login")}
-                className="text-neutral-900 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
+                className="text-black underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
               >
                 {dict.chat.loginLink}
               </Link>{" "}
@@ -77,7 +77,7 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
           )}
         </p>
         {focusArtwork ? (
-          <p className="mt-3  text-neutral-900">
+          <p className="mt-3  text-black">
             {locale === "es"
               ? `Contexto: `
               : locale === "ja"
@@ -85,7 +85,7 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
                 : `Context: `}
             <Link
               href={localizedPath(locale, `/galeria/${focusArtwork.slug}`)}
-              className="text-neutral-700 underline decoration-neutral-300 underline-offset-2 hover:text-neutral-900"
+              className="text-black underline decoration-neutral-300 underline-offset-2 hover:text-black"
             >
               {focusArtwork.title}
             </Link>

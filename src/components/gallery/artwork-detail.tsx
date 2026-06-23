@@ -25,7 +25,7 @@ export function ArtworkDetail({
     <article className="pb-16">
       <Link
         href={localizedPath(locale, "/galeria")}
-        className="mb-10 inline-flex items-center gap-2  text-neutral-900 transition hover:text-neutral-900"
+        className="mb-10 inline-flex items-center gap-2  text-black transition hover:text-black"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
         {g.back}
@@ -45,16 +45,16 @@ export function ArtworkDetail({
 
         <div className="flex flex-col gap-6">
           <header>
-            <p className="text-neutral-900">{artwork.medium}</p>
-            <h1 className="mt-2 text-neutral-900">{artwork.title}</h1>
-            <p className="mt-3 text-neutral-900">
+            <p className="text-black">{artwork.medium}</p>
+            <h1 className="mt-2 text-black">{artwork.title}</h1>
+            <p className="mt-3 text-black">
               {artwork.artist}
               {artwork.year ? `, ${formatYear(artwork.year)}` : ""}
             </p>
           </header>
 
           {artwork.description && (
-            <p className=" leading-relaxed text-neutral-900">{artwork.description}</p>
+            <p className=" leading-relaxed text-black">{artwork.description}</p>
           )}
 
           {artwork.concepts.length > 0 && (
@@ -64,7 +64,7 @@ export function ArtworkDetail({
           {artwork.tags.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {artwork.tags.map((tag) => (
-                <span key={tag} className="text-xs text-neutral-900">
+                <span key={tag} className="text-xs text-black">
                   #{tag}
                 </span>
               ))}
@@ -73,7 +73,7 @@ export function ArtworkDetail({
 
           <Link
             href={localizedPath(locale, `/chat?obra=${artwork.slug}`)}
-            className="inline-flex w-fit border-b border-neutral-900 pb-0.5  text-neutral-900 transition hover:text-neutral-900"
+            className="inline-flex w-fit border-b border-neutral-900 pb-0.5  text-black transition hover:text-black"
           >
             {g.askAi}
           </Link>
@@ -83,7 +83,7 @@ export function ArtworkDetail({
               href={artwork.source_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2  text-neutral-900 hover:text-neutral-900"
+              className="inline-flex items-center gap-2  text-black hover:text-black"
             >
               <ExternalLink className="h-3.5 w-3.5" />
               {g.source}
@@ -94,8 +94,8 @@ export function ArtworkDetail({
 
       {artwork.essay && (
         <section className="mx-auto mt-20 max-w-2xl">
-          <h2 className="mb-6 text-neutral-900">{g.essayTitle}</h2>
-          <div className="space-y-5  leading-8 text-neutral-900">
+          <h2 className="mb-6 text-black">{g.essayTitle}</h2>
+          <div className="space-y-5  leading-8 text-black">
             {artwork.essay.split("\n\n").map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
             ))}
@@ -105,7 +105,7 @@ export function ArtworkDetail({
 
       {relatedArtworks.length > 0 && (
         <section className="mt-20 border-t border-neutral-200 pt-12">
-          <h2 className="mb-8 text-neutral-900">{g.related}</h2>
+          <h2 className="mb-8 text-black">{g.related}</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {relatedArtworks.map((related) => (
               <Link
@@ -113,10 +113,10 @@ export function ArtworkDetail({
                 href={localizedPath(locale, `/galeria/${related.slug}`)}
                 className="group border-b border-neutral-200 pb-4 transition hover:border-neutral-400"
               >
-                <p className="text-neutral-900 group-hover:text-neutral-900">
+                <p className="text-black group-hover:text-black">
                   {related.title}
                 </p>
-                <p className="mt-1  text-neutral-900">{related.artist}</p>
+                <p className="mt-1  text-black">{related.artist}</p>
               </Link>
             ))}
           </div>
@@ -133,7 +133,7 @@ function ConceptTags({ concepts, locale }: { concepts: Concept[]; locale: Locale
         <Link
           key={concept.slug}
           href={localizedPath(locale, `/conceptos/${concept.slug}`)}
-          className=" text-neutral-900 underline decoration-neutral-300 underline-offset-4 transition hover:text-neutral-900 hover:decoration-neutral-900"
+          className=" text-black underline decoration-neutral-300 underline-offset-4 transition hover:text-black hover:decoration-neutral-900"
         >
           {concept.name}
         </Link>

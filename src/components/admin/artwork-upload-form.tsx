@@ -187,7 +187,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
               <p>«{result.title}» guardada correctamente.</p>
               <Link
                 href={localizedPath(locale, result.url)}
-                className="mt-1 inline-flex items-center gap-1 text-neutral-900 hover:underline"
+                className="mt-1 inline-flex items-center gap-1 text-black hover:underline"
               >
                 Ver en la galería <ExternalLink className="h-3 w-3" />
               </Link>

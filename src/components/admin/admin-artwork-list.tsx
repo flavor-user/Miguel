@@ -68,7 +68,7 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
     return (
       <p className="py-10 text-stone-500">
         Aún no hay obras en la base de datos.{" "}
-        <Link href={localizedPath(locale, "/admin/obras/nueva")} className="text-neutral-900 hover:underline">
+        <Link href={localizedPath(locale, "/admin/obras/nueva")} className="text-black hover:underline">
           Añade la primera
         </Link>
       </p>

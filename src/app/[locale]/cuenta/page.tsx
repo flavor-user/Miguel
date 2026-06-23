@@ -29,11 +29,11 @@ export default async function AccountPage({ params }: PageProps) {
   if (!isSupabaseConfigured()) {
     return (
       <div className="mx-auto max-w-lg text-center">
-        <h1 className="text-neutral-900">{a.title}</h1>
-        <p className="mt-4 text-neutral-900">{a.notConfigured}</p>
+        <h1 className="text-black">{a.title}</h1>
+        <p className="mt-4 text-black">{a.notConfigured}</p>
         <Link
           href={localizedPath(locale, "/galeria")}
-          className="mt-6 inline-block text-neutral-900 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
+          className="mt-6 inline-block text-black underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
         >
           {a.goGallery}
         </Link>
@@ -68,15 +68,15 @@ export default async function AccountPage({ params }: PageProps) {
     <div className="max-w-2xl">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-neutral-900">{a.title}</h1>
-          <p className="mt-2 text-neutral-900">{user.email}</p>
+          <h1 className="text-black">{a.title}</h1>
+          <p className="mt-2 text-black">{user.email}</p>
           {profile?.display_name && (
-            <p className="mt-1 text-neutral-700">{profile.display_name}</p>
+            <p className="mt-1 text-black">{profile.display_name}</p>
           )}
           {isAdmin && (
             <Link
               href={localizedPath(locale, "/admin")}
-              className="mt-3 inline-block  text-neutral-900 hover:text-neutral-900"
+              className="mt-3 inline-block  text-black hover:text-black"
             >
               {a.adminLink}
             </Link>
@@ -87,10 +87,10 @@ export default async function AccountPage({ params }: PageProps) {
 
       {profile?.flavor_summary && (
         <section className="mt-10 border-t border-neutral-200 pt-8">
-          <h2 className="text-neutral-900">
+          <h2 className="text-black">
             {a.flavorProfile}
           </h2>
-          <p className="mt-3 leading-relaxed text-neutral-900">
+          <p className="mt-3 leading-relaxed text-black">
             {profile.flavor_summary}
           </p>
         </section>
@@ -98,10 +98,10 @@ export default async function AccountPage({ params }: PageProps) {
 
       <section className="mt-10">
         <div className="mb-4 flex items-center justify-between border-b border-neutral-200 pb-3">
-          <h2 className="text-neutral-900">{a.recentChats}</h2>
+          <h2 className="text-black">{a.recentChats}</h2>
           <Link
             href={localizedPath(locale, "/chat")}
-            className=" text-neutral-900 hover:text-neutral-900"
+            className=" text-black hover:text-black"
           >
             {a.newChat}
           </Link>
@@ -113,10 +113,10 @@ export default async function AccountPage({ params }: PageProps) {
               <li key={conv.id}>
                 <Link
                   href={localizedPath(locale, `/chat?conversacion=${conv.id}`)}
-                  className="flex items-center justify-between py-3 transition hover:text-neutral-900"
+                  className="flex items-center justify-between py-3 transition hover:text-black"
                 >
-                  <span className="text-neutral-900">{conv.title}</span>
-                  <span className="text-xs text-neutral-900">
+                  <span className="text-black">{conv.title}</span>
+                  <span className="text-xs text-black">
                     {new Date(conv.updated_at).toLocaleDateString(dateLocale(locale))}
                   </span>
                 </Link>
@@ -124,11 +124,11 @@ export default async function AccountPage({ params }: PageProps) {
             ))}
           </ul>
         ) : (
-          <p className="text-neutral-900">
+          <p className="text-black">
             {a.noChats}{" "}
             <Link
               href={localizedPath(locale, "/chat")}
-              className="text-neutral-900 hover:underline"
+              className="text-black hover:underline"
             >
               {a.startChat}
             </Link>

@@ -30,9 +30,9 @@ export default async function ConceptsPage({ params }: PageProps) {
   return (
     <div>
       <header className="mb-12 max-w-2xl">
-        <p className="text-neutral-900">{c.badge}</p>
-        <h1 className="mt-3 text-neutral-900">{c.title}</h1>
-        <p className="mt-4 text-neutral-900">{c.subtitle}</p>
+        <p className="text-black">{c.badge}</p>
+        <h1 className="mt-3 text-black">{c.title}</h1>
+        <p className="mt-4 text-black">{c.subtitle}</p>
       </header>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -42,13 +42,13 @@ export default async function ConceptsPage({ params }: PageProps) {
             href={localizedPath(locale, `/conceptos/${concept.slug}`)}
             className="border-b border-neutral-200 pb-6 transition hover:border-neutral-400"
           >
-            <h2 className="text-neutral-900">{concept.name}</h2>
+            <h2 className="text-black">{concept.name}</h2>
             {concept.description && (
-              <p className="mt-2  leading-relaxed text-neutral-900">
+              <p className="mt-2  leading-relaxed text-black">
                 {concept.description}
               </p>
             )}
-            <p className="mt-4 text-xs text-neutral-900">
+            <p className="mt-4 text-xs text-black">
               {formatWorksCount(concept.artworkCount, locale)}
             </p>
           </Link>

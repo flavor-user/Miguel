@@ -18,7 +18,7 @@ export function CuratorSuggestedPrompts({
 }: Props) {
   return (
     <div className="border-b border-neutral-100 px-6 py-4">
-      <p className="mb-3 text-neutral-900">{label}</p>
+      <p className="mb-3 text-black">{label}</p>
       <div className="flex flex-wrap gap-2">
         {prompts.map((prompt) => (
           <button
@@ -26,7 +26,7 @@ export function CuratorSuggestedPrompts({
             type="button"
             disabled={disabled}
             onClick={() => onSelect(prompt)}
-            className="rounded-full border border-neutral-200 px-3 py-1.5 text-left text-xs leading-snug text-neutral-900 transition hover:border-neutral-400 hover:text-neutral-900 disabled:opacity-40"
+            className="rounded-full border border-neutral-200 px-3 py-1.5 text-left text-xs leading-snug text-black transition hover:border-neutral-400 hover:text-black disabled:opacity-40"
           >
             {prompt}
           </button>

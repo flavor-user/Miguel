@@ -1,22 +1,62 @@
 @import "tailwindcss";
+@import url("https://fonts.cdnfonts.com/css/jmh-typewriter");
 
 @theme {
-  --font-serif: "Georgia", "Times New Roman", serif;
-  --font-sans: system-ui, -apple-system, sans-serif;
+  --font-typewriter: "JMH Typewriter", "Courier New", "Hiragino Kaku Gothic ProN",
+    monospace;
+  --font-sans: var(--font-typewriter);
+  --font-serif: var(--font-typewriter);
+  --font-mono: var(--font-typewriter);
 }
 
+/* Tamaño máximo de toda la web: 13px (0.8125rem) */
 html {
   scroll-behavior: smooth;
+  font-size: 13px;
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-typewriter);
+  font-size: 1rem;
+  line-height: 1.7;
+  letter-spacing: 0.04em;
   background: #ffffff;
   color: #171717;
 }
 
 .font-serif {
-  font-family: var(--font-serif);
+  font-family: var(--font-typewriter);
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a,
+  li,
+  span,
+  label,
+  td,
+  th {
+    font-size: 1rem;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
 }
 
 ::selection {

@@ -36,12 +36,12 @@ export default async function AdminPage({ params }: PageProps) {
       <AdminShell locale={locale}>
         <div className="mx-auto max-w-lg rounded-2xl border border-neutral-200 bg-neutral-50 p-8">
           <Settings className="mb-4 h-8 w-8 text-neutral-500" />
-          <h1 className="font-serif text-2xl text-neutral-900">Configura el admin</h1>
+          <h1 className="text-neutral-900">Configura el admin</h1>
           <p className="mt-4 text-neutral-600">
             Añade las variables de Supabase y <code className="text-neutral-800">ADMIN_EMAILS</code> en
             Vercel, luego haz Redeploy.
           </p>
-          <pre className="mt-4 overflow-x-auto rounded-xl border border-neutral-200 bg-white p-4 text-sm text-neutral-700">
+          <pre className="mt-4 overflow-x-auto rounded-xl border border-neutral-200 bg-white p-4  text-neutral-700">
             ADMIN_EMAILS=comidacodac@gmail.com
           </pre>
         </div>
@@ -53,7 +53,7 @@ export default async function AdminPage({ params }: PageProps) {
     return (
       <AdminShell locale={locale}>
         <div className="mx-auto max-w-lg text-center">
-          <h1 className="font-serif text-2xl text-neutral-900">Acceso denegado</h1>
+          <h1 className="text-neutral-900">Acceso denegado</h1>
           <p className="mt-4 text-neutral-600">
             Tu cuenta ({auth.user?.email}) no está autorizada como administrador.
           </p>
@@ -72,13 +72,13 @@ export default async function AdminPage({ params }: PageProps) {
     <AdminShell locale={locale}>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-neutral-400">Administración</p>
-          <h1 className="mt-2 font-serif text-3xl text-neutral-900">Panel de control</h1>
+          <p className="text-neutral-400">Administración</p>
+          <h1 className="mt-2 text-neutral-900">Panel de control</h1>
           <p className="mt-2 text-neutral-500">Gestiona obras y el perfil que alimenta al curador.</p>
         </div>
         <Link
           href={localizedPath(locale, "/admin/obras/nueva")}
-          className="inline-flex items-center gap-2 border border-neutral-900 px-5 py-2.5 text-sm text-neutral-900 transition hover:bg-neutral-900 hover:text-white"
+          className="inline-flex items-center gap-2 border border-neutral-900 px-5 py-2.5  text-neutral-900 transition hover:bg-neutral-900 hover:text-white"
         >
           <Plus className="h-4 w-4" />
           Nueva obra
@@ -103,7 +103,7 @@ function AdminShell({
 }) {
   return (
     <div>
-      <div className="mb-6 flex gap-4 border-b border-neutral-200 pb-4 text-sm">
+      <div className="mb-6 flex gap-4 border-b border-neutral-200 pb-4 ">
         <Link href={localizedPath(locale, "/admin")} className="text-neutral-900">
           Obras
         </Link>

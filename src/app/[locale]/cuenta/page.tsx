@@ -29,7 +29,7 @@ export default async function AccountPage({ params }: PageProps) {
   if (!isSupabaseConfigured()) {
     return (
       <div className="mx-auto max-w-lg text-center">
-        <h1 className="font-serif text-3xl text-neutral-900">{a.title}</h1>
+        <h1 className="text-neutral-900">{a.title}</h1>
         <p className="mt-4 text-neutral-500">{a.notConfigured}</p>
         <Link
           href={localizedPath(locale, "/galeria")}
@@ -68,7 +68,7 @@ export default async function AccountPage({ params }: PageProps) {
     <div className="max-w-2xl">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="font-serif text-3xl text-neutral-900">{a.title}</h1>
+          <h1 className="text-neutral-900">{a.title}</h1>
           <p className="mt-2 text-neutral-500">{user.email}</p>
           {profile?.display_name && (
             <p className="mt-1 text-neutral-700">{profile.display_name}</p>
@@ -76,7 +76,7 @@ export default async function AccountPage({ params }: PageProps) {
           {isAdmin && (
             <Link
               href={localizedPath(locale, "/admin")}
-              className="mt-3 inline-block text-sm text-neutral-500 hover:text-neutral-900"
+              className="mt-3 inline-block  text-neutral-500 hover:text-neutral-900"
             >
               {a.adminLink}
             </Link>
@@ -87,7 +87,7 @@ export default async function AccountPage({ params }: PageProps) {
 
       {profile?.flavor_summary && (
         <section className="mt-10 border-t border-neutral-200 pt-8">
-          <h2 className="text-xs uppercase tracking-wider text-neutral-400">
+          <h2 className="text-neutral-400">
             {a.flavorProfile}
           </h2>
           <p className="mt-3 leading-relaxed text-neutral-600">
@@ -98,10 +98,10 @@ export default async function AccountPage({ params }: PageProps) {
 
       <section className="mt-10">
         <div className="mb-4 flex items-center justify-between border-b border-neutral-200 pb-3">
-          <h2 className="font-serif text-xl text-neutral-900">{a.recentChats}</h2>
+          <h2 className="text-neutral-900">{a.recentChats}</h2>
           <Link
             href={localizedPath(locale, "/chat")}
-            className="text-sm text-neutral-400 hover:text-neutral-900"
+            className=" text-neutral-400 hover:text-neutral-900"
           >
             {a.newChat}
           </Link>

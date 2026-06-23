@@ -51,6 +51,18 @@ export type Dictionary = {
     principles: string;
     suggestedLabel: string;
   };
+  access: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    label: string;
+    placeholder: string;
+    submit: string;
+    waiting: string;
+    wrongCode: string;
+    error: string;
+    note: string;
+  };
   auth: {
     loginTitle: string;
     loginSubtitle: string;
@@ -154,6 +166,19 @@ const en: Dictionary = {
     principles:
       "The curator speaks only from archive texts. It does not replace the artist or invent meaning.",
     suggestedLabel: "Suggested questions",
+  },
+  access: {
+    badge: "Private archive",
+    title: "Access code",
+    subtitle:
+      "This site is private. Enter the code shared by the artist to view the gallery and speak with the curator.",
+    label: "Access code",
+    placeholder: "Your code",
+    submit: "Enter",
+    waiting: "Checking…",
+    wrongCode: "Incorrect code. Try again or contact the artist.",
+    error: "Could not verify access. Try again.",
+    note: "The code is personal. Please use the curator only if you have genuine interest in the work.",
   },
   auth: {
     loginTitle: "Sign in",
@@ -263,6 +288,19 @@ const es: Dictionary = {
       "El curador habla solo desde los textos del archivo. No sustituye al artista ni inventa significados.",
     suggestedLabel: "Preguntas sugeridas",
   },
+  access: {
+    badge: "Archivo privado",
+    title: "Código de acceso",
+    subtitle:
+      "Este sitio es privado. Introduce el código que te haya dado la artista para ver la galería y hablar con el curador.",
+    label: "Código de acceso",
+    placeholder: "Tu código",
+    submit: "Entrar",
+    waiting: "Comprobando…",
+    wrongCode: "Código incorrecto. Inténtalo de nuevo o contacta con la artista.",
+    error: "No pude verificar el acceso. Inténtalo otra vez.",
+    note: "El código es personal. Usa el curador solo si tienes interés real en la obra.",
+  },
   auth: {
     loginTitle: "Iniciar sesión",
     loginSubtitle: "Accede para guardar conversaciones y memoria personal.",
@@ -370,6 +408,19 @@ const ja: Dictionary = {
     principles:
       "キュレーターはアーカイブのテキストだけから語ります。作家の代わりにはならず、意味を捏造しません。",
     suggestedLabel: "おすすめの質問",
+  },
+  access: {
+    badge: "非公開アーカイブ",
+    title: "アクセスコード",
+    subtitle:
+      "このサイトは非公開です。アーティストから共有されたコードを入力して、ギャラリーとキュレーターにアクセスしてください。",
+    label: "アクセスコード",
+    placeholder: "コード",
+    submit: "入る",
+    waiting: "確認中…",
+    wrongCode: "コードが正しくありません。もう一度お試しください。",
+    error: "アクセスを確認できませんでした。",
+    note: "コードは個人用です。作品への真の関心がある場合のみキュレーターをご利用ください。",
   },
   auth: {
     loginTitle: "ログイン",

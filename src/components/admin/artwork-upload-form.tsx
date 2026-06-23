@@ -62,16 +62,16 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
   }
 
   const inputClass =
-    "w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-sm text-stone-100 placeholder:text-stone-600 focus:border-amber-600 focus:outline-none";
+    "w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3  text-stone-100 placeholder:text-stone-600 focus:border-amber-600 focus:outline-none";
 
   return (
     <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
       <form onSubmit={handleSubmit} className="space-y-6">
         <section className="space-y-4 rounded-2xl border border-stone-800 p-6">
-          <h2 className="font-serif text-xl text-stone-100">Imagen</h2>
+          <h2 className="text-stone-100">Imagen</h2>
           <label className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-stone-700 bg-stone-950/50 px-6 py-10 transition hover:border-amber-700/50">
             <Upload className="h-8 w-8 text-stone-500" />
-            <span className="text-sm text-stone-400">
+            <span className=" text-stone-400">
               Haz clic para elegir imagen (JPG, PNG, WebP — máx. 10 MB)
             </span>
             <input
@@ -88,31 +88,31 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
         </section>
 
         <section className="space-y-4 rounded-2xl border border-stone-800 p-6">
-          <h2 className="font-serif text-xl text-stone-100">Ficha de la obra</h2>
+          <h2 className="text-stone-100">Ficha de la obra</h2>
 
           <div>
-            <label className="mb-1 block text-sm text-stone-400">Título *</label>
+            <label className="mb-1 block  text-stone-400">Título *</label>
             <input name="title" required className={inputClass} placeholder="Ej. Esferas Gomu" />
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm text-stone-400">Artista</label>
+              <label className="mb-1 block  text-stone-400">Artista</label>
               <input name="artist" className={inputClass} placeholder="Ej. flavor user" />
             </div>
             <div>
-              <label className="mb-1 block text-sm text-stone-400">Año</label>
+              <label className="mb-1 block  text-stone-400">Año</label>
               <input name="year" type="number" className={inputClass} placeholder="1889" />
             </div>
           </div>
 
           <div>
-            <label className="mb-1 block text-sm text-stone-400">Técnica / soporte</label>
+            <label className="mb-1 block  text-stone-400">Técnica / soporte</label>
             <input name="medium" className={inputClass} placeholder="Ej. Óleo sobre lienzo" />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm text-stone-400">Descripción corta (ficha)</label>
+            <label className="mb-1 block  text-stone-400">Descripción corta (ficha)</label>
             <textarea
               name="description"
               rows={3}
@@ -122,7 +122,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm text-stone-400">Texto de sala (ensayo largo)</label>
+            <label className="mb-1 block  text-stone-400">Texto de sala (ensayo largo)</label>
             <textarea
               name="essay"
               rows={8}
@@ -133,15 +133,15 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
         </section>
 
         <section className="space-y-4 rounded-2xl border border-stone-800 p-6">
-          <h2 className="font-serif text-xl text-stone-100">Clasificación</h2>
+          <h2 className="text-stone-100">Clasificación</h2>
 
           <div>
-            <label className="mb-1 block text-sm text-stone-400">Etiquetas (separadas por comas)</label>
+            <label className="mb-1 block  text-stone-400">Etiquetas (separadas por comas)</label>
             <input name="tags" className={inputClass} placeholder="fragilidad, objeto, mesa, serie 2024" />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm text-stone-400">Conceptos (separados por comas)</label>
+            <label className="mb-1 block  text-stone-400">Conceptos (separados por comas)</label>
             <input
               name="concepts"
               className={inputClass}
@@ -153,16 +153,16 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm text-stone-400">Texto alternativo de imagen (accesibilidad)</label>
+            <label className="mb-1 block  text-stone-400">Texto alternativo de imagen (accesibilidad)</label>
             <input name="imageAlt" className={inputClass} placeholder="Describe la imagen brevemente" />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm text-stone-400">Enlace externo (opcional)</label>
+            <label className="mb-1 block  text-stone-400">Enlace externo (opcional)</label>
             <input name="sourceUrl" type="url" className={inputClass} placeholder="https://…" />
           </div>
 
-          <label className="flex items-center gap-3 text-sm text-stone-300">
+          <label className="flex items-center gap-3  text-stone-300">
             <input
               type="checkbox"
               name="isPublished"
@@ -175,13 +175,13 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
         </section>
 
         {error && (
-          <p className="rounded-xl border border-red-900/50 bg-red-950/30 px-4 py-3 text-sm text-red-300">
+          <p className="rounded-xl border border-red-900/50 bg-red-950/30 px-4 py-3  text-red-300">
             {error}
           </p>
         )}
 
         {result && (
-          <div className="flex items-start gap-3 rounded-xl border border-green-900/50 bg-green-950/20 px-4 py-3 text-sm text-green-300">
+          <div className="flex items-start gap-3 rounded-xl border border-green-900/50 bg-green-950/20 px-4 py-3  text-green-300">
             <CheckCircle className="mt-0.5 h-4 w-4 shrink-0" />
             <div>
               <p>«{result.title}» guardada correctamente.</p>
@@ -198,7 +198,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-600 py-3.5 font-medium text-stone-950 transition hover:bg-amber-500 disabled:opacity-50 sm:w-auto sm:px-10"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-600 py-3.5  text-stone-950 transition hover:bg-amber-500 disabled:opacity-50 sm:w-auto sm:px-10"
         >
           {loading ? (
             <>
@@ -213,19 +213,19 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
 
       <aside className="space-y-4">
         <div className="sticky top-24 rounded-2xl border border-stone-800 p-4">
-          <p className="mb-3 text-xs uppercase tracking-wider text-stone-500">Vista previa</p>
+          <p className="mb-3 text-stone-500">Vista previa</p>
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={preview} alt="Vista previa" className="block h-auto w-full" />
           ) : (
-            <div className="flex min-h-40 items-center justify-center rounded-xl bg-stone-900 text-sm text-stone-600">
+            <div className="flex min-h-40 items-center justify-center rounded-xl bg-stone-900  text-stone-600">
               Sin imagen
             </div>
           )}
         </div>
 
-        <div className="rounded-2xl border border-stone-800 p-4 text-sm text-stone-500">
-          <p className="font-medium text-stone-400">Consejos</p>
+        <div className="rounded-2xl border border-stone-800 p-4  text-stone-500">
+          <p className=" text-stone-400">Consejos</p>
           <ul className="mt-2 list-inside list-disc space-y-1">
             <li>El <strong>texto de sala</strong> es lo que el curador usa para hablar de la obra.</li>
             <li>Sin texto, el curador dirá que falta documentación — no inventará.</li>

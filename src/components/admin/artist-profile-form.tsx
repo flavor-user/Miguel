@@ -38,7 +38,7 @@ export function ArtistProfileForm() {
   }
 
   const inputClass =
-    "w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-sm text-stone-100 placeholder:text-stone-600 focus:border-amber-600 focus:outline-none";
+    "w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3  text-stone-100 placeholder:text-stone-600 focus:border-amber-600 focus:outline-none";
 
   if (loading) {
     return (
@@ -52,15 +52,15 @@ export function ArtistProfileForm() {
   return (
     <form onSubmit={handleSave} className="space-y-4 rounded-2xl border border-stone-800 p-6">
       <div>
-        <h2 className="font-serif text-xl text-stone-100">Tu práctica artística</h2>
-        <p className="mt-1 text-sm text-stone-500">
+        <h2 className="text-stone-100">Tu práctica artística</h2>
+        <p className="mt-1  text-stone-500">
           El curador de la web lee esto junto con los textos de cada obra. Cuanto más claro, menos
           inventará.
         </p>
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-stone-400">Nombre / alias artístico</label>
+        <label className="mb-1 block  text-stone-400">Nombre / alias artístico</label>
         <input
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
@@ -70,7 +70,7 @@ export function ArtistProfileForm() {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm text-stone-400">
+        <label className="mb-1 block  text-stone-400">
           Línea de trabajo (manifesto del curador)
         </label>
         <textarea
@@ -83,7 +83,7 @@ export function ArtistProfileForm() {
       </div>
 
       {message && (
-        <p className={`text-sm ${message.includes("Error") ? "text-red-400" : "text-green-400"}`}>
+        <p className={` ${message.includes("Error") ? "text-red-400" : "text-green-400"}`}>
           {message}
         </p>
       )}
@@ -91,7 +91,7 @@ export function ArtistProfileForm() {
       <button
         type="submit"
         disabled={saving}
-        className="inline-flex items-center gap-2 rounded-xl bg-amber-600 px-5 py-2.5 text-sm font-medium text-stone-950 hover:bg-amber-500 disabled:opacity-50"
+        className="inline-flex items-center gap-2 rounded-xl bg-amber-600 px-5 py-2.5   text-stone-950 hover:bg-amber-500 disabled:opacity-50"
       >
         {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
         Guardar perfil del curador

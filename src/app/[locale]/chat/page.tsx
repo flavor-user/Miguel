@@ -55,8 +55,8 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
   return (
     <div>
       <header className="mb-8 max-w-2xl">
-        <p className="text-xs uppercase tracking-[0.2em] text-neutral-400">{dict.chat.badge}</p>
-        <h1 className="mt-3 font-serif text-4xl text-neutral-900">{dict.chat.title}</h1>
+        <p className="text-neutral-400">{dict.chat.badge}</p>
+        <h1 className="mt-3 text-neutral-900">{dict.chat.title}</h1>
         <p className="mt-4 text-neutral-500">
           {userId ? (
             dict.chat.subtitleLoggedIn
@@ -77,7 +77,7 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
           )}
         </p>
         {focusArtwork ? (
-          <p className="mt-3 text-sm text-neutral-400">
+          <p className="mt-3  text-neutral-400">
             {locale === "es"
               ? `Contexto: `
               : locale === "ja"

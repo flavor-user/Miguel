@@ -164,14 +164,14 @@ export function ChatInterface({
             <div
               key={msg.id}
               className={cn(
-                "max-w-[90%] text-sm leading-relaxed",
+                "max-w-[90%]  leading-relaxed",
                 msg.role === "user"
                   ? "ml-auto text-right text-neutral-900"
                   : "border-l-2 border-neutral-200 pl-4 text-neutral-600"
               )}
             >
               {msg.role === "assistant" && msg.id !== "welcome" ? (
-                <p className="mb-1 text-xs uppercase tracking-wider text-neutral-400">
+                <p className="mb-1 text-neutral-400">
                   {t.badge}
                 </p>
               ) : null}
@@ -179,7 +179,7 @@ export function ChatInterface({
             </div>
           ))}
           {isLoading ? (
-            <div className="flex items-center gap-2 border-l-2 border-neutral-200 pl-4 text-sm text-neutral-400">
+            <div className="flex items-center gap-2 border-l-2 border-neutral-200 pl-4  text-neutral-400">
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
               {t.thinking}
             </div>
@@ -196,7 +196,7 @@ export function ChatInterface({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={userId ? t.placeholderLoggedIn : t.placeholderGuest}
-            className="flex-1 border-b border-neutral-300 bg-transparent px-1 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none"
+            className="flex-1 border-b border-neutral-300 bg-transparent px-1 py-2  text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none"
             disabled={isLoading}
           />
           <button

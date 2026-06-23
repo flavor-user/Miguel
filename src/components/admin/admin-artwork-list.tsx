@@ -77,12 +77,12 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-stone-800">
-      <table className="w-full text-left text-sm">
+      <table className="w-full text-left ">
         <thead className="border-b border-stone-800 bg-stone-900/50 text-stone-500">
           <tr>
-            <th className="px-4 py-3 font-medium">Obra</th>
-            <th className="hidden px-4 py-3 font-medium sm:table-cell">Estado</th>
-            <th className="px-4 py-3 font-medium text-right">Acciones</th>
+            <th className="px-4 py-3 ">Obra</th>
+            <th className="hidden px-4 py-3  sm:table-cell">Estado</th>
+            <th className="px-4 py-3  text-right">Acciones</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-stone-800">
@@ -99,7 +99,7 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
                     />
                   </div>
                   <div>
-                    <p className="font-medium text-stone-200">{artwork.title}</p>
+                    <p className=" text-stone-200">{artwork.title}</p>
                     <p className="text-xs text-stone-500">{artwork.artist ?? "—"}</p>
                   </div>
                 </div>

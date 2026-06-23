@@ -31,14 +31,14 @@ export function ArtworkCard({ artwork, locale, priority }: ArtworkCardProps) {
             {artwork.year ? ` · ${formatYear(artwork.year)}` : ""}
           </p>
           <Link href={localizedPath(locale, `/galeria/${artwork.slug}`)}>
-            <h3 className="mt-1 font-serif text-lg text-neutral-900 transition group-hover:text-neutral-600">
+            <h3 className="mt-1 text-neutral-900 transition group-hover:text-neutral-600">
               {artwork.title}
             </h3>
           </Link>
         </div>
 
         {artwork.description && (
-          <p className="text-sm leading-relaxed text-neutral-500">
+          <p className=" leading-relaxed text-neutral-500">
             {excerpt(artwork.description, 120)}
           </p>
         )}

@@ -22,7 +22,7 @@ export function SiteHeader({
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
         <Link
           href={localizedPath(locale, "/")}
-          className="font-serif text-lg tracking-tight text-neutral-900 transition hover:text-neutral-600"
+          className="text-neutral-900 transition hover:text-neutral-600"
         >
           Flavor User
         </Link>
@@ -32,7 +32,7 @@ export function SiteHeader({
             <Link
               key={href}
               href={href}
-              className="text-sm text-neutral-500 transition hover:text-neutral-900"
+              className="text-neutral-500 transition hover:text-neutral-900"
             >
               {label}
             </Link>
@@ -57,7 +57,7 @@ export function SiteFooter({
 }) {
   return (
     <footer className="border-t border-neutral-200 bg-white">
-      <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-12 text-sm text-neutral-400 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-12 text-neutral-400 md:flex-row md:items-center md:justify-between">
         <p>{dict.footer.tagline}</p>
         <div className="flex gap-6">
           <Link href={localizedPath(locale, "/galeria")} className="hover:text-neutral-700">

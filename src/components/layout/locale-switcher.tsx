@@ -30,12 +30,12 @@ export function LocaleSwitcher({
           href={hrefFor(loc)}
           className={`text-xs tracking-wide transition ${
             loc === locale
-              ? "font-medium text-neutral-900"
+              ? " text-neutral-900"
               : "text-neutral-400 hover:text-neutral-600"
           }`}
           title={localeNames[loc]}
         >
-          {loc.toUpperCase()}
+          {loc}
         </Link>
       ))}
     </div>

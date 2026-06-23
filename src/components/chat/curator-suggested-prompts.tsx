@@ -18,7 +18,7 @@ export function CuratorSuggestedPrompts({
 }: Props) {
   return (
     <div className="border-b border-neutral-100 px-6 py-4">
-      <p className="mb-3 text-xs uppercase tracking-wider text-neutral-400">{label}</p>
+      <p className="mb-3 text-neutral-400">{label}</p>
       <div className="flex flex-wrap gap-2">
         {prompts.map((prompt) => (
           <button

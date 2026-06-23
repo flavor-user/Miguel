@@ -32,21 +32,21 @@ export default async function ConceptDetailPage({ params }: PageProps) {
       <header className="mb-12 max-w-2xl">
         <Link
           href={localizedPath(locale, "/conceptos")}
-          className="text-sm text-neutral-400 hover:text-neutral-900"
+          className=" text-neutral-400 hover:text-neutral-900"
         >
           {c.back}
         </Link>
-        <h1 className="mt-4 font-serif text-4xl text-neutral-900 md:text-5xl">
+        <h1 className="mt-4 text-neutral-900">
           {concept.name}
         </h1>
         {concept.description && (
-          <p className="mt-4 text-lg leading-relaxed text-neutral-500">
+          <p className="mt-4 leading-relaxed text-neutral-500">
             {concept.description}
           </p>
         )}
         <Link
           href={localizedPath(locale, `/chat?concepto=${concept.slug}`)}
-          className="mt-6 inline-flex border-b border-neutral-900 pb-0.5 text-sm text-neutral-900 transition hover:text-neutral-600"
+          className="mt-6 inline-flex border-b border-neutral-900 pb-0.5  text-neutral-900 transition hover:text-neutral-600"
         >
           {c.exploreAi}
         </Link>
@@ -54,7 +54,7 @@ export default async function ConceptDetailPage({ params }: PageProps) {
 
       {related.length > 0 && (
         <section className="mb-12">
-          <h2 className="mb-4 text-xs uppercase tracking-wider text-neutral-400">
+          <h2 className="mb-4 text-neutral-400">
             {c.related}
           </h2>
           <div className="flex flex-wrap gap-4">
@@ -62,7 +62,7 @@ export default async function ConceptDetailPage({ params }: PageProps) {
               <Link
                 key={r.slug}
                 href={localizedPath(locale, `/conceptos/${r.slug}`)}
-                className="text-sm text-neutral-500 underline decoration-neutral-300 underline-offset-4 hover:text-neutral-900"
+                className=" text-neutral-500 underline decoration-neutral-300 underline-offset-4 hover:text-neutral-900"
               >
                 {r.name}
               </Link>
@@ -72,7 +72,7 @@ export default async function ConceptDetailPage({ params }: PageProps) {
       )}
 
       <section>
-        <h2 className="mb-8 font-serif text-xl text-neutral-900">{c.artworks}</h2>
+        <h2 className="mb-8 text-neutral-900">{c.artworks}</h2>
         {artworks.length > 0 ? (
           <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
             {artworks.map((artwork) => (

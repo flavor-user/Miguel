@@ -13,7 +13,7 @@ export default function NotFoundPage() {
 
   return (
     <div className="py-20 text-center">
-      <h1 className="font-serif text-4xl text-neutral-900">{dict.notFound.title}</h1>
+      <h1 className="text-neutral-900">{dict.notFound.title}</h1>
       <p className="mt-4 text-neutral-400">{dict.notFound.subtitle}</p>
       <Link
         href={localizedPath(locale, "/galeria")}

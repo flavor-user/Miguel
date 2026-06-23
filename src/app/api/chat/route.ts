@@ -4,8 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/admin";
 import { retrieveMemories, extractMemories, saveMemories } from "@/lib/memory";
 import { findRelatedArtworks, findRelatedConcepts } from "@/lib/concepts";
-import { getArtworkBySlug } from "@/lib/data/artworks";
-import { DEMO_ARTWORKS } from "@/lib/demo-data";
+import { getArtworkBySlug, getPublishedArtworks } from "@/lib/data/artworks";
 
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 
@@ -89,6 +88,35 @@ export async function POST(request: Request) {
       }
     }
 
+    const catalog = await getPublishedArtworks();
+    if (catalog.length) {
+      contextParts.push(
+        "Catálogo completo de la galería (SOLO existen estas obras, no inventes otras):\n" +
+          catalog
+            .map((a) => {
+              const meta = [
+                a.artist,
+                a.year ? String(a.year) : null,
+                a.medium,
+              ]
+                .filter(Boolean)
+                .join(" · ");
+              const text = [a.description, a.essay].filter(Boolean).join(" ");
+              const tags = a.tags?.length ? ` Etiquetas: ${a.tags.join(", ")}.` : "";
+              const concepts =
+                a.concepts?.length
+                  ? ` Conceptos: ${a.concepts.map((c) => c.name).join(", ")}.`
+                  : "";
+              return `- ${a.title}${meta ? ` (${meta})` : ""}${text ? `: ${text.slice(0, 600)}` : ""}${tags}${concepts}`;
+            })
+            .join("\n")
+      );
+    } else {
+      contextParts.push(
+        "La galería está vacía. No cites obras concretas; invita al usuario a explorar cuando suba contenido."
+      );
+    }
+
     try {
       const [artworks, concepts] = await Promise.all([
         findRelatedArtworks(message, 4),
@@ -97,10 +125,10 @@ export async function POST(request: Request) {
 
       if (artworks.length) {
         contextParts.push(
-          "Obras relevantes de la galería:\n" +
+          "Obras más relevantes para esta pregunta:\n" +
             artworks
               .map((a: { title: string; artist: string | null; description?: string | null }) =>
-                `- ${a.title} (${a.artist}): ${a.description?.slice(0, 100) ?? ""}`
+                `- ${a.title}${a.artist ? ` (${a.artist})` : ""}${a.description ? `: ${a.description.slice(0, 100)}` : ""}`
               )
               .join("\n")
         );
@@ -115,10 +143,7 @@ export async function POST(request: Request) {
         );
       }
     } catch {
-      contextParts.push(
-        "Obras de demo en galería:\n" +
-          DEMO_ARTWORKS.map((a) => `- ${a.title} (${a.artist})`).join("\n")
-      );
+      // Búsqueda semántica opcional; el catálogo completo ya está arriba
     }
 
     let history: { role: "user" | "assistant"; content: string }[] = [];

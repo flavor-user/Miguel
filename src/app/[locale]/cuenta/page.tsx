@@ -30,7 +30,7 @@ export default async function AccountPage({ params }: PageProps) {
     return (
       <div className="mx-auto max-w-lg text-center">
         <h1 className="text-neutral-900">{a.title}</h1>
-        <p className="mt-4 text-neutral-500">{a.notConfigured}</p>
+        <p className="mt-4 text-neutral-900">{a.notConfigured}</p>
         <Link
           href={localizedPath(locale, "/galeria")}
           className="mt-6 inline-block text-neutral-900 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
@@ -69,14 +69,14 @@ export default async function AccountPage({ params }: PageProps) {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-neutral-900">{a.title}</h1>
-          <p className="mt-2 text-neutral-500">{user.email}</p>
+          <p className="mt-2 text-neutral-900">{user.email}</p>
           {profile?.display_name && (
             <p className="mt-1 text-neutral-700">{profile.display_name}</p>
           )}
           {isAdmin && (
             <Link
               href={localizedPath(locale, "/admin")}
-              className="mt-3 inline-block  text-neutral-500 hover:text-neutral-900"
+              className="mt-3 inline-block  text-neutral-900 hover:text-neutral-900"
             >
               {a.adminLink}
             </Link>
@@ -87,10 +87,10 @@ export default async function AccountPage({ params }: PageProps) {
 
       {profile?.flavor_summary && (
         <section className="mt-10 border-t border-neutral-200 pt-8">
-          <h2 className="text-neutral-400">
+          <h2 className="text-neutral-900">
             {a.flavorProfile}
           </h2>
-          <p className="mt-3 leading-relaxed text-neutral-600">
+          <p className="mt-3 leading-relaxed text-neutral-900">
             {profile.flavor_summary}
           </p>
         </section>
@@ -101,7 +101,7 @@ export default async function AccountPage({ params }: PageProps) {
           <h2 className="text-neutral-900">{a.recentChats}</h2>
           <Link
             href={localizedPath(locale, "/chat")}
-            className=" text-neutral-400 hover:text-neutral-900"
+            className=" text-neutral-900 hover:text-neutral-900"
           >
             {a.newChat}
           </Link>
@@ -113,10 +113,10 @@ export default async function AccountPage({ params }: PageProps) {
               <li key={conv.id}>
                 <Link
                   href={localizedPath(locale, `/chat?conversacion=${conv.id}`)}
-                  className="flex items-center justify-between py-3 transition hover:text-neutral-600"
+                  className="flex items-center justify-between py-3 transition hover:text-neutral-900"
                 >
                   <span className="text-neutral-900">{conv.title}</span>
-                  <span className="text-xs text-neutral-400">
+                  <span className="text-xs text-neutral-900">
                     {new Date(conv.updated_at).toLocaleDateString(dateLocale(locale))}
                   </span>
                 </Link>
@@ -124,7 +124,7 @@ export default async function AccountPage({ params }: PageProps) {
             ))}
           </ul>
         ) : (
-          <p className="text-neutral-400">
+          <p className="text-neutral-900">
             {a.noChats}{" "}
             <Link
               href={localizedPath(locale, "/chat")}

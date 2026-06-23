@@ -17,7 +17,7 @@ export default async function LoginPage({ params, searchParams }: PageProps) {
   return (
     <div className="mx-auto max-w-md">
       <h1 className="text-neutral-900">{dict.auth.loginTitle}</h1>
-      <p className="mt-2  text-neutral-500">{dict.auth.loginSubtitle}</p>
+      <p className="mt-2  text-neutral-900">{dict.auth.loginSubtitle}</p>
       <div className="mt-8">
         <AuthForm
           mode="login"
@@ -26,8 +26,8 @@ export default async function LoginPage({ params, searchParams }: PageProps) {
           redirectTo={redirect ?? localizedPath(locale, "/cuenta")}
         />
       </div>
-      <p className="mt-6 text-center  text-neutral-400">
-        <Link href={localizedPath(locale, "/galeria")} className="hover:text-neutral-700">
+      <p className="mt-6 text-center  text-neutral-900">
+        <Link href={localizedPath(locale, "/galeria")} className="hover:text-neutral-900">
           {dict.auth.continueGallery}
         </Link>
       </p>

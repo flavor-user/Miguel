@@ -18,9 +18,9 @@ export default async function GalleryPage({ params }: PageProps) {
   return (
     <div>
       <header className="mb-12 max-w-2xl">
-        <p className="text-neutral-400">{dict.gallery.badge}</p>
+        <p className="text-neutral-900">{dict.gallery.badge}</p>
         <h1 className="mt-3 text-neutral-900">{dict.gallery.title}</h1>
-        <p className="mt-4 leading-relaxed text-neutral-500">{dict.gallery.subtitle}</p>
+        <p className="mt-4 leading-relaxed text-neutral-900">{dict.gallery.subtitle}</p>
       </header>
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

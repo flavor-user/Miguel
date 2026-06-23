@@ -30,9 +30,9 @@ export default async function ConceptsPage({ params }: PageProps) {
   return (
     <div>
       <header className="mb-12 max-w-2xl">
-        <p className="text-neutral-400">{c.badge}</p>
+        <p className="text-neutral-900">{c.badge}</p>
         <h1 className="mt-3 text-neutral-900">{c.title}</h1>
-        <p className="mt-4 text-neutral-500">{c.subtitle}</p>
+        <p className="mt-4 text-neutral-900">{c.subtitle}</p>
       </header>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -44,11 +44,11 @@ export default async function ConceptsPage({ params }: PageProps) {
           >
             <h2 className="text-neutral-900">{concept.name}</h2>
             {concept.description && (
-              <p className="mt-2  leading-relaxed text-neutral-500">
+              <p className="mt-2  leading-relaxed text-neutral-900">
                 {concept.description}
               </p>
             )}
-            <p className="mt-4 text-xs text-neutral-400">
+            <p className="mt-4 text-xs text-neutral-900">
               {formatWorksCount(concept.artworkCount, locale)}
             </p>
           </Link>

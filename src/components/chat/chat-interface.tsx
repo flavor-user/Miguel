@@ -167,11 +167,11 @@ export function ChatInterface({
                 "max-w-[90%]  leading-relaxed",
                 msg.role === "user"
                   ? "ml-auto text-right text-neutral-900"
-                  : "border-l-2 border-neutral-200 pl-4 text-neutral-600"
+                  : "border-l-2 border-neutral-200 pl-4 text-neutral-900"
               )}
             >
               {msg.role === "assistant" && msg.id !== "welcome" ? (
-                <p className="mb-1 text-neutral-400">
+                <p className="mb-1 text-neutral-900">
                   {t.badge}
                 </p>
               ) : null}
@@ -179,7 +179,7 @@ export function ChatInterface({
             </div>
           ))}
           {isLoading ? (
-            <div className="flex items-center gap-2 border-l-2 border-neutral-200 pl-4  text-neutral-400">
+            <div className="flex items-center gap-2 border-l-2 border-neutral-200 pl-4  text-neutral-900">
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
               {t.thinking}
             </div>
@@ -202,7 +202,7 @@ export function ChatInterface({
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className="flex h-10 w-10 items-center justify-center text-neutral-900 transition hover:text-neutral-500 disabled:opacity-30"
+            className="flex h-10 w-10 items-center justify-center text-neutral-900 transition hover:text-neutral-900 disabled:opacity-30"
             aria-label={t.send}
           >
             <Send className="h-4 w-4" />
@@ -210,7 +210,7 @@ export function ChatInterface({
         </form>
       </div>
 
-      <p className="border-t border-neutral-100 px-6 py-3 text-xs leading-relaxed text-neutral-400">
+      <p className="border-t border-neutral-100 px-6 py-3 text-xs leading-relaxed text-neutral-900">
         {t.principles}
       </p>
     </div>

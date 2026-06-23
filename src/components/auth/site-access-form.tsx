@@ -42,13 +42,13 @@ export function SiteAccessForm({ locale, dict }: { locale: Locale; dict: Diction
 
   return (
     <div className="mx-auto max-w-md pt-16">
-      <p className="text-neutral-400">{t.badge}</p>
+      <p className="text-neutral-900">{t.badge}</p>
       <h1 className="mt-3 text-neutral-900">{t.title}</h1>
-      <p className="mt-4  leading-relaxed text-neutral-500">{t.subtitle}</p>
+      <p className="mt-4  leading-relaxed text-neutral-900">{t.subtitle}</p>
 
       <form onSubmit={handleSubmit} className="mt-10 space-y-4">
         <div>
-          <label htmlFor="access-code" className="mb-1 block  text-neutral-600">
+          <label htmlFor="access-code" className="mb-1 block  text-neutral-900">
             {t.label}
           </label>
           <input
@@ -74,7 +74,7 @@ export function SiteAccessForm({ locale, dict }: { locale: Locale; dict: Diction
         </button>
       </form>
 
-      <p className="mt-8 text-xs leading-relaxed text-neutral-400">{t.note}</p>
+      <p className="mt-8 text-xs leading-relaxed text-neutral-900">{t.note}</p>
     </div>
   );
 }

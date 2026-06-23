@@ -26,19 +26,19 @@ export function ArtworkCard({ artwork, locale, priority }: ArtworkCardProps) {
 
       <div className="flex flex-1 flex-col gap-2 pt-4">
         <div>
-          <p className="text-xs text-neutral-400">
+          <p className="text-xs text-neutral-900">
             {artwork.artist}
             {artwork.year ? ` · ${formatYear(artwork.year)}` : ""}
           </p>
           <Link href={localizedPath(locale, `/galeria/${artwork.slug}`)}>
-            <h3 className="mt-1 text-neutral-900 transition group-hover:text-neutral-600">
+            <h3 className="mt-1 text-neutral-900 transition group-hover:text-neutral-900">
               {artwork.title}
             </h3>
           </Link>
         </div>
 
         {artwork.description && (
-          <p className=" leading-relaxed text-neutral-500">
+          <p className=" leading-relaxed text-neutral-900">
             {excerpt(artwork.description, 120)}
           </p>
         )}
@@ -49,7 +49,7 @@ export function ArtworkCard({ artwork, locale, priority }: ArtworkCardProps) {
               <Link
                 key={concept.slug}
                 href={localizedPath(locale, `/conceptos/${concept.slug}`)}
-                className="text-xs text-neutral-400 transition hover:text-neutral-700"
+                className="text-xs text-neutral-900 transition hover:text-neutral-900"
               >
                 {concept.name}
               </Link>

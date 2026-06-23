@@ -91,7 +91,7 @@ export function AuthForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       {mode === "register" && (
         <div>
-          <label className="mb-1 block  text-neutral-500">{t.name}</label>
+          <label className="mb-1 block  text-neutral-900">{t.name}</label>
           <input
             type="text"
             value={displayName}
@@ -102,7 +102,7 @@ export function AuthForm({
       )}
 
       <div>
-        <label className="mb-1 block  text-neutral-500">{t.email}</label>
+        <label className="mb-1 block  text-neutral-900">{t.email}</label>
         <input
           type="email"
           required
@@ -113,7 +113,7 @@ export function AuthForm({
       </div>
 
       <div>
-        <label className="mb-1 block  text-neutral-500">{t.password}</label>
+        <label className="mb-1 block  text-neutral-900">{t.password}</label>
         <input
           type="password"
           required
@@ -128,7 +128,7 @@ export function AuthForm({
       {message && (
         <p
           className={` ${
-            messageType === "error" ? "text-red-600" : "text-neutral-600"
+            messageType === "error" ? "text-red-600" : "text-neutral-900"
           }`}
         >
           {message}
@@ -143,7 +143,7 @@ export function AuthForm({
         {loading ? t.waiting : mode === "register" ? t.createAccount : t.signIn}
       </button>
 
-      <p className="text-center  text-neutral-400">
+      <p className="text-center  text-neutral-900">
         {mode === "register" ? (
           <>
             {t.hasAccount}{" "}
@@ -174,7 +174,7 @@ export function SignOutButton({ label, locale }: { label: string; locale: Locale
   return (
     <button
       onClick={handleSignOut}
-      className=" text-neutral-400 transition hover:text-neutral-900"
+      className=" text-neutral-900 transition hover:text-neutral-900"
     >
       {label}
     </button>

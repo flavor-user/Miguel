@@ -27,18 +27,18 @@ export default async function HomePage({ params }: PageProps) {
   return (
     <div className="space-y-24">
       <section className="max-w-2xl pt-8">
-        <p className="leading-relaxed text-neutral-500">{dict.home.subtitle}</p>
+        <p className="leading-relaxed text-neutral-900">{dict.home.subtitle}</p>
         <div className="mt-8 flex flex-wrap gap-6">
           <Link
             href={localizedPath(locale, "/galeria")}
-            className="inline-flex items-center gap-2 border-b border-neutral-900 pb-0.5  text-neutral-900 transition hover:text-neutral-600"
+            className="inline-flex items-center gap-2 border-b border-neutral-900 pb-0.5  text-neutral-900 transition hover:text-neutral-900"
           >
             {dict.home.ctaGallery}
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
           <Link
             href={localizedPath(locale, "/chat")}
-            className=" text-neutral-400 transition hover:text-neutral-700"
+            className=" text-neutral-900 transition hover:text-neutral-900"
           >
             {dict.home.ctaChat}
           </Link>
@@ -49,11 +49,11 @@ export default async function HomePage({ params }: PageProps) {
         <div className="mb-10 flex items-end justify-between border-b border-neutral-200 pb-4">
           <div>
             <h2 className="text-neutral-900">{dict.home.featuredTitle}</h2>
-            <p className="mt-1  text-neutral-400">{dict.home.featuredSubtitle}</p>
+            <p className="mt-1  text-neutral-900">{dict.home.featuredSubtitle}</p>
           </div>
           <Link
             href={localizedPath(locale, "/galeria")}
-            className="hidden  text-neutral-400 hover:text-neutral-900 md:block"
+            className="hidden  text-neutral-900 hover:text-neutral-900 md:block"
           >
             {dict.home.seeAll}
           </Link>
@@ -74,7 +74,7 @@ export default async function HomePage({ params }: PageProps) {
             className="bg-white p-8 transition hover:bg-neutral-50"
           >
             <h3 className="text-neutral-900">{item.title}</h3>
-            <p className="mt-2  leading-relaxed text-neutral-500">{item.desc}</p>
+            <p className="mt-2  leading-relaxed text-neutral-900">{item.desc}</p>
           </Link>
         ))}
       </section>

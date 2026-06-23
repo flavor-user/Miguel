@@ -31,7 +31,7 @@ export function LocaleSwitcher({
           className={`text-xs tracking-wide transition ${
             loc === locale
               ? " text-neutral-900"
-              : "text-neutral-400 hover:text-neutral-600"
+              : "text-neutral-900 hover:text-neutral-900"
           }`}
           title={localeNames[loc]}
         >

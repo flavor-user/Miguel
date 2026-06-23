@@ -14,7 +14,7 @@ export default async function RegisterPage({ params }: PageProps) {
   return (
     <div className="mx-auto max-w-md">
       <h1 className="text-neutral-900">{dict.auth.registerTitle}</h1>
-      <p className="mt-2  text-neutral-500">{dict.auth.registerSubtitle}</p>
+      <p className="mt-2  text-neutral-900">{dict.auth.registerSubtitle}</p>
       <div className="mt-8">
         <AuthForm mode="register" locale={locale} dict={dict} />
       </div>

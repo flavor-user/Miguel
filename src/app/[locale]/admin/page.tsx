@@ -35,10 +35,10 @@ export default async function AdminPage({ params }: PageProps) {
     return (
       <AdminShell locale={locale}>
         <div className="mx-auto max-w-lg rounded-2xl border border-neutral-200 bg-neutral-50 p-8">
-          <Settings className="mb-4 h-8 w-8 text-neutral-500" />
+          <Settings className="mb-4 h-8 w-8 text-neutral-900" />
           <h1 className="text-neutral-900">Configura el admin</h1>
-          <p className="mt-4 text-neutral-600">
-            Añade las variables de Supabase y <code className="text-neutral-800">ADMIN_EMAILS</code> en
+          <p className="mt-4 text-neutral-900">
+            Añade las variables de Supabase y <code className="text-neutral-900">ADMIN_EMAILS</code> en
             Vercel, luego haz Redeploy.
           </p>
           <pre className="mt-4 overflow-x-auto rounded-xl border border-neutral-200 bg-white p-4  text-neutral-700">
@@ -54,7 +54,7 @@ export default async function AdminPage({ params }: PageProps) {
       <AdminShell locale={locale}>
         <div className="mx-auto max-w-lg text-center">
           <h1 className="text-neutral-900">Acceso denegado</h1>
-          <p className="mt-4 text-neutral-600">
+          <p className="mt-4 text-neutral-900">
             Tu cuenta ({auth.user?.email}) no está autorizada como administrador.
           </p>
           <Link
@@ -72,9 +72,9 @@ export default async function AdminPage({ params }: PageProps) {
     <AdminShell locale={locale}>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-neutral-400">Administración</p>
+          <p className="text-neutral-900">Administración</p>
           <h1 className="mt-2 text-neutral-900">Panel de control</h1>
-          <p className="mt-2 text-neutral-500">Gestiona obras y el perfil que alimenta al curador.</p>
+          <p className="mt-2 text-neutral-900">Gestiona obras y el perfil que alimenta al curador.</p>
         </div>
         <Link
           href={localizedPath(locale, "/admin/obras/nueva")}
@@ -109,13 +109,13 @@ function AdminShell({
         </Link>
         <Link
           href={localizedPath(locale, "/admin/obras/nueva")}
-          className="text-neutral-500 hover:text-neutral-900"
+          className="text-neutral-900 hover:text-neutral-900"
         >
           Añadir obra
         </Link>
         <Link
           href={localizedPath(locale, "/galeria")}
-          className="ml-auto text-neutral-500 hover:text-neutral-900"
+          className="ml-auto text-neutral-900 hover:text-neutral-900"
         >
           Ver galería pública →
         </Link>

@@ -14,7 +14,7 @@ export default function NotFoundPage() {
   return (
     <div className="py-20 text-center">
       <h1 className="text-neutral-900">{dict.notFound.title}</h1>
-      <p className="mt-4 text-neutral-400">{dict.notFound.subtitle}</p>
+      <p className="mt-4 text-neutral-900">{dict.notFound.subtitle}</p>
       <Link
         href={localizedPath(locale, "/galeria")}
         className="mt-8 inline-block text-neutral-900 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"

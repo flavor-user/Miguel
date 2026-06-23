@@ -111,7 +111,7 @@ const en: Dictionary = {
     cards: {
       gallery: { title: "Gallery", desc: "Works with image, details, and an essay to read." },
       concepts: { title: "Concepts", desc: "A network of ideas linking movements, techniques, and emotions." },
-      chat: { title: "Chat with memory", desc: "Conversations that remember your preferences across sessions." },
+      chat: { title: "Curator chat", desc: "A curator who knows your archive and speaks from your own texts." },
     },
   },
   gallery: {
@@ -121,7 +121,7 @@ const en: Dictionary = {
     back: "Back to gallery",
     essayTitle: "Wall text",
     related: "Related works",
-    askAi: "Ask Flavor User about this work",
+    askAi: "Talk to the curator about this work",
     source: "View source",
   },
   concepts: {
@@ -136,16 +136,16 @@ const en: Dictionary = {
     worksCount: "work(s) in gallery",
   },
   chat: {
-    badge: "Assistant",
-    title: "Flavor User",
-    subtitleLoggedIn: "Your conversations and preferences are saved automatically.",
+    badge: "Curator",
+    title: "Your curator",
+    subtitleLoggedIn: "Speaks from your archive texts — not generic art history.",
     subtitleGuest: "",
     loginLink: "Sign in",
-    placeholderLoggedIn: "Ask about art, concepts, or your gallery…",
+    placeholderLoggedIn: "Ask about a work, a series, materials, intent…",
     placeholderGuest: "Sign in to save history, or ask anyway…",
     welcome:
-      "Hello, I'm Flavor User. I can help you explore the gallery, connect concepts, and remember your tastes. What would you like to discover today?",
-    thinking: "Flavor User is thinking…",
+      "I'm the curator of this gallery. I know the works in the archive and speak from their texts. Ask me about a specific piece, connections between works, or the artist's line of practice.",
+    thinking: "The curator is reflecting…",
     send: "Send",
     error:
       "Could not connect to the server. If OpenAI and Supabase are not configured yet, check the README. Meanwhile, explore the gallery — artworks and texts are already available.",
@@ -216,7 +216,7 @@ const es: Dictionary = {
     cards: {
       gallery: { title: "Galería", desc: "Obras con ficha, imagen a tamaño completo y ensayo para leer." },
       concepts: { title: "Conceptos", desc: "Red de ideas que conecta movimientos, técnicas y emociones." },
-      chat: { title: "Chat con memoria", desc: "Conversaciones que recuerdan tus preferencias entre sesiones." },
+      chat: { title: "Chat con el curador", desc: "Un curador que conoce tu archivo y habla desde tus propios textos." },
     },
   },
   gallery: {
@@ -226,7 +226,7 @@ const es: Dictionary = {
     back: "Volver a la galería",
     essayTitle: "Texto de sala",
     related: "Obras relacionadas",
-    askAi: "Preguntar a Flavor User sobre esta obra",
+    askAi: "Hablar con el curador sobre esta obra",
     source: "Ver fuente",
   },
   concepts: {
@@ -241,16 +241,16 @@ const es: Dictionary = {
     worksCount: "obra(s) en galería",
   },
   chat: {
-    badge: "Asistente",
-    title: "Flavor User",
-    subtitleLoggedIn: "Tus conversaciones y preferencias se guardan automáticamente.",
+    badge: "Curador",
+    title: "Tu curador",
+    subtitleLoggedIn: "Habla desde los textos de tu archivo — no desde generalidades.",
     subtitleGuest: "",
     loginLink: "Inicia sesión",
-    placeholderLoggedIn: "Pregunta sobre arte, conceptos o tu galería…",
+    placeholderLoggedIn: "Pregunta sobre una obra, una serie, materiales, intención…",
     placeholderGuest: "Inicia sesión para guardar el historial, o pregunta igualmente…",
     welcome:
-      "Hola, soy Flavor User. Puedo ayudarte a explorar la galería, conectar conceptos y recordar tus gustos. ¿Qué te gustaría descubrir hoy?",
-    thinking: "Flavor User está pensando…",
+      "Soy el curador de esta galería. Conozco las obras del archivo y hablo desde sus textos. Pregúntame sobre una pieza concreta, conexiones entre obras, o la línea de tu trabajo.",
+    thinking: "El curador reflexiona…",
     send: "Enviar",
     error:
       "No pude conectar con el servidor. Si aún no configuraste OpenAI y Supabase, revisa el README. Mientras tanto, explora la galería — las obras y textos ya están disponibles.",
@@ -321,7 +321,7 @@ const ja: Dictionary = {
     cards: {
       gallery: { title: "ギャラリー", desc: "画像、詳細、読めるエッセイ付きの作品。" },
       concepts: { title: "コンセプト", desc: "運動、技法、感情をつなぐアイデアのネットワーク。" },
-      chat: { title: "記憶付きチャット", desc: "セッションを超えて好みを覚える会話。" },
+      chat: { title: "キュレーターとの対話", desc: "アーカイブを知り、あなた自身のテキストから語るキュレーター。" },
     },
   },
   gallery: {
@@ -331,7 +331,7 @@ const ja: Dictionary = {
     back: "ギャラリーに戻る",
     essayTitle: "ウォールテキスト",
     related: "関連作品",
-    askAi: "この作品についてFlavor Userに聞く",
+    askAi: "この作品についてキュレーターに聞く",
     source: "ソースを見る",
   },
   concepts: {
@@ -346,16 +346,16 @@ const ja: Dictionary = {
     worksCount: "件の作品",
   },
   chat: {
-    badge: "アシスタント",
-    title: "Flavor User",
-    subtitleLoggedIn: "会話と好みは自動的に保存されます。",
+    badge: "キュレーター",
+    title: "あなたのキュレーター",
+    subtitleLoggedIn: "アーカイブのテキストに基づいて語ります — 一般論ではなく。",
     subtitleGuest: "",
     loginLink: "ログイン",
-    placeholderLoggedIn: "アート、コンセプト、ギャラリーについて質問…",
+    placeholderLoggedIn: "作品、シリーズ、素材、意図について質問…",
     placeholderGuest: "履歴を保存するにはログイン、またはそのまま質問もできます…",
     welcome:
-      "こんにちは、Flavor Userです。ギャラリーの探索、コンセプトの接続、あなたの好みの記憶をお手伝いします。今日は何を発見したいですか？",
-    thinking: "Flavor Userが考えています…",
+      "私はこのギャラリーのキュレーターです。アーカイブの作品を知り、そのテキストから語ります。特定の作品、作品間のつながり、作家の実践について聞いてください。",
+    thinking: "キュレーターが考えています…",
     send: "送信",
     error:
       "サーバーに接続できませんでした。OpenAIとSupabaseが未設定の場合はREADMEを確認してください。それまでの間、ギャラリーの作品とテキストはご利用いただけます。",

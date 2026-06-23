@@ -92,13 +92,13 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
 
           <div>
             <label className="mb-1 block text-sm text-stone-400">Título *</label>
-            <input name="title" required className={inputClass} placeholder="Ej. La noche estrellada" />
+            <input name="title" required className={inputClass} placeholder="Ej. Esferas Gomu" />
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1 block text-sm text-stone-400">Artista</label>
-              <input name="artist" className={inputClass} placeholder="Ej. Vincent van Gogh" />
+              <input name="artist" className={inputClass} placeholder="Ej. flavor user" />
             </div>
             <div>
               <label className="mb-1 block text-sm text-stone-400">Año</label>
@@ -117,7 +117,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
               name="description"
               rows={3}
               className={inputClass}
-              placeholder="2-3 frases para la tarjeta de la galería…"
+              placeholder="2–3 frases: qué se ve, de qué trata la pieza en una línea…"
             />
           </div>
 
@@ -127,7 +127,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
               name="essay"
               rows={8}
               className={inputClass}
-              placeholder="Texto para leer en la página de la obra. Puedes usar varios párrafos…"
+              placeholder="Texto de sala para el curador y los visitantes: materiales, proceso, intención, referencias, relación con otras obras tuyas…"
             />
           </div>
         </section>
@@ -137,7 +137,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
 
           <div>
             <label className="mb-1 block text-sm text-stone-400">Etiquetas (separadas por comas)</label>
-            <input name="tags" className={inputClass} placeholder="noche, postimpresionismo, paisaje" />
+            <input name="tags" className={inputClass} placeholder="fragilidad, objeto, mesa, serie 2024" />
           </div>
 
           <div>
@@ -145,7 +145,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
             <input
               name="concepts"
               className={inputClass}
-              placeholder="Color, Paisaje, Expresión"
+              placeholder="Fragilidad, Objeto, Material"
             />
             <p className="mt-1 text-xs text-stone-600">
               Se crean automáticamente si no existen. Conectan la obra con la red de conceptos.
@@ -227,9 +227,9 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
         <div className="rounded-2xl border border-stone-800 p-4 text-sm text-stone-500">
           <p className="font-medium text-stone-400">Consejos</p>
           <ul className="mt-2 list-inside list-disc space-y-1">
-            <li>La imagen se muestra con su tamaño y proporción originales.</li>
-            <li>El texto de sala es lo que la gente lee en la ficha completa.</li>
-            <li>Los conceptos ayudan a Flavor User a recomendar obras.</li>
+            <li>El <strong>texto de sala</strong> es lo que el curador usa para hablar de la obra.</li>
+            <li>Sin texto, el curador dirá que falta documentación — no inventará.</li>
+            <li>Los conceptos conectan obras entre sí en conversaciones.</li>
           </ul>
         </div>
       </aside>

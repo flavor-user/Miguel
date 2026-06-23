@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { createOpenAIClient, SYSTEM_PROMPT } from "@/lib/openai/client";
+import { createOpenAIClient, CHAT_MODEL } from "@/lib/openai/client";
+import { CURATOR_SYSTEM_PROMPT } from "@/lib/curator/prompt";
+import { buildCuratorContext } from "@/lib/curator/context";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/admin";
 import { retrieveMemories, extractMemories, saveMemories } from "@/lib/memory";
-import { findRelatedArtworks, findRelatedConcepts } from "@/lib/concepts";
 import { getArtworkBySlug, getPublishedArtworks } from "@/lib/data/artworks";
-
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 
 export const runtime = "nodejs";
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
 
     if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === "sk-...") {
       return streamFallback(
-        "OpenAI aún no está configurado. Copia `.env.example` a `.env.local` y añade tu API key. Mientras tanto, explora la galería: cada obra tiene imagen y texto de sala para leer."
+        "OpenAI aún no está configurado. Añade OPENAI_API_KEY en Vercel y haz Redeploy."
       );
     }
 
@@ -54,97 +54,40 @@ export async function POST(request: Request) {
       });
     }
 
-    const contextParts: string[] = [];
+    let artistBio: string | null = null;
+    let artistName: string | null = null;
+    let flavorSummary: string | null = null;
+    let memories: { content: string; memory_type: string }[] = [];
 
     if (user && serviceClient) {
       const { data: profile } = await serviceClient
         .from("profiles")
-        .select("flavor_summary, display_name")
+        .select("bio, flavor_summary, display_name")
         .eq("id", user.id)
         .single();
 
-      if (profile?.flavor_summary) {
-        contextParts.push(`Perfil de gusto: ${profile.flavor_summary}`);
-      }
-      if (profile?.display_name) {
-        contextParts.push(`Nombre: ${profile.display_name}`);
-      }
-
-      const memories = await retrieveMemories(user.id, message);
-      if (memories.length) {
-        contextParts.push(
-          "Memorias del usuario:\n" +
-            memories.map((m) => `- [${m.memory_type}] ${m.content}`).join("\n")
-        );
-      }
-    }
-
-    if (artworkSlug) {
-      const artwork = await getArtworkBySlug(artworkSlug);
-      if (artwork) {
-        contextParts.push(
-          `Obra en contexto: "${artwork.title}" de ${artwork.artist}. ${artwork.description ?? ""}`
-        );
-      }
+      artistBio = profile?.bio ?? null;
+      artistName = profile?.display_name ?? null;
+      flavorSummary = profile?.flavor_summary ?? null;
+      memories = await retrieveMemories(user.id, message);
     }
 
     const catalog = await getPublishedArtworks();
-    if (catalog.length) {
-      contextParts.push(
-        "Catálogo completo de la galería (SOLO existen estas obras, no inventes otras):\n" +
-          catalog
-            .map((a) => {
-              const meta = [
-                a.artist,
-                a.year ? String(a.year) : null,
-                a.medium,
-              ]
-                .filter(Boolean)
-                .join(" · ");
-              const text = [a.description, a.essay].filter(Boolean).join(" ");
-              const tags = a.tags?.length ? ` Etiquetas: ${a.tags.join(", ")}.` : "";
-              const concepts =
-                a.concepts?.length
-                  ? ` Conceptos: ${a.concepts.map((c) => c.name).join(", ")}.`
-                  : "";
-              return `- ${a.title}${meta ? ` (${meta})` : ""}${text ? `: ${text.slice(0, 600)}` : ""}${tags}${concepts}`;
-            })
-            .join("\n")
-      );
-    } else {
-      contextParts.push(
-        "La galería está vacía. No cites obras concretas; invita al usuario a explorar cuando suba contenido."
-      );
+
+    if (!artistName && catalog.length) {
+      artistName = catalog.find((a) => a.artist)?.artist ?? null;
     }
 
-    try {
-      const [artworks, concepts] = await Promise.all([
-        findRelatedArtworks(message, 4),
-        findRelatedConcepts(message, 5),
-      ]);
+    const focusArtwork = artworkSlug ? await getArtworkBySlug(artworkSlug) : null;
 
-      if (artworks.length) {
-        contextParts.push(
-          "Obras más relevantes para esta pregunta:\n" +
-            artworks
-              .map((a: { title: string; artist: string | null; description?: string | null }) =>
-                `- ${a.title}${a.artist ? ` (${a.artist})` : ""}${a.description ? `: ${a.description.slice(0, 100)}` : ""}`
-              )
-              .join("\n")
-        );
-      }
-
-      if (concepts.length) {
-        contextParts.push(
-          "Conceptos relacionados:\n" +
-            concepts.map((c: { name: string; description?: string | null }) =>
-              `- ${c.name}: ${c.description ?? ""}`
-            ).join("\n")
-        );
-      }
-    } catch {
-      // Búsqueda semántica opcional; el catálogo completo ya está arriba
-    }
+    const curatorContext = buildCuratorContext({
+      catalog,
+      focusArtwork,
+      artistBio,
+      artistName,
+      flavorSummary,
+      memories,
+    });
 
     let history: { role: "user" | "assistant"; content: string }[] = [];
 
@@ -167,21 +110,17 @@ export async function POST(request: Request) {
 
     const openai = createOpenAIClient();
     const stream = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: CHAT_MODEL,
       stream: true,
       messages: [
         {
           role: "system",
-          content:
-            SYSTEM_PROMPT +
-            (contextParts.length
-              ? `\n\n--- Contexto ---\n${contextParts.join("\n\n")}`
-              : ""),
+          content: `${CURATOR_SYSTEM_PROMPT}\n\n--- Contexto del archivo ---\n${curatorContext}`,
         },
         ...history.slice(0, -1),
         { role: "user", content: message },
       ],
-      temperature: 0.7,
+      temperature: 0.45,
       max_tokens: 1200,
     });
 
@@ -222,8 +161,8 @@ export async function POST(request: Request) {
             .select("id")
             .single();
 
-          extractMemories(message, fullResponse).then((memories) =>
-            saveMemories(user.id, memories, savedMsg?.id)
+          extractMemories(message, fullResponse).then((extracted) =>
+            saveMemories(user.id, extracted, savedMsg?.id)
           );
         }
       },

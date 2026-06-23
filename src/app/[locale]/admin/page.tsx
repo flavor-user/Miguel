@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin/auth";
 import { AdminArtworkList } from "@/components/admin/admin-artwork-list";
+import { ArtistProfileForm } from "@/components/admin/artist-profile-form";
 import { Plus, Settings } from "lucide-react";
 import { isValidLocale, localizedPath, type Locale } from "@/lib/i18n/config";
 
@@ -73,7 +74,7 @@ export default async function AdminPage({ params }: PageProps) {
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-neutral-400">Administración</p>
           <h1 className="mt-2 font-serif text-3xl text-neutral-900">Panel de control</h1>
-          <p className="mt-2 text-neutral-500">Gestiona las obras de la galería.</p>
+          <p className="mt-2 text-neutral-500">Gestiona obras y el perfil que alimenta al curador.</p>
         </div>
         <Link
           href={localizedPath(locale, "/admin/obras/nueva")}
@@ -82,6 +83,10 @@ export default async function AdminPage({ params }: PageProps) {
           <Plus className="h-4 w-4" />
           Nueva obra
         </Link>
+      </div>
+
+      <div className="mb-10">
+        <ArtistProfileForm />
       </div>
 
       <AdminArtworkList locale={locale} />

@@ -9,9 +9,10 @@ export interface ExtractedMemory {
   importance: number;
 }
 
-const EXTRACTION_PROMPT = `Analiza el intercambio y extrae memorias útiles sobre el usuario.
+const EXTRACTION_PROMPT = `Analiza el intercambio entre visitante y curador de una galería de arte personal.
+Extrae solo hechos concretos útiles para futuras conversaciones sobre el artista o sus obras.
 Devuelve JSON: { "memories": [{ "memory_type": "preference|dislike|fact|context", "content": "...", "importance": 0.0-1.0 }] }
-Solo incluye información nueva y concreta. Si no hay nada útil, devuelve { "memories": [] }.`;
+No incluyas generalidades vacías sobre arte. Si no hay nada útil, devuelve { "memories": [] }.`;
 
 export async function retrieveMemories(
   userId: string,

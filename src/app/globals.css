@@ -40,6 +40,21 @@ button {
   color: inherit;
 }
 
+button:not(:disabled),
+label[for],
+label:has(input[type="file"]),
+label:has(input[type="checkbox"]) {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+a {
+  cursor: pointer;
+}
+
 @layer base {
   h1,
   h2,

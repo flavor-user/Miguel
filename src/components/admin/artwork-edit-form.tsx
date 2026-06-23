@@ -4,6 +4,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CheckCircle, ExternalLink, Loader2, Upload } from "lucide-react";
 import { localizedPath, type Locale } from "@/lib/i18n/config";
+import {
+  adminAsideClass,
+  adminCheckboxLabelClass,
+  adminDropzoneClass,
+  adminInputClass,
+  adminLabelClass,
+  adminSectionClass,
+} from "@/components/admin/admin-form-classes";
 
 interface ArtworkForEdit {
   id: string;
@@ -135,8 +143,7 @@ export function ArtworkEditForm({
     }
   }
 
-  const inputClass =
-    "w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-stone-100 placeholder:text-stone-600 focus:border-amber-600 focus:outline-none";
+  const inputClass = adminInputClass;
 
   if (loading) {
     return (
@@ -158,12 +165,12 @@ export function ArtworkEditForm({
   return (
     <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <section className="space-y-4 rounded-2xl border border-stone-800 p-6">
-          <h2 className="text-stone-100">Imagen</h2>
+        <section className={adminSectionClass}>
+          <h2>Imagen</h2>
           <p className="text-sm text-stone-500">
             La imagen actual se mantiene. Elige otra solo si quieres reemplazarla.
           </p>
-          <label className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-stone-700 bg-stone-950/50 px-6 py-10 transition hover:border-amber-700/50">
+          <label className={adminDropzoneClass}>
             <Upload className="h-8 w-8 text-stone-500" />
             <span className="text-stone-400">
               Cambiar imagen (opcional — JPG, PNG, WebP — máx. 4 MB)
@@ -180,11 +187,11 @@ export function ArtworkEditForm({
           <input type="hidden" name="imageHeight" value={imageHeight} />
         </section>
 
-        <section className="space-y-4 rounded-2xl border border-stone-800 p-6">
-          <h2 className="text-stone-100">Ficha de la obra</h2>
+        <section className={adminSectionClass}>
+          <h2>Ficha de la obra</h2>
 
           <div>
-            <label className="mb-1 block text-stone-400">Título *</label>
+            <label className={adminLabelClass}>Título *</label>
             <input
               name="title"
               required
@@ -195,7 +202,7 @@ export function ArtworkEditForm({
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-stone-400">Artista</label>
+              <label className={adminLabelClass}>Artista</label>
               <input
                 name="artist"
                 defaultValue={artwork.artist ?? ""}
@@ -203,7 +210,7 @@ export function ArtworkEditForm({
               />
             </div>
             <div>
-              <label className="mb-1 block text-stone-400">Año</label>
+              <label className={adminLabelClass}>Año</label>
               <input
                 name="year"
                 type="number"
@@ -214,7 +221,7 @@ export function ArtworkEditForm({
           </div>
 
           <div>
-            <label className="mb-1 block text-stone-400">Técnica / soporte</label>
+            <label className={adminLabelClass}>Técnica / soporte</label>
             <input
               name="medium"
               defaultValue={artwork.medium ?? ""}
@@ -223,9 +230,7 @@ export function ArtworkEditForm({
           </div>
 
           <div>
-            <label className="mb-1 block text-stone-400">
-              Descripción corta (ficha)
-            </label>
+            <label className={adminLabelClass}>Descripción corta (ficha)</label>
             <textarea
               name="description"
               rows={3}
@@ -235,9 +240,7 @@ export function ArtworkEditForm({
           </div>
 
           <div>
-            <label className="mb-1 block text-stone-400">
-              Texto de sala (ensayo largo)
-            </label>
+            <label className={adminLabelClass}>Texto de sala (ensayo largo)</label>
             <textarea
               name="essay"
               rows={10}
@@ -248,13 +251,11 @@ export function ArtworkEditForm({
           </div>
         </section>
 
-        <section className="space-y-4 rounded-2xl border border-stone-800 p-6">
-          <h2 className="text-stone-100">Clasificación</h2>
+        <section className={adminSectionClass}>
+          <h2>Clasificación</h2>
 
           <div>
-            <label className="mb-1 block text-stone-400">
-              Etiquetas (separadas por comas)
-            </label>
+            <label className={adminLabelClass}>Etiquetas (separadas por comas)</label>
             <input
               name="tags"
               defaultValue={artwork.tags.join(", ")}
@@ -263,9 +264,7 @@ export function ArtworkEditForm({
           </div>
 
           <div>
-            <label className="mb-1 block text-stone-400">
-              Conceptos (separados por comas)
-            </label>
+            <label className={adminLabelClass}>Conceptos (separados por comas)</label>
             <input
               name="concepts"
               defaultValue={artwork.concepts.join(", ")}
@@ -274,9 +273,7 @@ export function ArtworkEditForm({
           </div>
 
           <div>
-            <label className="mb-1 block text-stone-400">
-              Texto alternativo de imagen
-            </label>
+            <label className={adminLabelClass}>Texto alternativo de imagen</label>
             <input
               name="imageAlt"
               defaultValue={artwork.image_alt ?? artwork.title}
@@ -285,7 +282,7 @@ export function ArtworkEditForm({
           </div>
 
           <div>
-            <label className="mb-1 block text-stone-400">Enlace externo</label>
+            <label className={adminLabelClass}>Enlace externo</label>
             <input
               name="sourceUrl"
               type="url"
@@ -294,7 +291,7 @@ export function ArtworkEditForm({
             />
           </div>
 
-          <label className="flex items-center gap-3 text-stone-300">
+          <label className={adminCheckboxLabelClass}>
             <input
               type="checkbox"
               name="isPublished"
@@ -330,7 +327,7 @@ export function ArtworkEditForm({
         <button
           type="submit"
           disabled={saving}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-600 py-3.5 text-stone-950 transition hover:bg-amber-500 disabled:opacity-50 sm:w-auto sm:px-10"
+          className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-amber-600 py-3.5 text-stone-950 transition hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:px-10"
         >
           {saving ? (
             <>
@@ -344,7 +341,7 @@ export function ArtworkEditForm({
       </form>
 
       <aside className="space-y-4">
-        <div className="sticky top-24 rounded-2xl border border-stone-800 p-4">
+        <div className={`sticky top-24 ${adminAsideClass}`}>
           <p className="mb-3 text-stone-500">Vista previa</p>
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element

@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { Loader2, Save } from "lucide-react";
+import {
+  adminInputClass,
+  adminLabelClass,
+  adminSectionClass,
+} from "@/components/admin/admin-form-classes";
 
 export function ArtistProfileForm() {
   const [displayName, setDisplayName] = useState("");
@@ -41,9 +46,6 @@ export function ArtistProfileForm() {
     );
   }
 
-  const inputClass =
-    "w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3  text-stone-100 placeholder:text-stone-600 focus:border-amber-600 focus:outline-none";
-
   if (loading) {
     return (
       <div className="flex items-center gap-2 py-6 text-stone-500">
@@ -54,47 +56,40 @@ export function ArtistProfileForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSave}
-      className="space-y-4 rounded-2xl border border-stone-800 p-6"
-    >
+    <form onSubmit={handleSave} className={adminSectionClass}>
       <div>
-        <h2 className="text-stone-100">Tu práctica artística</h2>
-        <p className="mt-1  text-stone-500">
+        <h2>Tu práctica artística</h2>
+        <p className="mt-1 text-stone-500">
           El curador de la web lee esto junto con los textos de cada obra.
           Cuanto más claro, menos inventará.
         </p>
       </div>
 
       <div>
-        <label className="mb-1 block  text-stone-400">
-          Nombre / alias artístico
-        </label>
+        <label className={adminLabelClass}>Nombre / alias artístico</label>
         <input
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
-          className={inputClass}
+          className={adminInputClass}
           placeholder="Ej. flavor user"
         />
       </div>
 
       <div>
-        <label className="mb-1 block  text-stone-400">
+        <label className={adminLabelClass}>
           Línea de trabajo (manifesto del curador)
         </label>
         <textarea
           value={bio}
           onChange={(e) => setBio(e.target.value)}
           rows={8}
-          className={inputClass}
+          className={adminInputClass}
           placeholder={`Describe tu estilo, materiales recurrentes, temas, referencias y cómo entiendes tu propio trabajo.\n\nEjemplo: "Trabajo con objetos cotidianos y fotografía. Me interesa la fragilidad mecánica y la relación entre lo doméstico y lo industrial…"`}
         />
       </div>
 
       {message && (
-        <p
-          className={` ${message.includes("Error") ? "text-red-400" : "text-green-400"}`}
-        >
+        <p className={message.includes("Error") ? "text-red-400" : "text-green-400"}>
           {message}
         </p>
       )}
@@ -102,7 +97,7 @@ export function ArtistProfileForm() {
       <button
         type="submit"
         disabled={saving}
-        className="inline-flex items-center gap-2 rounded-xl bg-amber-600 px-5 py-2.5   text-stone-950 hover:bg-amber-500 disabled:opacity-50"
+        className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-amber-600 px-5 py-2.5 text-stone-950 hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {saving ? (
           <Loader2 className="h-4 w-4 animate-spin" />

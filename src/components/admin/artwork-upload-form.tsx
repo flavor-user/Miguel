@@ -4,6 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import { Loader2, Upload, CheckCircle, ExternalLink } from "lucide-react";
 import { localizedPath, type Locale } from "@/lib/i18n/config";
+import {
+  adminAsideClass,
+  adminDropzoneClass,
+  adminInputClass,
+  adminLabelClass,
+  adminSectionClass,
+  adminCheckboxLabelClass,
+  adminHintClass,
+} from "@/components/admin/admin-form-classes";
 
 export function ArtworkUploadForm({ locale }: { locale: Locale }) {
   const [loading, setLoading] = useState(false);
@@ -70,17 +79,16 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
     }
   }
 
-  const inputClass =
-    "w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3  text-stone-100 placeholder:text-stone-600 focus:border-amber-600 focus:outline-none";
+  const inputClass = adminInputClass;
 
   return (
     <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <section className="space-y-4 rounded-2xl border border-stone-800 p-6">
-          <h2 className="text-stone-100">Imagen</h2>
-          <label className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-stone-700 bg-stone-950/50 px-6 py-10 transition hover:border-amber-700/50">
+        <section className={adminSectionClass}>
+          <h2>Imagen</h2>
+          <label className={adminDropzoneClass}>
             <Upload className="h-8 w-8 text-stone-500" />
-            <span className=" text-stone-400">
+            <span className="text-stone-400">
               Haz clic para elegir imagen (JPG, PNG, WebP — máx. 4 MB)
             </span>
             <input
@@ -96,11 +104,11 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           <input type="hidden" name="imageHeight" value={imageHeight} />
         </section>
 
-        <section className="space-y-4 rounded-2xl border border-stone-800 p-6">
-          <h2 className="text-stone-100">Ficha de la obra</h2>
+        <section className={adminSectionClass}>
+          <h2>Ficha de la obra</h2>
 
           <div>
-            <label className="mb-1 block  text-stone-400">Título *</label>
+            <label className={adminLabelClass}>Título *</label>
             <input
               name="title"
               required
@@ -111,7 +119,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block  text-stone-400">Artista</label>
+              <label className={adminLabelClass}>Artista</label>
               <input
                 name="artist"
                 className={inputClass}
@@ -119,7 +127,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
               />
             </div>
             <div>
-              <label className="mb-1 block  text-stone-400">Año</label>
+              <label className={adminLabelClass}>Año</label>
               <input
                 name="year"
                 type="number"
@@ -130,9 +138,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">
-              Técnica / soporte
-            </label>
+            <label className={adminLabelClass}>Técnica / soporte</label>
             <input
               name="medium"
               className={inputClass}
@@ -141,9 +147,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">
-              Descripción corta (ficha)
-            </label>
+            <label className={adminLabelClass}>Descripción corta (ficha)</label>
             <textarea
               name="description"
               rows={3}
@@ -153,9 +157,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">
-              Texto de sala (ensayo largo)
-            </label>
+            <label className={adminLabelClass}>Texto de sala (ensayo largo)</label>
             <textarea
               name="essay"
               rows={8}
@@ -165,13 +167,11 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        <section className="space-y-4 rounded-2xl border border-stone-800 p-6">
-          <h2 className="text-stone-100">Clasificación</h2>
+        <section className={adminSectionClass}>
+          <h2>Clasificación</h2>
 
           <div>
-            <label className="mb-1 block  text-stone-400">
-              Etiquetas (separadas por comas)
-            </label>
+            <label className={adminLabelClass}>Etiquetas (separadas por comas)</label>
             <input
               name="tags"
               className={inputClass}
@@ -180,22 +180,20 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">
-              Conceptos (separados por comas)
-            </label>
+            <label className={adminLabelClass}>Conceptos (separados por comas)</label>
             <input
               name="concepts"
               className={inputClass}
               placeholder="Fragilidad, Objeto, Material"
             />
-            <p className="mt-1 text-xs text-stone-600">
+            <p className={adminHintClass}>
               Se crean automáticamente si no existen. Conectan la obra con la
               red de conceptos.
             </p>
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">
+            <label className={adminLabelClass}>
               Texto alternativo de imagen (accesibilidad)
             </label>
             <input
@@ -206,9 +204,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           </div>
 
           <div>
-            <label className="mb-1 block  text-stone-400">
-              Enlace externo (opcional)
-            </label>
+            <label className={adminLabelClass}>Enlace externo (opcional)</label>
             <input
               name="sourceUrl"
               type="url"
@@ -217,7 +213,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
             />
           </div>
 
-          <label className="flex items-center gap-3  text-stone-300">
+          <label className={adminCheckboxLabelClass}>
             <input
               type="checkbox"
               name="isPublished"
@@ -253,7 +249,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-600 py-3.5  text-stone-950 transition hover:bg-amber-500 disabled:opacity-50 sm:w-auto sm:px-10"
+          className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-amber-600 py-3.5 text-stone-950 transition hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:px-10"
         >
           {loading ? (
             <>
@@ -267,7 +263,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
       </form>
 
       <aside className="space-y-4">
-        <div className="sticky top-24 rounded-2xl border border-stone-800 p-4">
+        <div className={`sticky top-24 ${adminAsideClass}`}>
           <p className="mb-3 text-stone-500">Vista previa</p>
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -277,14 +273,14 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
               className="block h-auto w-full"
             />
           ) : (
-            <div className="flex min-h-40 items-center justify-center rounded-xl bg-stone-900  text-stone-600">
+            <div className="flex min-h-40 items-center justify-center rounded-xl bg-stone-900 text-stone-600">
               Sin imagen
             </div>
           )}
         </div>
 
-        <div className="rounded-2xl border border-stone-800 p-4  text-stone-500">
-          <p className=" text-stone-400">Consejos</p>
+        <div className={`${adminAsideClass} text-stone-500`}>
+          <p className="text-stone-400">Consejos</p>
           <ul className="mt-2 list-inside list-disc space-y-1">
             <li>
               El <strong>texto de sala</strong> es lo que el curador usa para

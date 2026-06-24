@@ -67,6 +67,16 @@ export type Dictionary = {
     speakerOff: string;
     speakerUnsupported: string;
     listening: string;
+    voiceLabel: string;
+    voiceDefault: string;
+    voiceProviderLabel: string;
+    voiceProviderOpenAi: string;
+    voiceProviderBrowser: string;
+    pitchLabel: string;
+    pitchLow: string;
+    pitchNormal: string;
+    pitchHigh: string;
+    voicePreview: string;
   };
   access: {
     badge: string;
@@ -209,6 +219,16 @@ const en: Dictionary = {
     speakerOff: "Turn off curator voice",
     speakerUnsupported: "Voice playback not available",
     listening: "Listening…",
+    voiceLabel: "Curator voice",
+    voiceDefault: "System default",
+    voiceProviderLabel: "Voice engine",
+    voiceProviderOpenAi: "OpenAI (recommended)",
+    voiceProviderBrowser: "Browser (free)",
+    pitchLabel: "Tone",
+    pitchLow: "Low",
+    pitchNormal: "Neutral",
+    pitchHigh: "High",
+    voicePreview: "Preview voice",
   },
   access: {
     badge: "Private archive",
@@ -362,6 +382,16 @@ const es: Dictionary = {
     speakerOff: "Desactivar voz del curador",
     speakerUnsupported: "Voz no disponible en este navegador",
     listening: "Escuchando…",
+    voiceLabel: "Voz del curador",
+    voiceDefault: "Voz del sistema",
+    voiceProviderLabel: "Motor de voz",
+    voiceProviderOpenAi: "OpenAI (recomendada)",
+    voiceProviderBrowser: "Navegador (gratis)",
+    pitchLabel: "Tono",
+    pitchLow: "Grave",
+    pitchNormal: "Neutro",
+    pitchHigh: "Agudo",
+    voicePreview: "Probar voz",
   },
   access: {
     badge: "Archivo privado",
@@ -515,6 +545,16 @@ const ja: Dictionary = {
     speakerOff: "音声読み上げをオフ",
     speakerUnsupported: "音声読み上げは利用できません",
     listening: "聞いています…",
+    voiceLabel: "キュレーターの声",
+    voiceDefault: "システムの声",
+    voiceProviderLabel: "音声エンジン",
+    voiceProviderOpenAi: "OpenAI（推奨）",
+    voiceProviderBrowser: "ブラウザ（無料）",
+    pitchLabel: "トーン",
+    pitchLow: "低い",
+    pitchNormal: "標準",
+    pitchHigh: "高い",
+    voicePreview: "声を試す",
   },
   access: {
     badge: "非公開アーカイブ",

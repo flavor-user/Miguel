@@ -7,6 +7,7 @@ import { createServiceClient } from "@/lib/supabase/admin";
 import { retrieveMemories, extractMemories, saveMemories } from "@/lib/memory";
 import { getArtworkBySlug, getPublishedArtworks } from "@/lib/data/artworks";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
+import { logChatUsage } from "@/lib/openai/usage";
 
 export const runtime = "nodejs";
 
@@ -117,6 +118,7 @@ export async function POST(request: Request) {
     const stream = await openai.chat.completions.create({
       model: CHAT_MODEL,
       stream: true,
+      stream_options: { include_usage: true },
       messages: [
         {
           role: "system",
@@ -131,6 +133,13 @@ export async function POST(request: Request) {
 
     const encoder = new TextEncoder();
     let fullResponse = "";
+    let streamUsage:
+      | {
+          prompt_tokens?: number;
+          completion_tokens?: number;
+          total_tokens?: number;
+        }
+      | undefined;
 
     const readable = new ReadableStream({
       async start(controller) {
@@ -143,6 +152,9 @@ export async function POST(request: Request) {
         }
 
         for await (const chunk of stream) {
+          if (chunk.usage) {
+            streamUsage = chunk.usage;
+          }
           const content = chunk.choices[0]?.delta?.content ?? "";
           if (content) {
             fullResponse += content;
@@ -155,6 +167,8 @@ export async function POST(request: Request) {
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
         controller.close();
 
+        void logChatUsage(streamUsage, user?.id ?? null);
+
         if (user && serviceClient && activeConversationId && fullResponse) {
           const { data: savedMsg } = await serviceClient
             .from("messages")
@@ -166,7 +180,7 @@ export async function POST(request: Request) {
             .select("id")
             .single();
 
-          extractMemories(message, fullResponse).then((extracted) =>
+          extractMemories(message, fullResponse, user.id).then((extracted) =>
             saveMemories(user.id, extracted, savedMsg?.id),
           );
         }

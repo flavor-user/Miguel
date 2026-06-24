@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 
 export type VoicePitchPreset = "low" | "normal" | "high";
+export type VoiceProvider = "openai" | "browser";
 
 export type VoiceOption = {
   id: string;
@@ -16,6 +17,19 @@ export type SpeakOptions = {
 
 const VOICE_URI_KEY = "fu-curator-voice-uri";
 const VOICE_PITCH_KEY = "fu-curator-voice-pitch";
+const VOICE_PROVIDER_KEY = "fu-curator-voice-provider";
+const OPENAI_VOICE_KEY = "fu-curator-openai-voice";
+
+export const OPENAI_VOICE_LABELS: Record<string, string> = {
+  nova: "Nova (cálida)",
+  shimmer: "Shimmer (suave)",
+  alloy: "Alloy (neutra)",
+  echo: "Echo (masculina)",
+  fable: "Fable (narrativa)",
+  onyx: "Onyx (grave)",
+};
+
+let openAiAudio: HTMLAudioElement | null = null;
 
 export function voiceLangForLocale(locale: Locale): string {
   switch (locale) {
@@ -37,6 +51,25 @@ export function pitchFromPreset(preset: VoicePitchPreset): number {
     default:
       return 1;
   }
+}
+
+export function getStoredVoiceProvider(): VoiceProvider {
+  if (typeof window === "undefined") return "openai";
+  const value = localStorage.getItem(VOICE_PROVIDER_KEY);
+  return value === "browser" ? "browser" : "openai";
+}
+
+export function storeVoiceProvider(provider: VoiceProvider): void {
+  localStorage.setItem(VOICE_PROVIDER_KEY, provider);
+}
+
+export function getStoredOpenAiVoice(): string {
+  if (typeof window === "undefined") return "nova";
+  return localStorage.getItem(OPENAI_VOICE_KEY) ?? "nova";
+}
+
+export function storeOpenAiVoice(voice: string): void {
+  localStorage.setItem(OPENAI_VOICE_KEY, voice);
 }
 
 export function getStoredVoiceUri(): string | null {
@@ -74,17 +107,26 @@ export function isMicrophoneSupported(): boolean {
   return getSpeechRecognitionCtor() !== null;
 }
 
-export function isSpeakerSupported(): boolean {
+export function isBrowserSpeakerSupported(): boolean {
   return typeof window !== "undefined" && "speechSynthesis" in window;
 }
 
+export function stopOpenAiAudio(): void {
+  if (!openAiAudio) return;
+  openAiAudio.pause();
+  openAiAudio.src = "";
+  openAiAudio = null;
+}
+
 export function stopSpeaking(): void {
-  if (typeof window === "undefined") return;
-  window.speechSynthesis.cancel();
+  if (typeof window !== "undefined" && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+  stopOpenAiAudio();
 }
 
 export function listVoicesForLocale(locale: Locale): VoiceOption[] {
-  if (!isSpeakerSupported()) return [];
+  if (!isBrowserSpeakerSupported()) return [];
 
   const lang = voiceLangForLocale(locale);
   const langPrefix = lang.slice(0, 2);
@@ -107,12 +149,12 @@ export function listVoicesForLocale(locale: Locale): VoiceOption[] {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export function speakText(
+export function speakTextBrowser(
   text: string,
   locale: Locale,
   options?: SpeakOptions,
 ): void {
-  if (!isSpeakerSupported() || !text.trim()) return;
+  if (!isBrowserSpeakerSupported() || !text.trim()) return;
 
   stopSpeaking();
   const utterance = new SpeechSynthesisUtterance(text.trim());
@@ -130,6 +172,46 @@ export function speakText(
   window.speechSynthesis.speak(utterance);
 }
 
+export async function speakTextOpenAi(
+  text: string,
+  voice: string,
+): Promise<boolean> {
+  const trimmed = text.trim();
+  if (!trimmed) return false;
+
+  stopSpeaking();
+
+  try {
+    const res = await fetch("/api/chat/speech", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: trimmed, voice }),
+    });
+
+    if (!res.ok) return false;
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    openAiAudio = audio;
+
+    audio.onended = () => {
+      URL.revokeObjectURL(url);
+      if (openAiAudio === audio) openAiAudio = null;
+    };
+    audio.onerror = () => {
+      URL.revokeObjectURL(url);
+      if (openAiAudio === audio) openAiAudio = null;
+    };
+
+    await audio.play();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function buildSpeakOptions(
   voiceURI: string | null,
   pitchPreset: VoicePitchPreset,
@@ -139,4 +221,26 @@ export function buildSpeakOptions(
     pitch: pitchFromPreset(pitchPreset),
     rate: 0.95,
   };
+}
+
+export function listOpenAiVoiceOptions(voices: string[]): VoiceOption[] {
+  return voices.map((id) => ({
+    id,
+    name: OPENAI_VOICE_LABELS[id] ?? id,
+    lang: "OpenAI",
+  }));
+}
+
+/** @deprecated Use speakTextBrowser or speakTextOpenAi */
+export function speakText(
+  text: string,
+  locale: Locale,
+  options?: SpeakOptions,
+): void {
+  speakTextBrowser(text, locale, options);
+}
+
+/** @deprecated Use isBrowserSpeakerSupported */
+export function isSpeakerSupported(): boolean {
+  return isBrowserSpeakerSupported();
 }

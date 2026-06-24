@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin/auth";
+import { AdminUsagePanel } from "@/components/admin/admin-usage-panel";
 import { AdminArtworkList } from "@/components/admin/admin-artwork-list";
 import { ArtistProfileForm } from "@/components/admin/artist-profile-form";
 import { Plus, Settings } from "lucide-react";
@@ -87,6 +88,8 @@ export default async function AdminPage({ params }: PageProps) {
           Nueva obra
         </Link>
       </div>
+
+      <AdminUsagePanel />
 
       <div className="mb-10">
         <ArtistProfileForm />

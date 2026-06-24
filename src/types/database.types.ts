@@ -125,6 +125,36 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["concepts"]["Insert"]>;
         Relationships: [];
       };
+      ai_usage_logs: {
+        Row: {
+          id: string;
+          usage_type: "chat" | "embedding" | "memory" | "tts";
+          model: string;
+          prompt_tokens: number;
+          completion_tokens: number;
+          total_tokens: number;
+          char_count: number;
+          estimated_cost_usd: number;
+          user_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          usage_type: "chat" | "embedding" | "memory" | "tts";
+          model: string;
+          prompt_tokens?: number;
+          completion_tokens?: number;
+          total_tokens?: number;
+          char_count?: number;
+          estimated_cost_usd?: number;
+          user_id?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["ai_usage_logs"]["Insert"]
+        >;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

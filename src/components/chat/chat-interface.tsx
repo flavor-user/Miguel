@@ -50,12 +50,22 @@ export function ChatInterface({
     speakerEnabled,
     toggleSpeaker,
     speakAssistant,
+    previewVoice,
     isListening,
     toggleListening,
     stopListening,
     stopSpeaking,
     micSupported,
     speakerSupported,
+    voiceProvider,
+    openAiAvailable,
+    selectVoiceProvider,
+    voices,
+    selectedVoiceURI,
+    selectVoice,
+    pitchPreset,
+    selectPitch,
+    showPitchControl,
   } = useChatVoice(locale);
 
   const suggestedPrompts = getSuggestedPrompts(locale, focusArtworkTitle);
@@ -184,6 +194,22 @@ export function ChatInterface({
     wasLoadingRef.current = isLoading;
   }, [isLoading, messages, speakerEnabled, speakAssistant]);
 
+  function handleSpeakerToggle() {
+    toggleSpeaker(welcomeMessage);
+  }
+
+  function handleVoiceProviderChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    selectVoiceProvider(e.target.value as "openai" | "browser");
+  }
+
+  function handleVoiceChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    selectVoice(e.target.value);
+  }
+
+  function handlePitchChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    selectPitch(e.target.value as "low" | "normal" | "high");
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     await sendMessage(input);
@@ -247,13 +273,79 @@ export function ChatInterface({
           <div ref={bottomRef} />
         </div>
 
+        {speakerEnabled && speakerSupported ? (
+          <div className="flex flex-wrap items-end gap-3 border-t border-neutral-100 px-4 py-3">
+            {openAiAvailable ? (
+              <label className="min-w-[10rem] flex-1">
+                <span className="mb-1 block text-xs text-neutral-500">
+                  {t.voiceProviderLabel}
+                </span>
+                <select
+                  value={voiceProvider}
+                  onChange={handleVoiceProviderChange}
+                  className="w-full cursor-pointer border-b border-neutral-300 bg-white py-1.5 text-neutral-900 focus:border-neutral-900 focus:outline-none"
+                >
+                  <option value="openai">{t.voiceProviderOpenAi}</option>
+                  <option value="browser">{t.voiceProviderBrowser}</option>
+                </select>
+              </label>
+            ) : null}
+
+            <label className="min-w-[10rem] flex-1">
+              <span className="mb-1 block text-xs text-neutral-500">
+                {t.voiceLabel}
+              </span>
+              <select
+                value={selectedVoiceURI ?? ""}
+                onChange={handleVoiceChange}
+                className="w-full cursor-pointer border-b border-neutral-300 bg-white py-1.5 text-neutral-900 focus:border-neutral-900 focus:outline-none"
+              >
+                {voices.length === 0 ? (
+                  <option value="">{t.voiceDefault}</option>
+                ) : (
+                  voices.map((voice) => (
+                    <option key={voice.id} value={voice.id}>
+                      {voice.name}
+                    </option>
+                  ))
+                )}
+              </select>
+            </label>
+
+            {showPitchControl ? (
+              <label className="min-w-[7rem]">
+                <span className="mb-1 block text-xs text-neutral-500">
+                  {t.pitchLabel}
+                </span>
+                <select
+                  value={pitchPreset}
+                  onChange={handlePitchChange}
+                  className="w-full cursor-pointer border-b border-neutral-300 bg-white py-1.5 text-neutral-900 focus:border-neutral-900 focus:outline-none"
+                >
+                  <option value="low">{t.pitchLow}</option>
+                  <option value="normal">{t.pitchNormal}</option>
+                  <option value="high">{t.pitchHigh}</option>
+                </select>
+              </label>
+            ) : null}
+
+            <button
+              type="button"
+              onClick={() => previewVoice(welcomeMessage)}
+              className="cursor-pointer border-b border-neutral-300 py-1.5 text-xs text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-900"
+            >
+              {t.voicePreview}
+            </button>
+          </div>
+        ) : null}
+
         <form
           onSubmit={handleSubmit}
           className="flex items-center gap-2 border-t border-neutral-200 p-4"
         >
           <button
             type="button"
-            onClick={toggleSpeaker}
+            onClick={handleSpeakerToggle}
             disabled={!speakerSupported}
             className={cn(iconButtonClass, speakerEnabled && "opacity-100")}
             aria-pressed={speakerEnabled}

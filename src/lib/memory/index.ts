@@ -20,7 +20,7 @@ export async function retrieveMemories(
   limit = 8,
 ): Promise<{ content: string; memory_type: string }[]> {
   try {
-    const embedding = await embedText(query);
+    const embedding = await embedText(query, { userId });
     const supabase = createServiceClient();
     const { data } = await supabase.rpc("match_memories", {
       query_embedding: embedding,
@@ -36,8 +36,10 @@ export async function retrieveMemories(
 export async function extractMemories(
   userMessage: string,
   assistantMessage: string,
+  userId?: string | null,
 ): Promise<ExtractedMemory[]> {
   const { createOpenAIClient } = await import("@/lib/openai/client");
+  const { logMemoryUsage } = await import("@/lib/openai/usage");
   const openai = createOpenAIClient();
 
   try {
@@ -53,6 +55,8 @@ export async function extractMemories(
       ],
       temperature: 0.2,
     });
+
+    void logMemoryUsage(response.usage, userId);
 
     const parsed = JSON.parse(response.choices[0].message.content ?? "{}");
     return parsed.memories ?? [];
@@ -71,7 +75,7 @@ export async function saveMemories(
   const supabase = createServiceClient();
 
   for (const memory of memories) {
-    const embedding = await embedText(memory.content);
+    const embedding = await embedText(memory.content, { userId });
     await supabase.from("user_memories").insert({
       user_id: userId,
       memory_type: memory.memory_type,

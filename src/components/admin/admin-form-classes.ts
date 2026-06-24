@@ -5,7 +5,7 @@ export const adminInputClass =
 export const adminSectionClass =
   "space-y-4 rounded-2xl border border-stone-800 p-6 [&_h2]:text-stone-100";
 
-export const adminLabelClass = "mb-1 block text-stone-400";
+export const adminLabelClass = "mb-1 block font-bold text-stone-200";
 
 export const adminDropzoneClass =
   "flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-stone-700 bg-stone-950/50 px-6 py-10 transition hover:border-amber-700/50";

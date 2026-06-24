@@ -60,6 +60,13 @@ export type Dictionary = {
     error: string;
     principles: string;
     suggestedLabel: string;
+    micStart: string;
+    micStop: string;
+    micUnsupported: string;
+    speakerOn: string;
+    speakerOff: string;
+    speakerUnsupported: string;
+    listening: string;
   };
   access: {
     badge: string;
@@ -195,6 +202,13 @@ const en: Dictionary = {
     principles:
       "The curator speaks only from archive texts. It does not replace the artist or invent meaning.",
     suggestedLabel: "Suggested questions",
+    micStart: "Speak your question",
+    micStop: "Stop listening",
+    micUnsupported: "Microphone not available in this browser",
+    speakerOn: "Read curator replies aloud",
+    speakerOff: "Turn off curator voice",
+    speakerUnsupported: "Voice playback not available",
+    listening: "Listening…",
   },
   access: {
     badge: "Private archive",
@@ -341,6 +355,13 @@ const es: Dictionary = {
     principles:
       "El curador habla solo desde los textos del archivo. No sustituye al artista ni inventa significados.",
     suggestedLabel: "Preguntas sugeridas",
+    micStart: "Hablar tu pregunta",
+    micStop: "Dejar de escuchar",
+    micUnsupported: "Micrófono no disponible en este navegador",
+    speakerOn: "Leer respuestas del curador en voz alta",
+    speakerOff: "Desactivar voz del curador",
+    speakerUnsupported: "Voz no disponible en este navegador",
+    listening: "Escuchando…",
   },
   access: {
     badge: "Archivo privado",
@@ -487,6 +508,13 @@ const ja: Dictionary = {
     principles:
       "キュレーターはアーカイブのテキストだけから語ります。作家の代わりにはならず、意味を捏造しません。",
     suggestedLabel: "おすすめの質問",
+    micStart: "質問を話す",
+    micStop: "聞き取りを停止",
+    micUnsupported: "このブラウザではマイクが使えません",
+    speakerOn: "キュレーターの返答を音声で読む",
+    speakerOff: "音声読み上げをオフ",
+    speakerUnsupported: "音声読み上げは利用できません",
+    listening: "聞いています…",
   },
   access: {
     badge: "非公開アーカイブ",

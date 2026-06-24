@@ -4,7 +4,7 @@ import { CURATOR_SYSTEM_PROMPT } from "@/lib/curator/prompt";
 import { buildCuratorContext } from "@/lib/curator/context";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/admin";
-import { retrieveMemories, extractMemories, saveMemories } from "@/lib/memory";
+import { retrieveMemories, extractMemories, saveMemories, getCoreMemories, mergeMemories, getRecentConversationThreads, refreshFlavorSummary } from "@/lib/memory";
 import { getArtworkBySlug, getPublishedArtworks } from "@/lib/data/artworks";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { logChatUsage } from "@/lib/openai/usage";
@@ -67,6 +67,7 @@ export async function POST(request: Request) {
     let artistName: string | null = null;
     let flavorSummary: string | null = null;
     let memories: { content: string; memory_type: string }[] = [];
+    let recentConversationThreads: { title: string; excerpt: string }[] = [];
 
     if (user && serviceClient) {
       const { data: profile } = await serviceClient
@@ -78,7 +79,13 @@ export async function POST(request: Request) {
       artistBio = profile?.bio ?? null;
       artistName = profile?.display_name ?? null;
       flavorSummary = profile?.flavor_summary ?? null;
-      memories = await retrieveMemories(user.id, message);
+      const [semanticMemories, coreMemories, recentThreads] = await Promise.all([
+        retrieveMemories(user.id, message, 12),
+        getCoreMemories(user.id, 12),
+        getRecentConversationThreads(user.id, activeConversationId, 3),
+      ]);
+      memories = mergeMemories(semanticMemories, coreMemories);
+      recentConversationThreads = recentThreads;
     }
 
     const catalog = await getPublishedArtworks();
@@ -98,6 +105,7 @@ export async function POST(request: Request) {
       artistName,
       flavorSummary,
       memories,
+      recentThreads: recentConversationThreads,
     });
 
     let history: { role: "user" | "assistant"; content: string }[] = [];
@@ -108,7 +116,7 @@ export async function POST(request: Request) {
         .select("role, content")
         .eq("conversation_id", activeConversationId)
         .order("created_at", { ascending: true })
-        .limit(20);
+        .limit(40);
 
       history =
         pastMessages
@@ -185,9 +193,12 @@ export async function POST(request: Request) {
             .select("id")
             .single();
 
-          extractMemories(message, fullResponse, user.id).then((extracted) =>
-            saveMemories(user.id, extracted, savedMsg?.id),
-          );
+          extractMemories(message, fullResponse, user.id).then(async (extracted) => {
+            await saveMemories(user.id, extracted, savedMsg?.id);
+            if (extracted.length > 0) {
+              void refreshFlavorSummary(user.id);
+            }
+          });
 
           await serviceClient
             .from("conversations")

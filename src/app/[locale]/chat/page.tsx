@@ -5,6 +5,7 @@ import { createServiceClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { getArtworkBySlug, getPublishedArtworks } from "@/lib/data/artworks";
 import { buildCuratorWelcome } from "@/lib/curator/suggested-prompts";
+import { countUserMemories } from "@/lib/memory";
 import { getDictionary } from "@/lib/i18n/dictionary";
 import { isValidLocale, localizedPath, type Locale } from "@/lib/i18n/config";
 
@@ -27,6 +28,9 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
     | { id: string; role: "user" | "assistant"; content: string }[]
     | undefined;
 
+  let visitorName: string | null = null;
+  let isReturning = false;
+
   const catalog = await getPublishedArtworks();
   const focusArtwork = query.obra ? await getArtworkBySlug(query.obra) : null;
 
@@ -41,10 +45,22 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
       const service = createServiceClient();
       const { data: profile } = await service
         .from("profiles")
-        .select("display_name, bio")
+        .select("display_name, bio, flavor_summary")
         .eq("id", user.id)
         .single();
       artistName = profile?.display_name ?? null;
+      visitorName = profile?.display_name ?? null;
+
+      const memoryCount = await countUserMemories(user.id);
+      const { count: conversationCount } = await supabase
+        .from("conversations")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
+      isReturning =
+        Boolean(profile?.flavor_summary) ||
+        memoryCount > 0 ||
+        (conversationCount ?? 0) > 0;
 
       if (query.conversacion) {
         const { data: conversation } = await supabase
@@ -86,6 +102,8 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
     artworkTitle: focusArtwork?.title,
     artworkCount: catalog.length,
     artistName,
+    isReturning: isReturning && !conversationId,
+    visitorName,
   });
 
   return (

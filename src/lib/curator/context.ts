@@ -43,6 +43,7 @@ export function buildCuratorContext(params: {
   artistName?: string | null;
   flavorSummary?: string | null;
   memories?: { content: string; memory_type: string }[];
+  recentThreads?: { title: string; excerpt: string }[];
 }): string {
   const sections: string[] = [];
 
@@ -56,7 +57,7 @@ export function buildCuratorContext(params: {
     }
     if (params.flavorSummary) {
       sections.push(
-        `Perfil acumulado (conversaciones previas):\n${params.flavorSummary}`,
+        `Relación acumulada con este visitante (úsala para continuidad, no la recites entera):\n${params.flavorSummary}`,
       );
     }
   }
@@ -98,10 +99,23 @@ export function buildCuratorContext(params: {
   if (params.memories?.length) {
     sections.push("=== NOTAS DE VISITAS ANTERIORES ===");
     sections.push(
+      "Recuerdos concretos de conversaciones previas — retómalo con naturalidad si encaja.",
+    );
+    sections.push(
       params.memories
         .map((m) => `- [${m.memory_type}] ${m.content}`)
         .join("\n"),
     );
+  }
+
+  if (params.recentThreads?.length) {
+    sections.push("=== HILOS RECIENTES DE OTRAS CONVERSACIONES ===");
+    sections.push(
+      "Fragmentos recientes — solo para continuidad, no hace falta mencionarlos todos.",
+    );
+    for (const thread of params.recentThreads) {
+      sections.push(`Conversación «${thread.title}»:\n${thread.excerpt}`);
+    }
   }
 
   return sections.join("\n\n");

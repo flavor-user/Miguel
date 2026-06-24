@@ -56,6 +56,11 @@ export async function POST(request: Request) {
         role: "user",
         content: message,
       });
+
+      await serviceClient
+        .from("conversations")
+        .update({ updated_at: new Date().toISOString() })
+        .eq("id", activeConversationId);
     }
 
     let artistBio: string | null = null;
@@ -183,6 +188,11 @@ export async function POST(request: Request) {
           extractMemories(message, fullResponse, user.id).then((extracted) =>
             saveMemories(user.id, extracted, savedMsg?.id),
           );
+
+          await serviceClient
+            .from("conversations")
+            .update({ updated_at: new Date().toISOString() })
+            .eq("id", activeConversationId);
         }
       },
     });

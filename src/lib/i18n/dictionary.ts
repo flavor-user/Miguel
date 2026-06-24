@@ -51,6 +51,8 @@ export type Dictionary = {
     title: string;
     subtitleLoggedIn: string;
     subtitleGuest: string;
+    historyLink: string;
+    newChat: string;
     loginLink: string;
     placeholderLoggedIn: string;
     placeholderGuest: string;
@@ -202,6 +204,8 @@ const en: Dictionary = {
     subtitleLoggedIn:
       "Speaks from your archive texts — not generic art history.",
     subtitleGuest: "",
+    historyLink: "View your chat history",
+    newChat: "New conversation",
     loginLink: "Sign in",
     placeholderLoggedIn: "Ask about a work, a series, materials, intent…",
     placeholderGuest: "Sign in to save history, or ask anyway…",
@@ -365,6 +369,8 @@ const es: Dictionary = {
     subtitleLoggedIn:
       "Habla desde los textos de tu archivo — no desde generalidades.",
     subtitleGuest: "",
+    historyLink: "Ver tu historial de chat",
+    newChat: "Nueva conversación",
     loginLink: "Inicia sesión",
     placeholderLoggedIn:
       "Pregunta sobre una obra, una serie, materiales, intención…",
@@ -531,6 +537,8 @@ const ja: Dictionary = {
     subtitleLoggedIn:
       "アーカイブのテキストに基づいて語ります — 一般論ではなく。",
     subtitleGuest: "",
+    historyLink: "チャット履歴を見る",
+    newChat: "新しい会話",
     loginLink: "ログイン",
     placeholderLoggedIn: "作品、シリーズ、素材、意図について質問…",
     placeholderGuest:

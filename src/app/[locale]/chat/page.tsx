@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ obra?: string; concepto?: string }>;
+  searchParams: Promise<{ obra?: string; concepto?: string; conversacion?: string }>;
 }
 
 export default async function ChatPage({ params, searchParams }: PageProps) {
@@ -22,6 +22,10 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
   const query = await searchParams;
   let userId: string | undefined;
   let artistName: string | null = null;
+  let conversationId: string | undefined;
+  let initialMessages:
+    | { id: string; role: "user" | "assistant"; content: string }[]
+    | undefined;
 
   const catalog = await getPublishedArtworks();
   const focusArtwork = query.obra ? await getArtworkBySlug(query.obra) : null;
@@ -41,6 +45,36 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
         .eq("id", user.id)
         .single();
       artistName = profile?.display_name ?? null;
+
+      if (query.conversacion) {
+        const { data: conversation } = await supabase
+          .from("conversations")
+          .select("id")
+          .eq("id", query.conversacion)
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (conversation) {
+          conversationId = conversation.id;
+          const { data: savedMessages } = await supabase
+            .from("messages")
+            .select("id, role, content")
+            .eq("conversation_id", conversation.id)
+            .order("created_at", { ascending: true });
+
+          initialMessages =
+            savedMessages
+              ?.filter(
+                (message) =>
+                  message.role === "user" || message.role === "assistant",
+              )
+              .map((message) => ({
+                id: message.id,
+                role: message.role as "user" | "assistant",
+                content: message.content,
+              })) ?? [];
+        }
+      }
     }
   }
 
@@ -61,7 +95,15 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
         <h1 className="mt-3 ">{dict.chat.title}</h1>
         <p className="mt-4 ">
           {userId ? (
-            dict.chat.subtitleLoggedIn
+            <>
+              {dict.chat.subtitleLoggedIn}{" "}
+              <Link
+                href={localizedPath(locale, "/cuenta")}
+                className="underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-900"
+              >
+                {dict.chat.historyLink}
+              </Link>
+            </>
           ) : (
             <>
               <Link
@@ -99,6 +141,8 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
         userId={userId}
         locale={locale}
         dict={dict}
+        conversationId={conversationId}
+        initialMessages={initialMessages}
         initialArtworkSlug={query.obra}
         focusArtworkTitle={focusArtwork?.title}
         welcomeMessage={welcomeMessage}

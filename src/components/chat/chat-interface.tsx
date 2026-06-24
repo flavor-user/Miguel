@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Loader2, Mic, MicOff, Send, Volume2, VolumeX } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Loader2, Mic, MicOff, Plus, Send, Volume2, VolumeX } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Dictionary } from "@/lib/i18n/dictionary";
-import type { Locale } from "@/lib/i18n/config";
+import { localizedPath, type Locale } from "@/lib/i18n/config";
 import { CuratorSuggestedPrompts } from "@/components/chat/curator-suggested-prompts";
 import { getSuggestedPrompts } from "@/lib/curator/suggested-prompts";
 import { useChatVoice } from "@/hooks/use-chat-voice";
@@ -17,6 +19,7 @@ interface Message {
 
 interface ChatInterfaceProps {
   conversationId?: string;
+  initialMessages?: Message[];
   initialArtworkSlug?: string;
   focusArtworkTitle?: string;
   welcomeMessage: string;
@@ -27,6 +30,7 @@ interface ChatInterfaceProps {
 
 export function ChatInterface({
   conversationId: initialConversationId,
+  initialMessages,
   initialArtworkSlug,
   focusArtworkTitle,
   welcomeMessage,
@@ -35,13 +39,17 @@ export function ChatInterface({
   dict,
 }: ChatInterfaceProps) {
   const t = dict.chat;
-  const [messages, setMessages] = useState<Message[]>([
-    { id: "welcome", role: "assistant", content: welcomeMessage },
-  ]);
+  const router = useRouter();
+  const hasSavedHistory = Boolean(initialMessages?.length);
+  const [messages, setMessages] = useState<Message[]>(
+    hasSavedHistory
+      ? initialMessages!
+      : [{ id: "welcome", role: "assistant", content: welcomeMessage }],
+  );
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [conversationId, setConversationId] = useState(initialConversationId);
-  const [showSuggestions, setShowSuggestions] = useState(true);
+  const [showSuggestions, setShowSuggestions] = useState(!hasSavedHistory);
   const bottomRef = useRef<HTMLDivElement>(null);
   const wasLoadingRef = useRef(false);
   const lastSpokenIdRef = useRef<string | null>(null);
@@ -148,6 +156,14 @@ export function ChatInterface({
                 }
                 if (parsed.conversationId) {
                   setConversationId(parsed.conversationId);
+                  if (typeof window !== "undefined" && userId) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set(
+                      "conversacion",
+                      parsed.conversationId,
+                    );
+                    window.history.replaceState({}, "", url.toString());
+                  }
                 }
               } catch {
                 // skip malformed chunks
@@ -179,6 +195,7 @@ export function ChatInterface({
       stopListening,
       stopSpeaking,
       t.error,
+      userId,
     ],
   );
 
@@ -196,6 +213,17 @@ export function ChatInterface({
     }
     wasLoadingRef.current = isLoading;
   }, [isLoading, messages, speakerEnabled, speakAssistant]);
+
+  function handleNewConversation() {
+    stopListening();
+    stopSpeaking();
+
+    const path = localizedPath(locale, "/chat");
+    const query = initialArtworkSlug
+      ? `?obra=${encodeURIComponent(initialArtworkSlug)}`
+      : "";
+    router.push(`${path}${query}`);
+  }
 
   function handleReplayMessage(messageId: string, text: string) {
     void speakNow(text, messageId);
@@ -234,6 +262,26 @@ export function ChatInterface({
 
   return (
     <div className="flex flex-col border border-neutral-200 bg-white">
+      {userId ? (
+        <div className="flex flex-wrap items-center justify-end gap-3 border-b border-neutral-100 px-4 py-2.5">
+          <Link
+            href={localizedPath(locale, "/cuenta")}
+            className="text-xs text-neutral-500 transition hover:text-neutral-900"
+          >
+            {t.historyLink}
+          </Link>
+          <button
+            type="button"
+            onClick={handleNewConversation}
+            disabled={isLoading || isListening}
+            className="inline-flex cursor-pointer items-center gap-1.5 border border-neutral-300 px-3 py-1.5 text-xs text-neutral-800 transition hover:border-neutral-900 hover:text-neutral-900 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            {t.newChat}
+          </button>
+        </div>
+      ) : null}
+
       {showSuggestions && messages.length === 1 ? (
         <CuratorSuggestedPrompts
           locale={locale}

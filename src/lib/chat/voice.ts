@@ -29,7 +29,55 @@ export const OPENAI_VOICE_LABELS: Record<string, string> = {
   onyx: "Onyx (grave)",
 };
 
-let openAiAudio: HTMLAudioElement | null = null;
+let activeSpeakSession = 0;
+let openAiAbortController: AbortController | null = null;
+let activeOpenAiAudio: HTMLAudioElement | null = null;
+
+function cancelBrowserSpeech(): void {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  if (window.speechSynthesis.paused) {
+    window.speechSynthesis.resume();
+  }
+}
+
+function stopOpenAiAudio(): void {
+  openAiAbortController?.abort();
+  openAiAbortController = null;
+
+  if (!activeOpenAiAudio) return;
+  activeOpenAiAudio.pause();
+  activeOpenAiAudio.removeAttribute("src");
+  activeOpenAiAudio.load();
+  activeOpenAiAudio = null;
+}
+
+function invalidatePendingPlayback(): void {
+  activeSpeakSession += 1;
+  stopOpenAiAudio();
+  cancelBrowserSpeech();
+}
+
+function beginSpeakSession(): number {
+  invalidatePendingPlayback();
+  return activeSpeakSession;
+}
+
+function isActiveSession(session: number): boolean {
+  return session === activeSpeakSession;
+}
+
+export function isSpeakingActive(): boolean {
+  if (activeOpenAiAudio && !activeOpenAiAudio.paused && !activeOpenAiAudio.ended) {
+    return true;
+  }
+  if (typeof window !== "undefined" && "speechSynthesis" in window) {
+    return (
+      window.speechSynthesis.speaking || window.speechSynthesis.pending
+    );
+  }
+  return false;
+}
 
 export function voiceLangForLocale(locale: Locale): string {
   switch (locale) {
@@ -111,18 +159,8 @@ export function isBrowserSpeakerSupported(): boolean {
   return typeof window !== "undefined" && "speechSynthesis" in window;
 }
 
-export function stopOpenAiAudio(): void {
-  if (!openAiAudio) return;
-  openAiAudio.pause();
-  openAiAudio.src = "";
-  openAiAudio = null;
-}
-
 export function stopSpeaking(): void {
-  if (typeof window !== "undefined" && "speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-  }
-  stopOpenAiAudio();
+  invalidatePendingPlayback();
 }
 
 export function listVoicesForLocale(locale: Locale): VoiceOption[] {
@@ -153,23 +191,40 @@ export function speakTextBrowser(
   text: string,
   locale: Locale,
   options?: SpeakOptions,
-): void {
-  if (!isBrowserSpeakerSupported() || !text.trim()) return;
-
-  stopSpeaking();
-  const utterance = new SpeechSynthesisUtterance(text.trim());
-  utterance.lang = voiceLangForLocale(locale);
-  utterance.rate = options?.rate ?? 0.95;
-  utterance.pitch = options?.pitch ?? 1;
-
-  if (options?.voiceURI) {
-    const voice = window.speechSynthesis
-      .getVoices()
-      .find((item) => item.voiceURI === options.voiceURI);
-    if (voice) utterance.voice = voice;
+): Promise<boolean> {
+  const trimmed = text.trim();
+  if (!isBrowserSpeakerSupported() || !trimmed) {
+    return Promise.resolve(false);
   }
 
-  window.speechSynthesis.speak(utterance);
+  const session = beginSpeakSession();
+
+  return new Promise((resolve) => {
+    const utterance = new SpeechSynthesisUtterance(trimmed);
+    utterance.lang = voiceLangForLocale(locale);
+    utterance.rate = options?.rate ?? 0.95;
+    utterance.pitch = options?.pitch ?? 1;
+
+    if (options?.voiceURI) {
+      const voice = window.speechSynthesis
+        .getVoices()
+        .find((item) => item.voiceURI === options.voiceURI);
+      if (voice) utterance.voice = voice;
+    }
+
+    const finish = (played: boolean) => {
+      if (!isActiveSession(session)) {
+        resolve(false);
+        return;
+      }
+      resolve(played);
+    };
+
+    utterance.onend = () => finish(true);
+    utterance.onerror = () => finish(false);
+
+    window.speechSynthesis.speak(utterance);
+  });
 }
 
 export async function speakTextOpenAi(
@@ -179,7 +234,9 @@ export async function speakTextOpenAi(
   const trimmed = text.trim();
   if (!trimmed) return false;
 
-  stopSpeaking();
+  const session = beginSpeakSession();
+  const controller = new AbortController();
+  openAiAbortController = controller;
 
   try {
     const res = await fetch("/api/chat/speech", {
@@ -187,28 +244,51 @@ export async function speakTextOpenAi(
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: trimmed, voice }),
+      signal: controller.signal,
     });
 
+    if (!isActiveSession(session)) return false;
     if (!res.ok) return false;
 
     const blob = await res.blob();
+    if (!isActiveSession(session)) return false;
+
     const url = URL.createObjectURL(blob);
     const audio = new Audio(url);
-    openAiAudio = audio;
+    activeOpenAiAudio = audio;
 
-    audio.onended = () => {
-      URL.revokeObjectURL(url);
-      if (openAiAudio === audio) openAiAudio = null;
-    };
-    audio.onerror = () => {
-      URL.revokeObjectURL(url);
-      if (openAiAudio === audio) openAiAudio = null;
-    };
+    return await new Promise<boolean>((resolve) => {
+      const cleanup = () => {
+        URL.revokeObjectURL(url);
+        if (activeOpenAiAudio === audio) activeOpenAiAudio = null;
+      };
 
-    await audio.play();
-    return true;
+      audio.onended = () => {
+        cleanup();
+        resolve(isActiveSession(session));
+      };
+      audio.onerror = () => {
+        cleanup();
+        resolve(false);
+      };
+
+      if (!isActiveSession(session)) {
+        cleanup();
+        resolve(false);
+        return;
+      }
+
+      void audio.play().catch(() => {
+        cleanup();
+        resolve(false);
+      });
+    });
   } catch {
     return false;
+  } finally {
+    if (openAiAbortController === controller) {
+      openAiAbortController = null;
+    }
   }
 }
 
@@ -237,7 +317,7 @@ export function speakText(
   locale: Locale,
   options?: SpeakOptions,
 ): void {
-  speakTextBrowser(text, locale, options);
+  void speakTextBrowser(text, locale, options);
 }
 
 /** @deprecated Use isBrowserSpeakerSupported */

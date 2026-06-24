@@ -11,6 +11,7 @@ import {
   getStoredVoiceUri,
   isBrowserSpeakerSupported,
   isMicrophoneSupported,
+  isSpeakingActive,
   listOpenAiVoiceOptions,
   listVoicesForLocale,
   speakTextBrowser,
@@ -26,9 +27,15 @@ import {
   type VoiceProvider,
 } from "@/lib/chat/voice";
 
+type SpeakTarget = {
+  playbackId: string;
+};
+
 export function useChatVoice(locale: Locale) {
   const [speakerEnabled, setSpeakerEnabled] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [playingMessageId, setPlayingMessageId] = useState<string | null>(null);
   const [micSupported, setMicSupported] = useState(false);
   const [browserSpeakerSupported, setBrowserSpeakerSupported] = useState(false);
   const [openAiAvailable, setOpenAiAvailable] = useState(false);
@@ -38,6 +45,9 @@ export function useChatVoice(locale: Locale) {
   const [selectedOpenAiVoice, setSelectedOpenAiVoice] = useState("nova");
   const [pitchPreset, setPitchPreset] = useState<VoicePitchPreset>("normal");
   const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const activeTargetRef = useRef<SpeakTarget | null>(null);
+  const speakInFlightRef = useRef(false);
+  const speakerEnabledRef = useRef(false);
 
   const speakerSupported = openAiAvailable || browserSpeakerSupported;
 
@@ -45,6 +55,18 @@ export function useChatVoice(locale: Locale) {
     () => buildSpeakOptions(selectedVoiceURI, pitchPreset),
     [pitchPreset, selectedVoiceURI],
   );
+
+  const clearPlaybackState = useCallback(() => {
+    activeTargetRef.current = null;
+    setPlayingMessageId(null);
+    setIsSpeaking(false);
+    speakInFlightRef.current = false;
+  }, []);
+
+  const stopPlayback = useCallback(() => {
+    stopSpeaking();
+    clearPlaybackState();
+  }, [clearPlaybackState]);
 
   useEffect(() => {
     setMicSupported(isMicrophoneSupported());
@@ -91,11 +113,16 @@ export function useChatVoice(locale: Locale) {
     return () => {
       recognitionRef.current?.stop();
       stopSpeaking();
+      clearPlaybackState();
       if (typeof window !== "undefined" && "speechSynthesis" in window) {
         window.speechSynthesis.onvoiceschanged = null;
       }
     };
-  }, [locale]);
+  }, [clearPlaybackState, locale]);
+
+  useEffect(() => {
+    speakerEnabledRef.current = speakerEnabled;
+  }, [speakerEnabled]);
 
   useEffect(() => {
     if (voiceProvider === "openai" && openAiAvailable) {
@@ -112,21 +139,37 @@ export function useChatVoice(locale: Locale) {
     }
   }, [voiceProvider, openAiAvailable, locale]);
 
-  const speakNow = useCallback(
-    async (text: string) => {
+  const runSpeak = useCallback(
+    async (text: string, playbackId: string) => {
       if (!speakerSupported || !text.trim()) return;
 
-      if (voiceProvider === "openai" && openAiAvailable) {
-        const ok = await speakTextOpenAi(text, selectedOpenAiVoice);
-        if (ok) return;
+      if (speakInFlightRef.current || isSpeakingActive()) {
+        stopSpeaking();
       }
 
-      if (browserSpeakerSupported) {
-        speakTextBrowser(text, locale, speakOptions);
+      speakInFlightRef.current = true;
+      activeTargetRef.current = { playbackId };
+      setPlayingMessageId(playbackId);
+      setIsSpeaking(true);
+
+      try {
+        if (voiceProvider === "openai" && openAiAvailable) {
+          const ok = await speakTextOpenAi(text, selectedOpenAiVoice);
+          if (ok) return;
+        }
+
+        if (browserSpeakerSupported) {
+          await speakTextBrowser(text, locale, speakOptions);
+        }
+      } finally {
+        if (activeTargetRef.current?.playbackId === playbackId) {
+          clearPlaybackState();
+        }
       }
     },
     [
       browserSpeakerSupported,
+      clearPlaybackState,
       locale,
       openAiAvailable,
       selectedOpenAiVoice,
@@ -136,43 +179,57 @@ export function useChatVoice(locale: Locale) {
     ],
   );
 
+  const speakNow = useCallback(
+    async (text: string, playbackId = "manual") => {
+      if (!speakerSupported || !text.trim()) return;
+
+      if (activeTargetRef.current?.playbackId === playbackId) {
+        stopPlayback();
+        return;
+      }
+
+      await runSpeak(text, playbackId);
+    },
+    [runSpeak, speakerSupported, stopPlayback],
+  );
+
   const disableSpeaker = useCallback(() => {
-    stopSpeaking();
+    stopPlayback();
     setSpeakerEnabled(false);
-  }, []);
+  }, [stopPlayback]);
 
   const enableSpeaker = useCallback(
     (sampleText?: string) => {
       setSpeakerEnabled(true);
       if (sampleText?.trim()) {
-        void speakNow(sampleText);
+        void runSpeak(sampleText, "welcome");
       }
     },
-    [speakNow],
+    [runSpeak],
   );
 
   const toggleSpeaker = useCallback(
     (sampleText?: string) => {
-      setSpeakerEnabled((on) => {
-        if (on) {
-          stopSpeaking();
-          return false;
-        }
-        if (sampleText?.trim()) {
-          setTimeout(() => void speakNow(sampleText), 0);
-        }
-        return true;
-      });
+      if (speakerEnabledRef.current) {
+        stopPlayback();
+        setSpeakerEnabled(false);
+        return;
+      }
+
+      setSpeakerEnabled(true);
+      if (sampleText?.trim()) {
+        void runSpeak(sampleText, "welcome");
+      }
     },
-    [speakNow],
+    [runSpeak, stopPlayback],
   );
 
   const speakAssistant = useCallback(
-    (text: string) => {
+    (text: string, messageId: string) => {
       if (!speakerEnabled) return;
-      void speakNow(text);
+      void runSpeak(text, messageId);
     },
-    [speakerEnabled, speakNow],
+    [runSpeak, speakerEnabled],
   );
 
   const selectVoiceProvider = useCallback((provider: VoiceProvider) => {
@@ -200,7 +257,7 @@ export function useChatVoice(locale: Locale) {
 
   const previewVoice = useCallback(
     (sampleText: string) => {
-      void speakNow(sampleText);
+      void speakNow(sampleText, "preview");
     },
     [speakNow],
   );
@@ -216,7 +273,7 @@ export function useChatVoice(locale: Locale) {
       const Ctor = getSpeechRecognitionCtor();
       if (!Ctor || isListening) return false;
 
-      stopSpeaking();
+      stopPlayback();
       const recognition = new Ctor();
       recognition.lang = voiceLangForLocale(locale);
       recognition.continuous = false;
@@ -252,7 +309,7 @@ export function useChatVoice(locale: Locale) {
         return false;
       }
     },
-    [isListening, locale],
+    [isListening, locale, stopPlayback],
   );
 
   const toggleListening = useCallback(
@@ -278,9 +335,11 @@ export function useChatVoice(locale: Locale) {
     speakNow,
     previewVoice,
     isListening,
+    isSpeaking,
+    playingMessageId,
     toggleListening,
     stopListening,
-    stopSpeaking,
+    stopSpeaking: stopPlayback,
     micSupported,
     speakerSupported,
     voiceProvider,

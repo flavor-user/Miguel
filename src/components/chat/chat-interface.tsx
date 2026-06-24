@@ -53,6 +53,8 @@ export function ChatInterface({
     speakNow,
     previewVoice,
     isListening,
+    isSpeaking,
+    playingMessageId,
     toggleListening,
     stopListening,
     stopSpeaking,
@@ -189,15 +191,14 @@ export function ChatInterface({
         last.content.trim() &&
         lastSpokenIdRef.current === last.id
       ) {
-        speakAssistant(last.content);
+        speakAssistant(last.content, last.id);
       }
     }
     wasLoadingRef.current = isLoading;
   }, [isLoading, messages, speakerEnabled, speakAssistant]);
 
-  function handleReplayMessage(text: string) {
-    stopSpeaking();
-    void speakNow(text);
+  function handleReplayMessage(messageId: string, text: string) {
+    void speakNow(text, messageId);
   }
 
   function handleSpeakerToggle() {
@@ -267,12 +268,27 @@ export function ChatInterface({
               speakerSupported ? (
                 <button
                   type="button"
-                  onClick={() => handleReplayMessage(msg.content)}
-                  className="mt-2 inline-flex cursor-pointer items-center gap-1.5 text-xs text-neutral-500 transition hover:text-neutral-900"
-                  title={t.voiceReplay}
+                  onClick={() => handleReplayMessage(msg.id, msg.content)}
+                  className={cn(
+                    "mt-2 inline-flex cursor-pointer items-center gap-1.5 text-xs transition",
+                    playingMessageId === msg.id && isSpeaking
+                      ? "text-neutral-900"
+                      : "text-neutral-500 hover:text-neutral-900",
+                  )}
+                  title={
+                    playingMessageId === msg.id && isSpeaking
+                      ? t.voiceStop
+                      : t.voiceReplay
+                  }
                 >
-                  <Volume2 className="h-3.5 w-3.5" />
-                  {t.voiceReplay}
+                  {playingMessageId === msg.id && isSpeaking ? (
+                    <VolumeX className="h-3.5 w-3.5" />
+                  ) : (
+                    <Volume2 className="h-3.5 w-3.5" />
+                  )}
+                  {playingMessageId === msg.id && isSpeaking
+                    ? t.voiceStop
+                    : t.voiceReplay}
                 </button>
               ) : null}
             </div>

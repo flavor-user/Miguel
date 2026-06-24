@@ -77,6 +77,7 @@ export type Dictionary = {
     pitchNormal: string;
     pitchHigh: string;
     voicePreview: string;
+    voiceReplay: string;
   };
   access: {
     badge: string;
@@ -229,6 +230,7 @@ const en: Dictionary = {
     pitchNormal: "Neutral",
     pitchHigh: "High",
     voicePreview: "Preview voice",
+    voiceReplay: "Listen again",
   },
   access: {
     badge: "Private archive",
@@ -392,6 +394,7 @@ const es: Dictionary = {
     pitchNormal: "Neutro",
     pitchHigh: "Agudo",
     voicePreview: "Probar voz",
+    voiceReplay: "Escuchar de nuevo",
   },
   access: {
     badge: "Archivo privado",
@@ -555,6 +558,7 @@ const ja: Dictionary = {
     pitchNormal: "標準",
     pitchHigh: "高い",
     voicePreview: "声を試す",
+    voiceReplay: "もう一度聞く",
   },
   access: {
     badge: "非公開アーカイブ",

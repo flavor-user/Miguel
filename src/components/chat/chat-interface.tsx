@@ -50,6 +50,7 @@ export function ChatInterface({
     speakerEnabled,
     toggleSpeaker,
     speakAssistant,
+    speakNow,
     previewVoice,
     isListening,
     toggleListening,
@@ -194,6 +195,11 @@ export function ChatInterface({
     wasLoadingRef.current = isLoading;
   }, [isLoading, messages, speakerEnabled, speakAssistant]);
 
+  function handleReplayMessage(text: string) {
+    stopSpeaking();
+    void speakNow(text);
+  }
+
   function handleSpeakerToggle() {
     toggleSpeaker(welcomeMessage);
   }
@@ -256,6 +262,19 @@ export function ChatInterface({
                 <p className="mb-1">{t.badge}</p>
               ) : null}
               <p className="whitespace-pre-wrap">{msg.content}</p>
+              {msg.role === "assistant" &&
+              msg.content.trim() &&
+              speakerSupported ? (
+                <button
+                  type="button"
+                  onClick={() => handleReplayMessage(msg.content)}
+                  className="mt-2 inline-flex cursor-pointer items-center gap-1.5 text-xs text-neutral-500 transition hover:text-neutral-900"
+                  title={t.voiceReplay}
+                >
+                  <Volume2 className="h-3.5 w-3.5" />
+                  {t.voiceReplay}
+                </button>
+              ) : null}
             </div>
           ))}
           {isLoading ? (

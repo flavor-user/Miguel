@@ -4,6 +4,7 @@ import { SignOutButton } from "@/components/auth/auth-form";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { requireAdmin } from "@/lib/admin/auth";
+import { getExploredArtworks } from "@/lib/memory/artwork-focus";
 import type { Profile, Conversation } from "@/types/database.types";
 import { getDictionary } from "@/lib/i18n/dictionary";
 import { isValidLocale, localizedPath, type Locale } from "@/lib/i18n/config";
@@ -67,6 +68,7 @@ export default async function AccountPage({ params }: PageProps) {
 
   const adminAuth = await requireAdmin();
   const isAdmin = adminAuth.authorized;
+  const exploredArtworks = await getExploredArtworks(user.id, 8);
 
   return (
     <div className="max-w-2xl">
@@ -95,6 +97,32 @@ export default async function AccountPage({ params }: PageProps) {
           <p className="mt-3 leading-relaxed">{profile.flavor_summary}</p>
         </section>
       )}
+
+      {exploredArtworks.length > 0 ? (
+        <section className="mt-10 border-t border-neutral-200 pt-8">
+          <h2>{a.exploredArtworks}</h2>
+          <ul className="mt-4 divide-y divide-neutral-200">
+            {exploredArtworks.map((visit) => (
+              <li key={visit.artwork_slug}>
+                <Link
+                  href={localizedPath(
+                    locale,
+                    `/chat?obra=${encodeURIComponent(visit.artwork_slug)}`,
+                  )}
+                  className="flex items-center justify-between py-3 transition hover:opacity-80"
+                >
+                  <span>{visit.artwork_title}</span>
+                  <span className="text-xs text-neutral-500">
+                    {new Date(visit.last_visited_at).toLocaleDateString(
+                      dateLocale(locale),
+                    )}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section className="mt-10">
         <div className="mb-4 flex items-center justify-between border-b border-neutral-200 pb-3">

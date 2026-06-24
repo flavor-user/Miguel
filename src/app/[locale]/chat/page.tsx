@@ -6,6 +6,7 @@ import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { getArtworkBySlug, getPublishedArtworks } from "@/lib/data/artworks";
 import { buildCuratorWelcome } from "@/lib/curator/suggested-prompts";
 import { countUserMemories } from "@/lib/memory";
+import { getLastArtworkFocus, recordArtworkVisit } from "@/lib/memory/artwork-focus";
 import { getDictionary } from "@/lib/i18n/dictionary";
 import { isValidLocale, localizedPath, type Locale } from "@/lib/i18n/config";
 
@@ -30,6 +31,7 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
 
   let visitorName: string | null = null;
   let isReturning = false;
+  let resumeArtwork: { slug: string; title: string } | null = null;
 
   const catalog = await getPublishedArtworks();
   const focusArtwork = query.obra ? await getArtworkBySlug(query.obra) : null;
@@ -61,6 +63,16 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
         Boolean(profile?.flavor_summary) ||
         memoryCount > 0 ||
         (conversationCount ?? 0) > 0;
+
+      if (focusArtwork) {
+        void recordArtworkVisit(
+          user.id,
+          focusArtwork.slug,
+          focusArtwork.title,
+        );
+      } else if (!query.conversacion) {
+        resumeArtwork = await getLastArtworkFocus(user.id);
+      }
 
       if (query.conversacion) {
         const { data: conversation } = await supabase
@@ -104,6 +116,7 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
     artistName,
     isReturning: isReturning && !conversationId,
     visitorName,
+    shortReturn: Boolean(resumeArtwork && !focusArtwork && !conversationId),
   });
 
   return (
@@ -150,6 +163,20 @@ export default async function ChatPage({ params, searchParams }: PageProps) {
               className=" underline decoration-neutral-300 underline-offset-2"
             >
               {focusArtwork.title}
+            </Link>
+          </p>
+        ) : null}
+        {resumeArtwork && !focusArtwork && !conversationId ? (
+          <p className="mt-3 border-l-2 border-neutral-200 pl-3 text-sm text-neutral-600">
+            {dict.chat.resumeArtworkLabel}{" "}
+            <Link
+              href={localizedPath(
+                locale,
+                `/chat?obra=${encodeURIComponent(resumeArtwork.slug)}`,
+              )}
+              className="text-neutral-900 underline decoration-neutral-300 underline-offset-2 hover:decoration-neutral-900"
+            >
+              {resumeArtwork.title}
             </Link>
           </p>
         ) : null}

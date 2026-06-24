@@ -69,6 +69,7 @@ export function buildCuratorWelcome(
     artistName?: string | null;
     isReturning?: boolean;
     visitorName?: string | null;
+    shortReturn?: boolean;
   },
 ): string {
   const who = params.artistName
@@ -100,6 +101,15 @@ export function buildCuratorWelcome(
         "I'm the curator of this archive",
         "私はこのアーカイブのキュレーターです",
       );
+
+  if (params.isReturning && params.shortReturn) {
+    return t(
+      locale,
+      `${greeting}¿Por dónde seguimos?`,
+      `${greeting}Where shall we pick up?`,
+      `${greeting}どこから続けましょうか？`,
+    );
+  }
 
   if (params.artworkTitle) {
     return params.isReturning

@@ -5,6 +5,7 @@ import { buildCuratorContext } from "@/lib/curator/context";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/admin";
 import { retrieveMemories, extractMemories, saveMemories, getCoreMemories, mergeMemories, getRecentConversationThreads, refreshFlavorSummary } from "@/lib/memory";
+import { getLastArtworkFocus, recordArtworkVisit } from "@/lib/memory/artwork-focus";
 import { getArtworkBySlug, getPublishedArtworks } from "@/lib/data/artworks";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { logChatUsage } from "@/lib/openai/usage";
@@ -68,6 +69,11 @@ export async function POST(request: Request) {
     let flavorSummary: string | null = null;
     let memories: { content: string; memory_type: string }[] = [];
     let recentConversationThreads: { title: string; excerpt: string }[] = [];
+    let lastArtworkFocus: {
+      title: string;
+      slug: string;
+      artwork?: Awaited<ReturnType<typeof getArtworkBySlug>>;
+    } | null = null;
 
     if (user && serviceClient) {
       const { data: profile } = await serviceClient
@@ -98,6 +104,18 @@ export async function POST(request: Request) {
       ? await getArtworkBySlug(artworkSlug)
       : null;
 
+    if (user && !focusArtwork) {
+      const last = await getLastArtworkFocus(user.id);
+      if (last) {
+        const artwork = await getArtworkBySlug(last.slug);
+        lastArtworkFocus = { ...last, artwork };
+      }
+    }
+
+    if (user && focusArtwork) {
+      void recordArtworkVisit(user.id, focusArtwork.slug, focusArtwork.title);
+    }
+
     const curatorContext = buildCuratorContext({
       catalog,
       focusArtwork,
@@ -106,6 +124,9 @@ export async function POST(request: Request) {
       flavorSummary,
       memories,
       recentThreads: recentConversationThreads,
+      lastArtworkFocus: focusArtwork
+        ? null
+        : lastArtworkFocus,
     });
 
     let history: { role: "user" | "assistant"; content: string }[] = [];

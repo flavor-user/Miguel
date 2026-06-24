@@ -53,6 +53,7 @@ export type Dictionary = {
     subtitleGuest: string;
     historyLink: string;
     newChat: string;
+    resumeArtworkLabel: string;
     loginLink: string;
     placeholderLoggedIn: string;
     placeholderGuest: string;
@@ -120,6 +121,7 @@ export type Dictionary = {
     title: string;
     adminLink: string;
     flavorProfile: string;
+    exploredArtworks: string;
     recentChats: string;
     newChat: string;
     noChats: string;
@@ -206,6 +208,7 @@ const en: Dictionary = {
     subtitleGuest: "",
     historyLink: "View your chat history",
     newChat: "New conversation",
+    resumeArtworkLabel: "Continue with",
     loginLink: "Sign in",
     placeholderLoggedIn: "Ask about a work, a series, materials, intent…",
     placeholderGuest: "Sign in to save history, or ask anyway…",
@@ -279,6 +282,7 @@ const en: Dictionary = {
     title: "My account",
     adminLink: "→ Admin panel (manage gallery)",
     flavorProfile: "Your taste profile",
+    exploredArtworks: "Works you've explored",
     recentChats: "Recent conversations",
     newChat: "New conversation",
     noChats: "No conversations yet.",
@@ -371,6 +375,7 @@ const es: Dictionary = {
     subtitleGuest: "",
     historyLink: "Ver tu historial de chat",
     newChat: "Nueva conversación",
+    resumeArtworkLabel: "Seguir con",
     loginLink: "Inicia sesión",
     placeholderLoggedIn:
       "Pregunta sobre una obra, una serie, materiales, intención…",
@@ -448,6 +453,7 @@ const es: Dictionary = {
     title: "Mi cuenta",
     adminLink: "→ Panel admin (gestionar galería)",
     flavorProfile: "Tu perfil de gusto",
+    exploredArtworks: "Obras que has explorado",
     recentChats: "Conversaciones recientes",
     newChat: "Nueva conversación",
     noChats: "Aún no tienes conversaciones.",
@@ -539,6 +545,7 @@ const ja: Dictionary = {
     subtitleGuest: "",
     historyLink: "チャット履歴を見る",
     newChat: "新しい会話",
+    resumeArtworkLabel: "続きから",
     loginLink: "ログイン",
     placeholderLoggedIn: "作品、シリーズ、素材、意図について質問…",
     placeholderGuest:
@@ -614,6 +621,7 @@ const ja: Dictionary = {
     title: "マイアカウント",
     adminLink: "→ 管理パネル（ギャラリー管理）",
     flavorProfile: "あなたの嗜好プロフィール",
+    exploredArtworks: "探索した作品",
     recentChats: "最近の会話",
     newChat: "新しい会話",
     noChats: "まだ会話がありません。",

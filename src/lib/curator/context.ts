@@ -44,6 +44,7 @@ export function buildCuratorContext(params: {
   flavorSummary?: string | null;
   memories?: { content: string; memory_type: string }[];
   recentThreads?: { title: string; excerpt: string }[];
+  lastArtworkFocus?: { title: string; slug: string; artwork?: ArtworkWithConcepts | null } | null;
 }): string {
   const sections: string[] = [];
 
@@ -94,6 +95,14 @@ export function buildCuratorContext(params: {
   if (params.focusArtwork) {
     sections.push("=== OBRA EN FOCO (prioridad en esta respuesta) ===");
     sections.push(formatArtworkEntry(params.focusArtwork));
+  } else if (params.lastArtworkFocus) {
+    sections.push("=== ÚLTIMA OBRA DESDE LA QUE ENTRÓ ===");
+    sections.push(
+      `El visitante llegó al chat recientemente desde «${params.lastArtworkFocus.title}». Si encaja, retoma con naturalidad — no hace falta mencionarlo en cada respuesta.`,
+    );
+    if (params.lastArtworkFocus.artwork) {
+      sections.push(formatArtworkEntry(params.lastArtworkFocus.artwork));
+    }
   }
 
   if (params.memories?.length) {

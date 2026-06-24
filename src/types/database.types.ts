@@ -15,6 +15,8 @@ export interface Database {
           display_name: string | null;
           bio: string | null;
           flavor_summary: string | null;
+          last_artwork_slug: string | null;
+          last_artwork_title: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -23,6 +25,8 @@ export interface Database {
           display_name?: string | null;
           bio?: string | null;
           flavor_summary?: string | null;
+          last_artwork_slug?: string | null;
+          last_artwork_title?: string | null;
         };
         Update: Partial<Database["public"]["Tables"]["profiles"]["Insert"]>;
         Relationships: [];
@@ -123,6 +127,26 @@ export interface Database {
           description?: string | null;
         };
         Update: Partial<Database["public"]["Tables"]["concepts"]["Insert"]>;
+        Relationships: [];
+      };
+      user_artwork_visits: {
+        Row: {
+          id: string;
+          user_id: string;
+          artwork_slug: string;
+          artwork_title: string;
+          last_visited_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          artwork_slug: string;
+          artwork_title: string;
+          last_visited_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["user_artwork_visits"]["Insert"]
+        >;
         Relationships: [];
       };
       ai_usage_logs: {

@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Loader2, Save } from "lucide-react";
+import { ARTIST_BIO_TEMPLATE } from "@/lib/curator/wall-text-template";
 import {
   adminInputClass,
   adminLabelClass,
   adminSectionClass,
+  adminHintClass,
 } from "@/components/admin/admin-form-classes";
 
 export function ArtistProfileForm() {
@@ -59,7 +61,7 @@ export function ArtistProfileForm() {
     <form onSubmit={handleSave} className={adminSectionClass}>
       <div>
         <h2>Tu práctica artística</h2>
-        <p className="mt-1 text-stone-500">
+        <p className={`mt-1 ${adminHintClass}`}>
           El curador de la web lee esto junto con los textos de cada obra.
           Cuanto más claro, menos inventará.
         </p>
@@ -82,10 +84,18 @@ export function ArtistProfileForm() {
         <textarea
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          rows={8}
+          rows={10}
           className={adminInputClass}
-          placeholder={`Describe tu estilo, materiales recurrentes, temas, referencias y cómo entiendes tu propio trabajo.\n\nEjemplo: "Trabajo con objetos cotidianos y fotografía. Me interesa la fragilidad mecánica y la relación entre lo doméstico y lo industrial…"`}
+          placeholder={ARTIST_BIO_TEMPLATE}
         />
+        <details className="mt-2">
+          <summary className={`cursor-pointer ${adminHintClass} text-amber-500/90 hover:text-amber-400`}>
+            Ver plantilla para la bio del artista
+          </summary>
+          <pre className="mt-2 whitespace-pre-wrap rounded-lg border border-stone-700 bg-stone-950/60 p-3 text-xs text-stone-400">
+            {ARTIST_BIO_TEMPLATE}
+          </pre>
+        </details>
       </div>
 
       {message && (

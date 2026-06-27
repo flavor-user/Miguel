@@ -11,7 +11,9 @@ import {
   adminInputClass,
   adminLabelClass,
   adminSectionClass,
+  adminHintClass,
 } from "@/components/admin/admin-form-classes";
+import { WallTextTemplateGuide } from "@/components/admin/wall-text-template-guide";
 
 interface ArtworkForEdit {
   id: string;
@@ -56,6 +58,7 @@ export function ArtworkEditForm({
   const [replaceImage, setReplaceImage] = useState(false);
   const [savedSlug, setSavedSlug] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [essay, setEssay] = useState("");
 
   useEffect(() => {
     async function load() {
@@ -70,6 +73,7 @@ export function ArtworkEditForm({
         }
         const data = (await res.json()) as ArtworkForEdit;
         setArtwork(data);
+        setEssay(data.essay ?? "");
         setPreview(data.image_url);
       } catch (err) {
         setError(err instanceof Error ? err.message : "No se pudo cargar la obra");
@@ -189,6 +193,17 @@ export function ArtworkEditForm({
 
         <section className={adminSectionClass}>
           <h2>Ficha de la obra</h2>
+          <p className={`${adminHintClass} mb-4`}>
+            El <strong>texto de sala</strong> es lo principal. La práctica
+            general del artista se edita en el{" "}
+            <Link
+              href={localizedPath(locale, "/admin")}
+              className="text-amber-500/90 underline underline-offset-2 hover:text-amber-400"
+            >
+              panel admin → Tu práctica artística
+            </Link>
+            .
+          </p>
 
           <div>
             <label className={adminLabelClass}>Título *</label>
@@ -243,10 +258,11 @@ export function ArtworkEditForm({
             <label className={adminLabelClass}>Texto de sala (ensayo largo)</label>
             <textarea
               name="essay"
-              rows={10}
-              defaultValue={artwork.essay ?? ""}
+              rows={12}
+              value={essay}
+              onChange={(e) => setEssay(e.target.value)}
               className={inputClass}
-              placeholder="Aquí el curador encontrará el contexto de la obra…"
+              placeholder="Texto de sala — el curador habla desde aquí."
             />
           </div>
         </section>
@@ -342,7 +358,7 @@ export function ArtworkEditForm({
 
       <aside className="space-y-4">
         <div className={`sticky top-24 ${adminAsideClass}`}>
-          <p className="mb-3 text-stone-500">Vista previa</p>
+          <p className="mb-3 font-bold text-stone-50">Vista previa</p>
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={preview} alt="" className="block h-auto w-full" />
@@ -352,6 +368,8 @@ export function ArtworkEditForm({
             </div>
           )}
         </div>
+
+        <WallTextTemplateGuide onUseTemplate={setEssay} />
       </aside>
     </div>
   );

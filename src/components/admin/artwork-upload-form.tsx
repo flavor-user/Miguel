@@ -13,6 +13,10 @@ import {
   adminCheckboxLabelClass,
   adminHintClass,
 } from "@/components/admin/admin-form-classes";
+import {
+  WallTextTemplateGuide,
+  WALL_TEXT_SHORT_HINT,
+} from "@/components/admin/wall-text-template-guide";
 
 export function ArtworkUploadForm({ locale }: { locale: Locale }) {
   const [loading, setLoading] = useState(false);
@@ -23,6 +27,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
     null,
   );
   const [error, setError] = useState("");
+  const [essay, setEssay] = useState("");
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -106,6 +111,18 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
 
         <section className={adminSectionClass}>
           <h2>Ficha de la obra</h2>
+          <p className={`${adminHintClass} mb-4`}>
+            El <strong>texto de sala</strong> es lo principal. La práctica
+            general del artista (Flavor User Day X of 30, estómago, etc.) se
+            edita en el{" "}
+            <Link
+              href={localizedPath(locale, "/admin")}
+              className="text-amber-500/90 underline underline-offset-2 hover:text-amber-400"
+            >
+              panel admin → Tu práctica artística
+            </Link>
+            .
+          </p>
 
           <div>
             <label className={adminLabelClass}>Título *</label>
@@ -152,7 +169,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
               name="description"
               rows={3}
               className={inputClass}
-              placeholder="2–3 frases: qué se ve, de qué trata la pieza en una línea…"
+              placeholder={WALL_TEXT_SHORT_HINT}
             />
           </div>
 
@@ -160,9 +177,11 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
             <label className={adminLabelClass}>Texto de sala (ensayo largo)</label>
             <textarea
               name="essay"
-              rows={8}
+              rows={12}
+              value={essay}
+              onChange={(e) => setEssay(e.target.value)}
               className={inputClass}
-              placeholder="Texto de sala para el curador y los visitantes: materiales, proceso, intención, referencias, relación con otras obras tuyas…"
+              placeholder="Usa la plantilla de la derecha → copia, pega aquí y rellena cada apartado en tu voz."
             />
           </div>
         </section>
@@ -264,7 +283,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
 
       <aside className="space-y-4">
         <div className={`sticky top-24 ${adminAsideClass}`}>
-          <p className="mb-3 text-stone-500">Vista previa</p>
+          <p className="mb-3 font-bold text-stone-50">Vista previa</p>
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -279,12 +298,14 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           )}
         </div>
 
-        <div className={`${adminAsideClass} text-stone-500`}>
-          <p className="text-stone-400">Consejos</p>
-          <ul className="mt-2 list-inside list-disc space-y-1">
+        <WallTextTemplateGuide onUseTemplate={setEssay} />
+
+        <div className={adminAsideClass}>
+          <p className="font-bold text-stone-50">Consejos</p>
+          <ul className="mt-2 list-inside list-disc space-y-1 text-stone-400">
             <li>
-              El <strong>texto de sala</strong> es lo que el curador usa para
-              hablar de la obra.
+              El <strong className="text-stone-200">texto de sala</strong> es lo
+              que el curador usa para hablar de la obra.
             </li>
             <li>
               Sin texto, el curador dirá que falta documentación — no inventará.

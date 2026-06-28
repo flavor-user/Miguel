@@ -3,10 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
-  ChevronDown,
-  ChevronUp,
   Eye,
   EyeOff,
+  GripVertical,
   Pencil,
   Trash2,
   Loader2,
@@ -23,11 +22,20 @@ interface ArtworkRow {
   sort_order: number;
 }
 
+function reorderList<T>(list: T[], fromIndex: number, toIndex: number): T[] {
+  const next = [...list];
+  const [item] = next.splice(fromIndex, 1);
+  next.splice(toIndex, 0, item);
+  return next;
+}
+
 export function AdminArtworkList({ locale }: { locale: Locale }) {
   const [artworks, setArtworks] = useState<ArtworkRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionId, setActionId] = useState<string | null>(null);
   const [orderSaving, setOrderSaving] = useState(false);
+  const [dragId, setDragId] = useState<string | null>(null);
+  const [dropTargetId, setDropTargetId] = useState<string | null>(null);
 
   async function load() {
     setLoading(true);
@@ -63,13 +71,55 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
     }
   }
 
-  function moveArtwork(index: number, direction: -1 | 1) {
-    const target = index + direction;
-    if (target < 0 || target >= artworks.length) return;
+  function handleDragStart(
+    event: React.DragEvent<HTMLTableRowElement>,
+    id: string,
+  ) {
+    if (orderSaving || actionId) {
+      event.preventDefault();
+      return;
+    }
+    setDragId(id);
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", id);
+  }
 
-    const next = [...artworks];
-    [next[index], next[target]] = [next[target], next[index]];
-    void saveOrder(next);
+  function handleDragOver(
+    event: React.DragEvent<HTMLTableRowElement>,
+    targetId: string,
+  ) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    if (dragId && dragId !== targetId) {
+      setDropTargetId(targetId);
+    }
+  }
+
+  function handleDrop(
+    event: React.DragEvent<HTMLTableRowElement>,
+    targetId: string,
+  ) {
+    event.preventDefault();
+    const sourceId = dragId ?? event.dataTransfer.getData("text/plain");
+    if (!sourceId || sourceId === targetId) {
+      clearDragState();
+      return;
+    }
+
+    const fromIndex = artworks.findIndex((a) => a.id === sourceId);
+    const toIndex = artworks.findIndex((a) => a.id === targetId);
+    if (fromIndex === -1 || toIndex === -1) {
+      clearDragState();
+      return;
+    }
+
+    void saveOrder(reorderList(artworks, fromIndex, toIndex));
+    clearDragState();
+  }
+
+  function clearDragState() {
+    setDragId(null);
+    setDropTargetId(null);
   }
 
   async function togglePublish(id: string, publish: boolean) {
@@ -122,10 +172,9 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
   return (
     <div className="space-y-3">
       <p className="text-sm text-stone-500">
-        El orden de arriba a abajo es el de la galería y la portada. Usa{" "}
-        <strong className="text-stone-300">Subir</strong> y{" "}
-        <strong className="text-stone-300">Bajar</strong> para cambiar la
-        disposición.
+        Arrastra cada obra por la imagen o el asa{" "}
+        <GripVertical className="inline h-4 w-4 align-text-bottom" /> para
+        cambiar su posición en la galería y la portada.
         {orderSaving && (
           <span className="ml-2 text-amber-500/90">Guardando orden…</span>
         )}
@@ -135,122 +184,134 @@ export function AdminArtworkList({ locale }: { locale: Locale }) {
         <table className="w-full text-left ">
           <thead className="border-b border-stone-800 bg-stone-900/50 text-stone-500">
             <tr>
-              <th className="w-20 px-2 py-3 text-center">Orden</th>
+              <th className="w-10 px-2 py-3" />
               <th className="px-4 py-3 ">Obra</th>
               <th className="hidden px-4 py-3  sm:table-cell">Estado</th>
               <th className="px-4 py-3  text-right">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-stone-800">
-            {artworks.map((artwork, index) => (
-              <tr key={artwork.id} className="hover:bg-stone-900/30">
-                <td className="px-2 py-3">
-                  <div className="flex flex-col items-center gap-0.5">
-                    <button
-                      type="button"
-                      onClick={() => moveArtwork(index, -1)}
-                      disabled={
-                        index === 0 || orderSaving || actionId === artwork.id
-                      }
-                      className="rounded p-1 text-stone-500 hover:bg-stone-800 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-30"
-                      title="Subir en la galería"
-                    >
-                      <ChevronUp className="h-4 w-4" />
-                    </button>
-                    <span className="text-xs tabular-nums text-stone-600">
-                      {index + 1}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => moveArtwork(index, 1)}
-                      disabled={
-                        index === artworks.length - 1 ||
-                        orderSaving ||
-                        actionId === artwork.id
-                      }
-                      className="rounded p-1 text-stone-500 hover:bg-stone-800 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-30"
-                      title="Bajar en la galería"
-                    >
-                      <ChevronDown className="h-4 w-4" />
-                    </button>
-                  </div>
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded bg-stone-900">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={artwork.image_url}
-                        alt=""
-                        className="max-h-full max-w-full object-contain"
+            {artworks.map((artwork, index) => {
+              const isDragging = dragId === artwork.id;
+              const isDropTarget = dropTargetId === artwork.id;
+
+              return (
+                <tr
+                  key={artwork.id}
+                  draggable={!orderSaving && actionId !== artwork.id}
+                  onDragStart={(event) => handleDragStart(event, artwork.id)}
+                  onDragOver={(event) => handleDragOver(event, artwork.id)}
+                  onDrop={(event) => handleDrop(event, artwork.id)}
+                  onDragEnd={clearDragState}
+                  onDragLeave={() => {
+                    if (dropTargetId === artwork.id) {
+                      setDropTargetId(null);
+                    }
+                  }}
+                  className={`transition-colors ${
+                    isDragging
+                      ? "opacity-40"
+                      : isDropTarget
+                        ? "bg-amber-950/40 ring-2 ring-inset ring-amber-500/60"
+                        : "hover:bg-stone-900/30"
+                  } ${!orderSaving && actionId !== artwork.id ? "cursor-grab active:cursor-grabbing" : ""}`}
+                >
+                  <td className="px-2 py-3 text-center text-xs tabular-nums text-stone-600">
+                    {index + 1}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <GripVertical
+                        className="h-5 w-5 shrink-0 text-stone-600"
+                        aria-hidden
                       />
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-stone-700 bg-stone-900">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={artwork.image_url}
+                          alt=""
+                          draggable={false}
+                          className="max-h-full max-w-full object-contain pointer-events-none select-none"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <p className=" text-stone-200">{artwork.title}</p>
+                        <p className="text-xs text-stone-500">
+                          {artwork.artist ?? "—"}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className=" text-stone-200">{artwork.title}</p>
-                      <p className="text-xs text-stone-500">
-                        {artwork.artist ?? "—"}
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="hidden px-4 py-3 sm:table-cell">
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-xs ${
-                      artwork.is_published
-                        ? "bg-green-950 text-green-400"
-                        : "bg-stone-800 text-stone-500"
-                    }`}
-                  >
-                    {artwork.is_published ? "Publicada" : "Borrador"}
-                  </span>
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center justify-end gap-2">
-                    <Link
-                      href={localizedPath(
-                        locale,
-                        `/admin/obras/${artwork.id}/editar`,
-                      )}
-                      className="rounded-lg p-2 text-stone-500 hover:bg-stone-800 hover:text-amber-300"
-                      title="Editar ficha y textos"
+                  </td>
+                  <td className="hidden px-4 py-3 sm:table-cell">
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-xs ${
+                        artwork.is_published
+                          ? "bg-green-950 text-green-400"
+                          : "bg-stone-800 text-stone-500"
+                      }`}
                     >
-                      <Pencil className="h-4 w-4" />
-                    </Link>
-                    {artwork.is_published && (
+                      {artwork.is_published ? "Publicada" : "Borrador"}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div
+                      className="flex items-center justify-end gap-2"
+                      draggable={false}
+                      onDragStart={(event) => event.preventDefault()}
+                    >
                       <Link
-                        href={localizedPath(locale, `/galeria/${artwork.slug}`)}
-                        className="rounded-lg p-2 text-stone-500 hover:bg-stone-800 hover:text-stone-300"
-                        title="Ver en galería"
+                        href={localizedPath(
+                          locale,
+                          `/admin/obras/${artwork.id}/editar`,
+                        )}
+                        className="rounded-lg p-2 text-stone-500 hover:bg-stone-800 hover:text-amber-300"
+                        title="Editar ficha y textos"
+                        draggable={false}
                       >
-                        <Eye className="h-4 w-4" />
+                        <Pencil className="h-4 w-4" />
                       </Link>
-                    )}
-                    <button
-                      onClick={() =>
-                        togglePublish(artwork.id, !artwork.is_published)
-                      }
-                      disabled={actionId === artwork.id || orderSaving}
-                      className="rounded-lg p-2 text-stone-500 hover:bg-stone-800 hover:text-amber-300"
-                      title={artwork.is_published ? "Ocultar" : "Publicar"}
-                    >
-                      {artwork.is_published ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
+                      {artwork.is_published && (
+                        <Link
+                          href={localizedPath(
+                            locale,
+                            `/galeria/${artwork.slug}`,
+                          )}
+                          className="rounded-lg p-2 text-stone-500 hover:bg-stone-800 hover:text-stone-300"
+                          title="Ver en galería"
+                          draggable={false}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Link>
                       )}
-                    </button>
-                    <button
-                      onClick={() => remove(artwork.id, artwork.title)}
-                      disabled={actionId === artwork.id || orderSaving}
-                      className="rounded-lg p-2 text-stone-500 hover:bg-red-950 hover:text-red-400"
-                      title="Borrar"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          togglePublish(artwork.id, !artwork.is_published)
+                        }
+                        disabled={actionId === artwork.id || orderSaving}
+                        className="rounded-lg p-2 text-stone-500 hover:bg-stone-800 hover:text-amber-300"
+                        title={artwork.is_published ? "Ocultar" : "Publicar"}
+                      >
+                        {artwork.is_published ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => remove(artwork.id, artwork.title)}
+                        disabled={actionId === artwork.id || orderSaving}
+                        className="rounded-lg p-2 text-stone-500 hover:bg-red-950 hover:text-red-400"
+                        title="Borrar"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

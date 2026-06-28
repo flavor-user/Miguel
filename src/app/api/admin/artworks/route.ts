@@ -116,6 +116,16 @@ export async function POST(request: Request) {
 
     const year = yearRaw ? parseInt(yearRaw, 10) : null;
 
+    const { data: orderRow } = await supabase
+      .from("artworks")
+      .select("sort_order")
+      .order("sort_order", { ascending: true })
+      .limit(1)
+      .maybeSingle();
+
+    const sortOrder =
+      orderRow?.sort_order != null ? orderRow.sort_order - 1 : 0;
+
     const { data: artwork, error: insertError } = await supabase
       .from("artworks")
       .insert({
@@ -135,6 +145,7 @@ export async function POST(request: Request) {
         source_url: sourceUrl,
         tags,
         embedding,
+        sort_order: sortOrder,
         is_published: isPublished,
         published_at: isPublished ? new Date().toISOString() : null,
       })
@@ -174,8 +185,9 @@ export async function GET() {
   const { data, error } = await supabase
     .from("artworks")
     .select(
-      "id, slug, title, artist, is_published, published_at, created_at, image_url",
+      "id, slug, title, artist, is_published, published_at, created_at, image_url, sort_order",
     )
+    .order("sort_order", { ascending: true })
     .order("created_at", { ascending: false });
 
   if (error) {

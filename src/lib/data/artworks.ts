@@ -41,6 +41,7 @@ export async function getPublishedArtworks(): Promise<ArtworkWithConcepts[]> {
     .from("artworks")
     .select("*")
     .eq("is_published", true)
+    .order("sort_order", { ascending: true })
     .order("published_at", { ascending: false });
 
   if (error || !data?.length) {
@@ -138,7 +139,11 @@ export async function getArtworksByConcept(
     return [];
   }
 
-  return attachConcepts(rawArtworks);
+  const sorted = [...rawArtworks].sort(
+    (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0),
+  );
+
+  return attachConcepts(sorted);
 }
 
 export async function getRelatedConcepts(

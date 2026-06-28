@@ -88,6 +88,7 @@ export interface Database {
           tags: string[];
           is_published: boolean;
           published_at: string | null;
+          sort_order: number;
           created_at: string;
           updated_at: string;
         };
@@ -110,6 +111,7 @@ export interface Database {
           tags?: string[];
           is_published?: boolean;
           published_at?: string | null;
+          sort_order?: number;
         };
         Update: Partial<Database["public"]["Tables"]["artworks"]["Insert"]>;
         Relationships: [];

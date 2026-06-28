@@ -13,10 +13,8 @@ import {
   adminCheckboxLabelClass,
   adminHintClass,
 } from "@/components/admin/admin-form-classes";
-import {
-  WallTextTemplateGuide,
-  WALL_TEXT_SHORT_HINT,
-} from "@/components/admin/wall-text-template-guide";
+import { WALL_TEXT_SHORT_HINT } from "@/lib/curator/wall-text-template";
+import { WallTextTemplateGuide } from "@/components/admin/wall-text-template-guide";
 
 export function ArtworkUploadForm({ locale }: { locale: Locale }) {
   const [loading, setLoading] = useState(false);
@@ -27,8 +25,6 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
     null,
   );
   const [error, setError] = useState("");
-  const [essay, setEssay] = useState("");
-  const [practiceContext, setPracticeContext] = useState("");
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -172,8 +168,6 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
             <textarea
               name="practiceContext"
               rows={6}
-              value={practiceContext}
-              onChange={(e) => setPracticeContext(e.target.value)}
               className={inputClass}
               placeholder="Flavor User Day X/30, atmósfera, referencias, conexión con otras piezas tuyas…"
             />
@@ -184,10 +178,8 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
             <textarea
               name="essay"
               rows={12}
-              value={essay}
-              onChange={(e) => setEssay(e.target.value)}
               className={inputClass}
-              placeholder="Usa la plantilla de la derecha → copia, pega aquí y rellena cada apartado en tu voz."
+              placeholder="Tu texto principal sobre la obra — el curador habla desde aquí."
             />
           </div>
         </section>
@@ -304,24 +296,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           )}
         </div>
 
-        <WallTextTemplateGuide
-          onUseTemplate={setEssay}
-          onUsePracticeTemplate={setPracticeContext}
-        />
-
-        <div className={adminAsideClass}>
-          <p className="font-bold text-stone-50">Consejos</p>
-          <ul className="mt-2 list-inside list-disc space-y-1 text-stone-400">
-            <li>
-              El <strong className="text-stone-200">texto de sala</strong> es lo
-              que el curador usa para hablar de la obra.
-            </li>
-            <li>
-              Sin texto, el curador dirá que falta documentación — no inventará.
-            </li>
-            <li>Los conceptos conectan obras entre sí en conversaciones.</li>
-          </ul>
-        </div>
+        <WallTextTemplateGuide />
       </aside>
     </div>
   );

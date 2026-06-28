@@ -378,10 +378,7 @@ export function ArtworkEditForm({
           )}
         </div>
 
-        <WallTextTemplateGuide
-          onUseTemplate={setEssay}
-          onUsePracticeTemplate={setPracticeContext}
-        />
+        <WallTextTemplateGuide />
       </aside>
     </div>
   );

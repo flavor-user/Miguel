@@ -60,10 +60,11 @@ export function ArtistProfileForm() {
   return (
     <form onSubmit={handleSave} className={adminSectionClass}>
       <div>
-        <h2>Tu práctica artística</h2>
+        <h2>Línea de trabajo del curador</h2>
         <p className={`mt-1 ${adminHintClass}`}>
-          El curador de la web lee esto junto con los textos de cada obra.
-          Cuanto más claro, menos inventará.
+          Texto general que alimenta al curador en todas las conversaciones. En
+          cada obra puedes añadir además «Marco y práctica» específico de esa
+          pieza.
         </p>
       </div>
 
@@ -89,8 +90,10 @@ export function ArtistProfileForm() {
           placeholder={ARTIST_BIO_TEMPLATE}
         />
         <details className="mt-2">
-          <summary className={`cursor-pointer ${adminHintClass} text-amber-500/90 hover:text-amber-400`}>
-            Ver plantilla para la bio del artista
+          <summary
+            className={`cursor-pointer ${adminHintClass} text-amber-500/90 hover:text-amber-400`}
+          >
+            Ver plantilla para la línea de trabajo
           </summary>
           <pre className="mt-2 whitespace-pre-wrap rounded-lg border border-stone-700 bg-stone-950/60 p-3 text-xs text-stone-400">
             {ARTIST_BIO_TEMPLATE}
@@ -99,7 +102,11 @@ export function ArtistProfileForm() {
       </div>
 
       {message && (
-        <p className={message.includes("Error") ? "text-red-400" : "text-green-400"}>
+        <p
+          className={
+            message.includes("Error") ? "text-red-400" : "text-green-400"
+          }
+        >
           {message}
         </p>
       )}

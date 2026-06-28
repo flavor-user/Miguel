@@ -107,6 +107,8 @@ export async function PATCH(request: Request, { params }: RouteParams) {
       updates.medium = String(form.get("medium") ?? "").trim() || null;
       updates.description = String(form.get("description") ?? "").trim() || null;
       updates.essay = String(form.get("essay") ?? "").trim() || null;
+      updates.practice_context =
+        String(form.get("practiceContext") ?? "").trim() || null;
       updates.image_alt =
         String(form.get("imageAlt") ?? "").trim() || title;
       updates.source_url = String(form.get("sourceUrl") ?? "").trim() || null;
@@ -202,6 +204,12 @@ export async function PATCH(request: Request, { params }: RouteParams) {
         updates.essay =
           typeof body.essay === "string" ? body.essay.trim() || null : null;
       }
+      if (body.practice_context !== undefined) {
+        updates.practice_context =
+          typeof body.practice_context === "string"
+            ? body.practice_context.trim() || null
+            : null;
+      }
       if (body.imageAlt !== undefined) {
         updates.image_alt =
           typeof body.imageAlt === "string"
@@ -245,6 +253,10 @@ export async function PATCH(request: Request, { params }: RouteParams) {
         : existing.description;
     const nextEssay =
       updates.essay !== undefined ? updates.essay : existing.essay;
+    const nextPracticeContext =
+      updates.practice_context !== undefined
+        ? updates.practice_context
+        : existing.practice_context;
     const nextTags =
       updates.tags !== undefined ? (updates.tags as string[]) : existing.tags;
 
@@ -253,6 +265,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
       nextArtist !== existing.artist ||
       nextDescription !== existing.description ||
       nextEssay !== existing.essay ||
+      nextPracticeContext !== existing.practice_context ||
       JSON.stringify(nextTags) !== JSON.stringify(existing.tags);
 
     if (textChanged) {
@@ -261,6 +274,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
           nextTitle,
           nextArtist,
           nextDescription,
+          nextPracticeContext,
           nextEssay,
           ...nextTags,
         ]

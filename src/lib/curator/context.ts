@@ -17,6 +17,9 @@ export function formatArtworkEntry(artwork: ArtworkWithConcepts): string {
   if (artwork.year) lines.push(`Año: ${artwork.year}`);
   if (artwork.medium) lines.push(`Técnica / soporte: ${artwork.medium}`);
   if (artwork.description) lines.push(`Ficha: ${artwork.description}`);
+  if (artwork.practice_context) {
+    lines.push(`Marco y práctica (esta obra):\n${artwork.practice_context}`);
+  }
   if (artwork.essay) lines.push(`Texto de sala:\n${artwork.essay}`);
   if (artwork.image_alt) lines.push(`Descripción visual: ${artwork.image_alt}`);
   if (artwork.tags?.length) lines.push(`Etiquetas: ${artwork.tags.join(", ")}`);
@@ -26,7 +29,8 @@ export function formatArtworkEntry(artwork: ArtworkWithConcepts): string {
     );
   }
 
-  const hasContent = artwork.description || artwork.essay;
+  const hasContent =
+    artwork.description || artwork.essay || artwork.practice_context;
   if (!hasContent) {
     lines.push(
       "(Nota para el curador: esta obra no tiene texto de sala ni ficha. No interpretes la pieza; di que falta documentación.)",

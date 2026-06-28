@@ -24,6 +24,7 @@ interface ArtworkForEdit {
   medium: string | null;
   description: string | null;
   essay: string | null;
+  practice_context: string | null;
   image_url: string;
   image_alt: string | null;
   source_url: string | null;
@@ -59,6 +60,7 @@ export function ArtworkEditForm({
   const [savedSlug, setSavedSlug] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [essay, setEssay] = useState("");
+  const [practiceContext, setPracticeContext] = useState("");
 
   useEffect(() => {
     async function load() {
@@ -74,6 +76,7 @@ export function ArtworkEditForm({
         const data = (await res.json()) as ArtworkForEdit;
         setArtwork(data);
         setEssay(data.essay ?? "");
+        setPracticeContext(data.practice_context ?? "");
         setPreview(data.image_url);
       } catch (err) {
         setError(err instanceof Error ? err.message : "No se pudo cargar la obra");
@@ -194,15 +197,9 @@ export function ArtworkEditForm({
         <section className={adminSectionClass}>
           <h2>Ficha de la obra</h2>
           <p className={`${adminHintClass} mb-4`}>
-            El <strong>texto de sala</strong> es lo principal. La práctica
-            general del artista se edita en el{" "}
-            <Link
-              href={localizedPath(locale, "/admin")}
-              className="text-amber-500/90 underline underline-offset-2 hover:text-amber-400"
-            >
-              panel admin → Tu práctica artística
-            </Link>
-            .
+            El <strong>texto de sala</strong> es lo principal. El{" "}
+            <strong>marco y práctica</strong> sitúa esta pieza en tu archivo
+            (Flavor User Day X/30, referencias, conexiones con otras obras).
           </p>
 
           <div>
@@ -251,6 +248,18 @@ export function ArtworkEditForm({
               rows={3}
               defaultValue={artwork.description ?? ""}
               className={inputClass}
+            />
+          </div>
+
+          <div>
+            <label className={adminLabelClass}>Marco y práctica (esta obra)</label>
+            <textarea
+              name="practiceContext"
+              rows={6}
+              value={practiceContext}
+              onChange={(e) => setPracticeContext(e.target.value)}
+              className={inputClass}
+              placeholder="Flavor User Day X/30, atmósfera, referencias, conexión con otras piezas tuyas…"
             />
           </div>
 
@@ -369,7 +378,10 @@ export function ArtworkEditForm({
           )}
         </div>
 
-        <WallTextTemplateGuide onUseTemplate={setEssay} />
+        <WallTextTemplateGuide
+          onUseTemplate={setEssay}
+          onUsePracticeTemplate={setPracticeContext}
+        />
       </aside>
     </div>
   );

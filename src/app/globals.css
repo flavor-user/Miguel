@@ -34,10 +34,15 @@ select,
 button {
   font-family: inherit;
   font-size: inherit;
-  font-weight: inherit;
   letter-spacing: inherit;
   line-height: inherit;
-  color: inherit;
+}
+
+input.admin-field-input,
+textarea.admin-field-input {
+  color: #0a0a0a !important;
+  font-weight: 600 !important;
+  -webkit-text-fill-color: #0a0a0a;
 }
 
 button:not(:disabled),

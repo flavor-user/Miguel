@@ -77,7 +77,7 @@ export default async function AdminPage({ params }: PageProps) {
           <p>Administración</p>
           <h1 className="mt-2 ">Panel de control</h1>
           <p className="mt-2 ">
-            Gestiona obras y el perfil que alimenta al curador.
+            Gestiona obras y la línea de trabajo que alimenta al curador.
           </p>
         </div>
         <Link

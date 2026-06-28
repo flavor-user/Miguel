@@ -28,6 +28,8 @@ export async function POST(request: Request) {
     const medium = String(form.get("medium") ?? "").trim() || null;
     const description = String(form.get("description") ?? "").trim() || null;
     const essay = String(form.get("essay") ?? "").trim() || null;
+    const practiceContext =
+      String(form.get("practiceContext") ?? "").trim() || null;
     const imageAlt = String(form.get("imageAlt") ?? "").trim() || title;
     const sourceUrl = String(form.get("sourceUrl") ?? "").trim() || null;
     const tagsRaw = String(form.get("tags") ?? "").trim();
@@ -97,7 +99,14 @@ export async function POST(request: Request) {
 
     let embedding: number[] | null = null;
     try {
-      const embedTextContent = [title, artist, description, essay, ...tags]
+      const embedTextContent = [
+        title,
+        artist,
+        description,
+        practiceContext,
+        essay,
+        ...tags,
+      ]
         .filter(Boolean)
         .join(". ");
       embedding = await embedText(embedTextContent);
@@ -118,6 +127,7 @@ export async function POST(request: Request) {
         medium,
         description,
         essay,
+        practice_context: practiceContext,
         image_url: publicUrlData.publicUrl,
         image_alt: imageAlt,
         image_width: parsed?.width ?? null,

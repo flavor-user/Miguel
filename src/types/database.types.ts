@@ -79,6 +79,7 @@ export interface Database {
           medium: string | null;
           description: string | null;
           essay: string | null;
+          practice_context: string | null;
           image_url: string;
           image_alt: string | null;
           image_width: number | null;
@@ -100,6 +101,7 @@ export interface Database {
           medium?: string | null;
           description?: string | null;
           essay?: string | null;
+          practice_context?: string | null;
           image_url: string;
           image_alt?: string | null;
           image_width?: number | null;

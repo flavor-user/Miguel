@@ -28,6 +28,7 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
   );
   const [error, setError] = useState("");
   const [essay, setEssay] = useState("");
+  const [practiceContext, setPracticeContext] = useState("");
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -112,16 +113,9 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
         <section className={adminSectionClass}>
           <h2>Ficha de la obra</h2>
           <p className={`${adminHintClass} mb-4`}>
-            El <strong>texto de sala</strong> es lo principal. La práctica
-            general del artista (Flavor User Day X of 30, estómago, etc.) se
-            edita en el{" "}
-            <Link
-              href={localizedPath(locale, "/admin")}
-              className="text-amber-500/90 underline underline-offset-2 hover:text-amber-400"
-            >
-              panel admin → Tu práctica artística
-            </Link>
-            .
+            El <strong>texto de sala</strong> es lo principal. El{" "}
+            <strong>marco y práctica</strong> sitúa esta pieza en tu archivo
+            (Flavor User Day X/30, referencias, conexiones con otras obras).
           </p>
 
           <div>
@@ -170,6 +164,18 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
               rows={3}
               className={inputClass}
               placeholder={WALL_TEXT_SHORT_HINT}
+            />
+          </div>
+
+          <div>
+            <label className={adminLabelClass}>Marco y práctica (esta obra)</label>
+            <textarea
+              name="practiceContext"
+              rows={6}
+              value={practiceContext}
+              onChange={(e) => setPracticeContext(e.target.value)}
+              className={inputClass}
+              placeholder="Flavor User Day X/30, atmósfera, referencias, conexión con otras piezas tuyas…"
             />
           </div>
 
@@ -298,7 +304,10 @@ export function ArtworkUploadForm({ locale }: { locale: Locale }) {
           )}
         </div>
 
-        <WallTextTemplateGuide onUseTemplate={setEssay} />
+        <WallTextTemplateGuide
+          onUseTemplate={setEssay}
+          onUsePracticeTemplate={setPracticeContext}
+        />
 
         <div className={adminAsideClass}>
           <p className="font-bold text-stone-50">Consejos</p>
